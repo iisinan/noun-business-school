@@ -26,6 +26,7 @@ class BrochureSeeder extends Seeder
                 [
                     'code' => $progData['type'],
                     'type' => $progData['type'],
+                    'is_active' => true,
                 ]
             );
 

@@ -20,12 +20,14 @@ class DatabaseSeeder extends Seeder
             'is_active' => true,
         ]);
 
-        $admin = User::factory()->create([
-            'first_name' => 'Super',
-            'last_name' => 'Admin',
-            'email' => 'admin@example.com',
-            'password' => bcrypt('password'),
-        ]);
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@example.com'],
+            [
+                'first_name' => 'Super',
+                'last_name' => 'Admin',
+                'password' => bcrypt('password'),
+            ]
+        );
         $admin->assignRole('Super Admin');
     }
 }

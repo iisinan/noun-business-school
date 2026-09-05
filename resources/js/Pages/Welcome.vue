@@ -256,7 +256,7 @@ const featuredSpecialisations = [
             class="fixed top-0 inset-x-0 z-50 transition-all duration-500"
             :class="scrolled ? 'bg-white/85 backdrop-blur-lg border-b border-gray-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]' : 'bg-transparent'"
         >
-            <div class="w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
+            <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
                 <div class="flex items-center justify-between h-20">
 
                     <!-- Logo -->
@@ -441,53 +441,71 @@ const featuredSpecialisations = [
                         </div>
                     </div>
 
-                    <!-- Image & Stats Collage Column -->
-                    <div class="hidden lg:block lg:col-span-6 xl:col-span-5 relative h-[700px] animate-fade-in-up opacity-0-init animation-delay-500">
-                        <div class="absolute inset-0 w-full h-full">
-                            <!-- Main Large Image -->
-                            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop" class="absolute right-0 top-8 w-4/5 h-[420px] object-cover rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.12)] border-[6px] border-white z-10 transition-transform duration-700 hover:scale-[1.02]" alt="Business Professionals">
+                    <!-- Dashboard/Bento Feature Composition (No Photos) -->
+                    <div class="hidden lg:block lg:col-span-6 xl:col-span-5 relative h-[600px] animate-fade-in-up opacity-0-init animation-delay-500">
+                        <!-- Abstract circular accents -->
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] border border-noun-green/10 rounded-full"></div>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] border border-noun-yellow/30 rounded-full border-dashed animate-[spin_60s_linear_infinite]"></div>
+
+                        <!-- Card 1: 60+ Tracks Data -->
+                        <div class="absolute right-0 top-8 w-[380px] bg-white rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.08)] border border-gray-100 p-8 z-20 hover:-translate-y-2 transition-transform duration-500">
+                            <div class="w-14 h-14 rounded-2xl bg-noun-green/10 text-noun-green flex items-center justify-center mb-6">
+                                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                            </div>
+                            <h3 class="text-4xl font-extrabold text-noun-dark mb-3">60+ Tracks</h3>
+                            <p class="text-gray-500 text-sm leading-relaxed mb-8">The most comprehensive suite of postgraduate business specialisations in West Africa.</p>
                             
-                            <!-- Bottom Left Overlapping Image -->
-                            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop" class="absolute left-[-2rem] bottom-16 w-3/4 h-[320px] object-cover rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.15)] border-[6px] border-white z-20 transition-transform duration-700 hover:scale-[1.02] hover:-translate-y-2" alt="Graduation">
-                            
-                            <!-- Floating Element 1: Career Growth -->
-                            <div class="absolute -right-4 bottom-40 bg-white p-4 rounded-2xl shadow-xl z-30 border border-gray-100 flex items-center gap-4 animate-[bounce_4s_infinite]">
-                                <div class="w-12 h-12 rounded-full bg-noun-yellow/10 flex items-center justify-center text-noun-yellow">
-                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                            <!-- Mini abstract bar chart -->
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">
+                                        <span>Master's (MBA/MPA)</span>
+                                        <span class="text-noun-green">30</span>
+                                    </div>
+                                    <div class="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-noun-green w-[85%] rounded-full"></div>
+                                    </div>
                                 </div>
                                 <div>
-                                    <div class="text-sm font-bold text-gray-900">Career Growth</div>
-                                    <div class="text-xs text-gray-500">Accelerated Pathways</div>
+                                    <div class="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">
+                                        <span>Doctoral (DBA/DPA)</span>
+                                        <span class="text-noun-yellow">30</span>
+                                    </div>
+                                    <div class="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-noun-yellow w-[85%] rounded-full"></div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
 
-                            <!-- Floating Element 2: Highlights Stats -->
-                            <div class="absolute -left-8 top-32 bg-noun-dark/95 backdrop-blur-md p-6 rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.2)] z-30 border border-white/10 w-64 hover:-translate-y-2 transition-transform duration-500">
-                                <div class="text-noun-yellow text-[10px] font-bold tracking-widest uppercase mb-6 flex items-center gap-2">
-                                    <span class="w-2 h-2 rounded-full bg-noun-yellow animate-pulse"></span>
-                                    Highlights
+                        <!-- Card 2: ODL Feature -->
+                        <div class="absolute left-[-2rem] top-[45%] w-[260px] bg-noun-dark rounded-3xl shadow-[0_20px_40px_rgba(0,102,0,0.2)] border border-white/10 p-7 z-30 hover:-translate-y-2 transition-transform duration-500">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="relative flex h-5 w-5">
+                                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-noun-yellow opacity-75"></span>
+                                  <span class="relative inline-flex rounded-full h-5 w-5 bg-noun-yellow"></span>
                                 </div>
-                                <div class="space-y-5">
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                                        </div>
-                                        <div>
-                                            <div class="text-white font-bold text-lg leading-tight">60+</div>
-                                            <div class="text-gray-400 text-xs mt-0.5">Specialisation Tracks</div>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-4">
-                                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white">
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
-                                        </div>
-                                        <div>
-                                            <div class="text-white font-bold text-lg leading-tight">ODL</div>
-                                            <div class="text-gray-400 text-xs mt-0.5">Open & Distance</div>
-                                        </div>
-                                    </div>
+                                <span class="text-noun-yellow text-xs font-bold tracking-widest uppercase">ODL Model</span>
+                            </div>
+                            <h4 class="text-white font-semibold text-xl leading-snug">Study from anywhere in the world.</h4>
+                        </div>
+
+                        <!-- Card 3: Career Growth -->
+                        <div class="absolute right-8 bottom-6 w-[340px] bg-white/80 backdrop-blur-xl rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.06)] border border-white p-6 z-20 hover:-translate-y-2 transition-transform duration-500">
+                            <div class="flex justify-between items-center mb-6">
+                                <div>
+                                    <div class="text-noun-dark font-bold text-lg">Career Trajectory</div>
+                                    <div class="text-gray-400 text-xs mt-1">Expected ROI across tracks</div>
+                                </div>
+                                <div class="w-12 h-12 bg-noun-yellow/10 rounded-full flex items-center justify-center text-noun-yellow font-bold text-sm">
+                                    +120%
                                 </div>
                             </div>
+                            <!-- Mini abstract line chart -->
+                            <svg class="w-full h-20 drop-shadow-sm" viewBox="0 0 100 30" preserveAspectRatio="none">
+                                <path d="M0,28 L15,25 L30,22 L45,24 L60,15 L75,12 L85,8 L100,2" fill="none" stroke="currentColor" stroke-width="2.5" class="text-noun-green" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M0,28 L15,25 L30,22 L45,24 L60,15 L75,12 L85,8 L100,2 L100,30 L0,30 Z" fill="currentColor" class="text-noun-green/10"></path>
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -502,6 +520,34 @@ const featuredSpecialisations = [
             </div>
         </section>
 
+        <!-- ═══════════════════════════════════════════
+             ACCREDITATIONS / TRUST BANNER
+        ═══════════════════════════════════════════ -->
+        <div class="border-y border-gray-100 bg-white py-10 lg:py-14 relative overflow-hidden">
+            <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
+                <p class="text-center text-xs font-bold tracking-widest text-gray-400 uppercase mb-8">Statutory Approvals & Accreditations</p>
+                <div class="flex flex-wrap justify-center items-center gap-10 sm:gap-16 lg:gap-24 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+                    <div class="flex items-center gap-3 font-serif font-bold text-lg lg:text-xl text-gray-800">
+                        <div class="w-10 h-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-noun-green">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M14.121 14.121L19 19m-7-7l7-7m-7 7l-2.879 2.879M12 12L9.121 9.121m0 5.758a3 3 0 10-4.243 4.243 3 3 0 004.243-4.243zm0-5.758a3 3 0 10-4.243-4.243 3 3 0 004.243 4.243z" /></svg>
+                        </div>
+                        NUC Approved
+                    </div>
+                    <div class="flex items-center gap-3 font-serif font-bold text-lg lg:text-xl text-gray-800">
+                        <div class="w-10 h-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-noun-green">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
+                        </div>
+                        Fed. Ministry of Education
+                    </div>
+                    <div class="flex items-center gap-3 font-serif font-bold text-lg lg:text-xl text-gray-800">
+                        <div class="w-10 h-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center text-noun-green">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/></svg>
+                        </div>
+                        World-Class Faculty
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- ═══════════════════════════════════════════
              ABOUT
@@ -510,7 +556,7 @@ const featuredSpecialisations = [
             <!-- Decorative background element -->
             <div class="absolute top-0 right-0 w-1/3 h-full bg-gray-50/50 skew-x-12 translate-x-1/2"></div>
             
-            <div class="relative z-10 w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
+            <div class="relative z-10 w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
                 <div class="lg:grid lg:grid-cols-2 lg:gap-24 lg:items-center">
 
                     <!-- Pull quote -->
@@ -581,7 +627,7 @@ const featuredSpecialisations = [
              PROGRAMMES
         ═══════════════════════════════════════════ -->
         <section id="programmes" class="py-24 lg:py-32 bg-gray-50">
-            <div class="w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
+            <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
 
                 <div class="max-w-2xl mb-16" v-reveal>
                     <div class="flex items-center gap-3 mb-4">
@@ -679,7 +725,7 @@ const featuredSpecialisations = [
             <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px]"></div>
             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-noun-yellow/10 rounded-[100%] blur-[100px] pointer-events-none"></div>
 
-            <div class="relative z-10 w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
+            <div class="relative z-10 w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
 
                 <div class="text-center max-w-2xl mx-auto mb-16" v-reveal>
                     <div class="flex items-center justify-center gap-3 mb-4">
@@ -735,7 +781,7 @@ const featuredSpecialisations = [
              ADMISSIONS PROCESS
         ═══════════════════════════════════════════ -->
         <section id="admissions" class="py-24 lg:py-32 bg-white relative overflow-hidden">
-            <div class="w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
+            <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
 
                 <div class="max-w-2xl mb-20" v-reveal>
                     <div class="flex items-center gap-3 mb-4">
@@ -830,7 +876,7 @@ const featuredSpecialisations = [
         <section class="py-24 lg:py-32 bg-gradient-to-br from-white via-white to-noun-light/30 relative overflow-hidden">
             <div class="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:20px_20px] opacity-30"></div>
             
-            <div class="w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
+            <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
                 <div class="lg:flex lg:items-end lg:justify-between lg:gap-12 mb-16" v-reveal>
                     <div class="max-w-xl">
                         <div class="flex items-center gap-3 mb-4">
@@ -945,7 +991,7 @@ const featuredSpecialisations = [
              FOOTER
         ═══════════════════════════════════════════ -->
         <footer id="contact" class="bg-noun-dark border-t border-white/5">
-            <div class="w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 py-16 lg:py-24">
+            <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 py-16 lg:py-24">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
 
                     <!-- Brand -->

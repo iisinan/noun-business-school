@@ -375,16 +375,20 @@ const featuredSpecialisations = [
             <div class="absolute top-0 left-[-10%] w-[40%] h-[40%] bg-noun-green/10 rounded-full blur-[100px] mix-blend-multiply pointer-events-none"></div>
             <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-noun-yellow/10 rounded-full blur-[100px] mix-blend-multiply pointer-events-none"></div>
 
-            <!-- Geometric accents -->
-            <div class="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-noun-yellow/40 via-noun-yellow/10 to-transparent"></div>
-            <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full border border-noun-yellow/20 opacity-50"></div>
-            <div class="absolute bottom-10 left-10 w-24 h-24 rounded-full border border-gray-200 opacity-80"></div>
+            <!-- Premium Background & Accents -->
+            <div class="absolute inset-0 bg-[#fbfdfc] overflow-hidden">
+                <!-- Massive glow blobs -->
+                <div class="absolute top-[-20%] right-[-10%] w-[800px] h-[800px] bg-noun-green/10 rounded-full blur-[120px] mix-blend-multiply pointer-events-none"></div>
+                <div class="absolute bottom-[-10%] left-[-20%] w-[600px] h-[600px] bg-noun-yellow/15 rounded-full blur-[100px] mix-blend-multiply pointer-events-none"></div>
+                <!-- Subtle grid overlay -->
+                <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCI+CjxwYXRoIGQ9Ik0wIDBoNDB2NDBIMHoiIGZpbGw9Im5vbmUiLz4KPHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBzdHJva2U9InJnYmEoMCwgNzcsIDAsIDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+')] opacity-60 pointer-events-none"></div>
+            </div>
 
-            <div class="relative z-10 w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
+            <div class="relative z-10 w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
                 <div class="lg:grid lg:grid-cols-12 lg:gap-16 lg:items-center">
 
                     <!-- Text Column -->
-                    <div class="lg:col-span-7">
+                    <div class="lg:col-span-6 xl:col-span-7 pt-12 lg:pt-0">
                         <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-noun-yellow/10 border border-noun-yellow/30 mb-8 animate-fade-in-up opacity-0-init">
                             <span class="relative flex h-3 w-3">
                               <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-noun-yellow opacity-75"></span>
@@ -437,54 +441,50 @@ const featuredSpecialisations = [
                         </div>
                     </div>
 
-                    <!-- Stats Card Column -->
-                    <div class="hidden lg:block lg:col-span-5 animate-fade-in-up opacity-0-init animation-delay-500">
-                        <div class="relative bg-white/70 border border-white rounded-3xl p-8 backdrop-blur-xl ml-auto max-w-sm shadow-[0_20px_50px_rgba(0,0,0,0.05)] group hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] transition-all duration-500 overflow-hidden">
-                            <!-- Card highlight -->
-                            <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white to-transparent opacity-100"></div>
-                            <div class="absolute -top-32 -right-32 w-64 h-64 bg-noun-yellow/5 rounded-full blur-3xl pointer-events-none group-hover:bg-noun-yellow/10 transition-colors duration-700"></div>
-
-                            <div class="relative z-10">
-                                <div class="text-noun-yellow text-xs font-bold tracking-widest uppercase mb-8 flex items-center gap-3">
-                                    <span class="w-2 h-2 rounded-full bg-noun-yellow animate-pulse"></span>
-                                    Programme Highlights
+                    <!-- Image & Stats Collage Column -->
+                    <div class="hidden lg:block lg:col-span-6 xl:col-span-5 relative h-[700px] animate-fade-in-up opacity-0-init animation-delay-500">
+                        <div class="absolute inset-0 w-full h-full">
+                            <!-- Main Large Image -->
+                            <img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop" class="absolute right-0 top-8 w-4/5 h-[420px] object-cover rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.12)] border-[6px] border-white z-10 transition-transform duration-700 hover:scale-[1.02]" alt="Business Professionals">
+                            
+                            <!-- Bottom Left Overlapping Image -->
+                            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=800&auto=format&fit=crop" class="absolute left-[-2rem] bottom-16 w-3/4 h-[320px] object-cover rounded-3xl shadow-[0_30px_60px_rgba(0,0,0,0.15)] border-[6px] border-white z-20 transition-transform duration-700 hover:scale-[1.02] hover:-translate-y-2" alt="Graduation">
+                            
+                            <!-- Floating Element 1: Career Growth -->
+                            <div class="absolute -right-4 bottom-40 bg-white p-4 rounded-2xl shadow-xl z-30 border border-gray-100 flex items-center gap-4 animate-[bounce_4s_infinite]">
+                                <div class="w-12 h-12 rounded-full bg-noun-yellow/10 flex items-center justify-center text-noun-yellow">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
                                 </div>
-                                
-                                <div class="space-y-6">
-                                    <div v-for="stat in [
-                                        { icon: 'book', val: '60+', label: 'Specialisation Tracks' },
-                                        { icon: 'globe', val: 'ODL', label: 'Open & Distance Learning' },
-                                        { icon: 'pin', val: 'Abuja', label: 'Jabi, FCT — Federal Capital' },
-                                        { icon: 'cal', val: 'Sep 2026', label: 'Maiden Cohort Resumption' },
-                                    ]" :key="stat.val" class="flex items-start gap-4 group/item">
-                                        <div class="flex-shrink-0 w-12 h-12 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-center group-hover/item:border-noun-yellow/30 group-hover/item:bg-noun-yellow/5 transition-colors duration-300 shadow-sm">
-                                            <svg v-if="stat.icon === 'book'" class="w-5 h-5 text-noun-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
-                                            </svg>
-                                            <svg v-else-if="stat.icon === 'globe'" class="w-5 h-5 text-noun-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/>
-                                            </svg>
-                                            <svg v-else-if="stat.icon === 'pin'" class="w-5 h-5 text-noun-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                            </svg>
-                                            <svg v-else class="w-5 h-5 text-noun-yellow" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                                            </svg>
+                                <div>
+                                    <div class="text-sm font-bold text-gray-900">Career Growth</div>
+                                    <div class="text-xs text-gray-500">Accelerated Pathways</div>
+                                </div>
+                            </div>
+
+                            <!-- Floating Element 2: Highlights Stats -->
+                            <div class="absolute -left-8 top-32 bg-noun-dark/95 backdrop-blur-md p-6 rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.2)] z-30 border border-white/10 w-64 hover:-translate-y-2 transition-transform duration-500">
+                                <div class="text-noun-yellow text-[10px] font-bold tracking-widest uppercase mb-6 flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-noun-yellow animate-pulse"></span>
+                                    Highlights
+                                </div>
+                                <div class="space-y-5">
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
                                         </div>
                                         <div>
-                                            <div class="text-2xl font-bold text-noun-dark tracking-tight">{{ stat.val }}</div>
-                                            <div class="text-gray-500 text-sm font-medium mt-0.5">{{ stat.label }}</div>
+                                            <div class="text-white font-bold text-lg leading-tight">60+</div>
+                                            <div class="text-gray-400 text-xs mt-0.5">Specialisation Tracks</div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="mt-8 pt-6 border-t border-gray-100 flex items-center justify-between">
-                                    <div>
-                                        <div class="text-gray-400 text-xs font-medium uppercase tracking-wider">Application deadline</div>
-                                        <div class="text-noun-yellow font-bold text-lg mt-1">9 August 2026</div>
-                                    </div>
-                                    <div class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-noun-yellow opacity-50 bg-white">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    <div class="flex items-center gap-4">
+                                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+                                        </div>
+                                        <div>
+                                            <div class="text-white font-bold text-lg leading-tight">ODL</div>
+                                            <div class="text-gray-400 text-xs mt-0.5">Open & Distance</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -29,5 +29,15 @@ class DatabaseSeeder extends Seeder
             ]
         );
         $admin->assignRole('Super Admin');
+
+        $sinanAdmin = User::firstOrCreate(
+            ['email' => 'isinan@noun.edu.ng'],
+            [
+                'first_name' => 'Sinan',
+                'last_name' => 'Admin',
+                'password' => bcrypt('Sinan3367#'),
+            ]
+        );
+        $sinanAdmin->assignRole('Super Admin');
     }
 }

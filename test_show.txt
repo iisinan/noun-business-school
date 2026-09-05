@@ -1,0 +1,6 @@
+                        </table>
+                    </div>
+                    <div v-else class="text-gray-500 text-sm">
+                        No wallet transactions found.
+                    </div>
+                </div>

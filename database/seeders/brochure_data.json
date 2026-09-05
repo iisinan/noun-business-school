@@ -1,0 +1,772 @@
+{
+    "programmes": {
+        "GDBA": {
+            "name": "Graduate Diploma in Business Administration",
+            "type": "GDBA",
+            "description": "Foundation pathway into the MBA/MPA programme.",
+            "specialisations": [],
+            "foundational_core": [
+                {
+                    "code": "GDBA 501",
+                    "title": "Principles of Management",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 502",
+                    "title": "Principles of Economics for Managers",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 503",
+                    "title": "Financial Accounting I",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 504",
+                    "title": "Business Communication & Report Writing",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 505",
+                    "title": "Principles of Marketing",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 506",
+                    "title": "Business Mathematics & Statistics",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 507",
+                    "title": "Business Law",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 521",
+                    "title": "Organisational Behaviour",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 522",
+                    "title": "Financial Accounting II",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 523",
+                    "title": "Human Resource Management",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 524",
+                    "title": "Introduction to Strategic Management",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 525",
+                    "title": "Information Systems for Business",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 526",
+                    "title": "Entrepreneurship Development",
+                    "units": 3
+                },
+                {
+                    "code": "GDBA 600",
+                    "title": "Bridging Project (Directed Study)",
+                    "units": 2
+                }
+            ],
+            "requirements": [
+                {
+                    "desc": "First Degree (any discipline) from a recognised university with a minimum of Third Class, or HND with a minimum of Lower Credit.",
+                    "is_doc": false
+                },
+                {
+                    "desc": "Five (5) credits in WAEC/NECO/GCE O'Level (or equivalent), including English Language and Mathematics, at not more than two sittings.",
+                    "is_doc": false
+                },
+                {
+                    "desc": "Certified copies of academic transcripts and certificates from previously attended institutions.",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Valid means of identification (National ID, International Passport, or Driver's Licence).",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Current Curriculum Vitae / Resume.",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Two (2) professional or academic reference letters.",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Statement of Purpose (500\u20131,000 words).",
+                    "is_doc": true
+                }
+            ]
+        },
+        "MBA": {
+            "name": "Master of Business Administration",
+            "type": "MBA",
+            "description": "Two-year graduate management qualification.",
+            "specialisations": [
+                {
+                    "name": "Digital Business Transformation",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "FinTech and Financial Innovation",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Energy Transition and Sustainability Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Entrepreneurship and Innovation Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Public Policy and Governance Management",
+                    "type": "MPA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Healthcare Administration and HealthTech Management",
+                    "type": "MPA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Agribusiness and Food Systems",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Logistics and Supply Chain Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Procurement Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Project Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Peace and Conflict Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Cyber-Risk and Information Security Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Defense and Strategic Strategies",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Family Business Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Aviation Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Migration Studies",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "the Entertainment Economy and Creative Industries",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Executive Leadership",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Oil & Gas Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Infrastructure and Utility Regulation",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Energy Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Social Standards",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Advertising and Marketing Communications",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Advertising and Public Relations Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Marketing & Communication",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Risk Management and Insurance",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Enterprise Risk Management",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Capital Markets & Investments",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Quantitative Finance",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Real Estate Development",
+                    "type": "MBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                }
+            ],
+            "foundational_core": [
+                {
+                    "code": "MBA 701",
+                    "title": "Managerial Economics",
+                    "units": 3
+                },
+                {
+                    "code": "MBA 702",
+                    "title": "Financial Accounting & Reporting",
+                    "units": 3
+                },
+                {
+                    "code": "MBA 703",
+                    "title": "Organisational Behaviour & Leadership",
+                    "units": 3
+                },
+                {
+                    "code": "MBA 704",
+                    "title": "Marketing Management",
+                    "units": 3
+                },
+                {
+                    "code": "MBA 705",
+                    "title": "Quantitative Methods & Business Statistics",
+                    "units": 3
+                },
+                {
+                    "code": "MBA 706",
+                    "title": "Strategic Management",
+                    "units": 3
+                },
+                {
+                    "code": "MBA 707",
+                    "title": "Business Research Methods",
+                    "units": 3
+                },
+                {
+                    "code": "MBA 708",
+                    "title": "Corporate Finance",
+                    "units": 3
+                }
+            ],
+            "requirements": [
+                {
+                    "desc": "Bachelor's degree (minimum Second Class Lower) from a recognised university in any discipline, or HND (minimum Upper Credit).",
+                    "is_doc": false
+                },
+                {
+                    "desc": "Five (5) credits in WAEC/NECO/GCE O'Level (or equivalent), including English Language and Mathematics, at not more than two sittings.",
+                    "is_doc": false
+                },
+                {
+                    "desc": "A minimum of two (2) years post-qualification work experience.",
+                    "is_doc": false
+                },
+                {
+                    "desc": "Certified copies of academic transcripts and certificates from previously attended institutions.",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Valid means of identification (National ID, International Passport, or Driver's Licence).",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Current Curriculum Vitae / Resume.",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Two (2) professional or academic reference letters.",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Statement of Purpose (500\u20131,000 words).",
+                    "is_doc": true
+                }
+            ]
+        },
+        "DBA": {
+            "name": "Doctor of Business Administration",
+            "type": "DBA",
+            "description": "Practitioner-research doctoral degree spanning three years.",
+            "specialisations": [
+                {
+                    "name": "Digital Business Transformation",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "FinTech and Financial Innovation",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Energy Transition and Sustainability Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Entrepreneurship and Innovation Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Public Policy and Governance Management",
+                    "type": "DPA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Healthcare Administration and HealthTech Management",
+                    "type": "DPA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Agribusiness and Food Systems",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Logistics and Supply Chain Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Procurement Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Project Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Peace and Conflict Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Cyber-Risk and Information Security Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Defense and Strategic Strategies",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Family Business Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Aviation Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Migration Studies",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "the Entertainment Economy and Creative Industries",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Executive Leadership",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Oil & Gas Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Infrastructure and Utility Regulation",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Energy Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Social Standards",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Advertising and Marketing Communications",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Advertising and Public Relations Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Marketing & Communication",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Risk Management and Insurance",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Enterprise Risk Management",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Capital Markets & Investments",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Quantitative Finance",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Real Estate Development",
+                    "type": "DBA",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                }
+            ],
+            "foundational_core": [
+                {
+                    "code": "DBA 811",
+                    "title": "Advanced Philosophy of Management Science & Epistemology of Business Research",
+                    "units": 3
+                },
+                {
+                    "code": "DBA 812",
+                    "title": "Advanced Quantitative Research Methods",
+                    "units": 3
+                },
+                {
+                    "code": "DBA 813",
+                    "title": "Advanced Qualitative & Mixed-Methods Research",
+                    "units": 3
+                },
+                {
+                    "code": "DBA 814",
+                    "title": "Strategic Theory & Organisational Design",
+                    "units": 3
+                },
+                {
+                    "code": "DBA 815",
+                    "title": "Global Business Environment & Comparative Management",
+                    "units": 3
+                },
+                {
+                    "code": "DBA 816",
+                    "title": "Applied Econometrics for Managers",
+                    "units": 3
+                },
+                {
+                    "code": "DBA 817",
+                    "title": "Ethics, Governance & Corporate Responsibility",
+                    "units": 3
+                },
+                {
+                    "code": "DBA 818",
+                    "title": "Doctoral Seminar & Research Proposal Development",
+                    "units": 3
+                }
+            ],
+            "requirements": [
+                {
+                    "desc": "Master's degree (MBA or relevant Master's, minimum CGPA of 3.5 on a 5-point scale or equivalent) from a recognised university.",
+                    "is_doc": false
+                },
+                {
+                    "desc": "Minimum of five (5) years senior-level management or professional experience.",
+                    "is_doc": false
+                },
+                {
+                    "desc": "Research concept note aligned to one of the specialisation tracks.",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Certified copies of academic transcripts and certificates from previously attended institutions.",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Valid means of identification (National ID, International Passport, or Driver's Licence).",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Current Curriculum Vitae / Resume.",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Two (2) professional or academic reference letters.",
+                    "is_doc": true
+                }
+            ]
+        },
+        "Certificate": {
+            "name": "Executive Certificate Programmes",
+            "type": "Certificate",
+            "description": "Short, modular, non-degree qualifications.",
+            "specialisations": [
+                {
+                    "name": "Data Analytics",
+                    "type": "Certificate",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "FinTech",
+                    "type": "Certificate",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "ESG Reporting",
+                    "type": "Certificate",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Project Management",
+                    "type": "Certificate",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Public Procurement",
+                    "type": "Certificate",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Entrepreneurship",
+                    "type": "Certificate",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Healthcare Administration",
+                    "type": "Certificate",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                },
+                {
+                    "name": "Digital Marketing",
+                    "type": "Certificate",
+                    "description": "",
+                    "courses": [],
+                    "electives": []
+                }
+            ],
+            "foundational_core": [],
+            "requirements": [
+                {
+                    "desc": "OND/HND/First Degree or relevant professional/work experience.",
+                    "is_doc": false
+                },
+                {
+                    "desc": "Current Curriculum Vitae / Resume.",
+                    "is_doc": true
+                },
+                {
+                    "desc": "Valid means of identification (National ID, International Passport, or Driver's Licence).",
+                    "is_doc": true
+                }
+            ]
+        }
+    }
+}

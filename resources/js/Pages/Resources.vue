@@ -155,7 +155,7 @@ const vReveal = {
         <main class="flex-grow pt-20 bg-gray-50">
             <!-- Interactive Document Viewer -->
             <section class="py-16 relative bg-gray-50 border-b border-gray-200">
-                <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
                     
                     <div class="flex flex-col lg:flex-row gap-8 bg-white rounded-3xl shadow-[0_8px_30px_rgba(0,0,0,0.04)] border border-gray-100 overflow-hidden min-h-[600px]" v-reveal>
                         
@@ -251,7 +251,7 @@ const vReveal = {
 
             <!-- Portals & Digital Resources -->
             <section class="py-24 bg-white relative overflow-hidden">
-                <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
                     <div class="flex items-center justify-between mb-16" v-reveal>
                         <div>
                             <h2 class="text-3xl font-bold text-noun-dark mb-2">Digital Ecosystem</h2>

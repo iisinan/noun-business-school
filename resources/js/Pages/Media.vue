@@ -119,7 +119,7 @@ const navLinks = [
 
             <!-- Latest News -->
             <section class="py-24 relative bg-white">
-                <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
                     <div class="flex flex-col md:flex-row md:items-center justify-between mb-12 gap-6" v-reveal>
                         <h2 class="text-3xl font-bold text-noun-dark">Latest News</h2>
                         
@@ -208,7 +208,7 @@ const navLinks = [
             <!-- Newsletter Subscription -->
             <section class="py-16 bg-noun-green relative overflow-hidden">
                 <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-                <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
                     <div class="bg-white/10 border border-white/20 rounded-3xl p-8 md:p-12 backdrop-blur-sm flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl" v-reveal>
                         <div class="max-w-xl text-center md:text-left">
                             <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Never miss an update.</h3>
@@ -292,7 +292,7 @@ const navLinks = [
 
             <!-- Press Resources & Contact -->
             <section class="py-24 bg-noun-dark text-white relative">
-                <div class="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
                     <div class="grid lg:grid-cols-2 gap-16 items-center">
                         <div v-reveal>
                             <h2 class="text-3xl font-bold mb-6">Press Resources</h2>

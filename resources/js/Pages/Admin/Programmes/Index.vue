@@ -70,15 +70,20 @@ defineProps({
                         <tbody class="bg-white divide-y divide-gray-50">
                             <template v-for="prog in programmes" :key="prog.id">
                                 <!-- Parent Programme Row -->
-                                <tr class="bg-gray-100/50">
+                                <tr class="bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer group" @click="toggleExpand(prog.id)">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2.5 py-1 text-[10px] font-bold rounded-md bg-noun-dark text-white uppercase">{{ prog.type }}</span>
                                     </td>
                                     <td class="px-6 py-4">
-                                        <div class="text-sm font-bold text-gray-900">{{ prog.name }} (Core)</div>
+                                        <div class="flex items-center gap-2">
+                                            <svg class="w-4 h-4 text-gray-400 group-hover:text-gray-600 transition-transform duration-200" :class="{ 'rotate-90': expandedProgrammes.includes(prog.id) }" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                            </svg>
+                                            <div class="text-sm font-bold text-gray-900">{{ prog.name }} (Core)</div>
+                                        </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        {{ prog.specialisations?.length ?? 0 }} Specialisations
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 font-medium">
+                                        <span class="bg-white border border-gray-200 px-2.5 py-0.5 rounded-full">{{ prog.specialisations?.length ?? 0 }} Tracks</span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2.5 py-1 inline-flex text-xs font-semibold rounded-full"
@@ -86,7 +91,7 @@ defineProps({
                                             {{ prog.is_active ? 'Active' : 'Suspended' }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm" @click.stop>
                                         <div class="flex items-center gap-2">
                                             <Link :href="route('admin.programmes.show', prog.id)" class="inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-gray-300 text-gray-700 font-semibold text-xs rounded hover:bg-gray-50 transition shadow-sm">
                                                 Manage Core
@@ -99,8 +104,8 @@ defineProps({
                                     </td>
                                 </tr>
                                 
-                                <!-- Specialisations Rows -->
-                                <tr v-for="spec in prog.specialisations" :key="spec.id" class="hover:bg-gray-50 transition-colors border-l-2 border-l-noun-green">
+                                <!-- Specialisations Rows (Dropdown) -->
+                                <tr v-for="spec in prog.specialisations" :key="spec.id" v-show="expandedProgrammes.includes(prog.id)" class="bg-white hover:bg-gray-50 transition-colors border-l-2 border-l-noun-green">
                                     <td class="px-6 py-3 whitespace-nowrap">
                                         <span class="px-2 py-0.5 ml-4 text-[10px] font-semibold rounded bg-gray-100 text-gray-600">Track</span>
                                     </td>

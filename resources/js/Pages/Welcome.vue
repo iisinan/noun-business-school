@@ -256,7 +256,7 @@ const featuredSpecialisations = [
             class="fixed top-0 inset-x-0 z-50 transition-all duration-500"
             :class="scrolled ? 'bg-white/85 backdrop-blur-lg border-b border-gray-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]' : 'bg-transparent'"
         >
-            <div class="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
                 <div class="flex items-center justify-between h-20">
 
                     <!-- Logo -->
@@ -380,7 +380,7 @@ const featuredSpecialisations = [
             <div class="absolute -top-32 -right-32 w-96 h-96 rounded-full border border-noun-yellow/20 opacity-50"></div>
             <div class="absolute bottom-10 left-10 w-24 h-24 rounded-full border border-gray-200 opacity-80"></div>
 
-            <div class="relative z-10 w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative z-10 w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
                 <div class="lg:grid lg:grid-cols-12 lg:gap-16 lg:items-center">
 
                     <!-- Text Column -->
@@ -510,7 +510,7 @@ const featuredSpecialisations = [
             <!-- Decorative background element -->
             <div class="absolute top-0 right-0 w-1/3 h-full bg-gray-50/50 skew-x-12 translate-x-1/2"></div>
             
-            <div class="relative z-10 w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative z-10 w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
                 <div class="lg:grid lg:grid-cols-2 lg:gap-24 lg:items-center">
 
                     <!-- Pull quote -->
@@ -581,7 +581,7 @@ const featuredSpecialisations = [
              PROGRAMMES
         ═══════════════════════════════════════════ -->
         <section id="programmes" class="py-24 lg:py-32 bg-gray-50">
-            <div class="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
 
                 <div class="max-w-2xl mb-16" v-reveal>
                     <div class="flex items-center gap-3 mb-4">
@@ -679,7 +679,7 @@ const featuredSpecialisations = [
             <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:24px_24px]"></div>
             <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-noun-yellow/10 rounded-[100%] blur-[100px] pointer-events-none"></div>
 
-            <div class="relative z-10 w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative z-10 w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24">
 
                 <div class="text-center max-w-2xl mx-auto mb-16" v-reveal>
                     <div class="flex items-center justify-center gap-3 mb-4">
@@ -735,7 +735,7 @@ const featuredSpecialisations = [
              ADMISSIONS PROCESS
         ═══════════════════════════════════════════ -->
         <section id="admissions" class="py-24 lg:py-32 bg-white relative overflow-hidden">
-            <div class="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
 
                 <div class="max-w-2xl mb-20" v-reveal>
                     <div class="flex items-center gap-3 mb-4">
@@ -830,7 +830,7 @@ const featuredSpecialisations = [
         <section class="py-24 lg:py-32 bg-gradient-to-br from-white via-white to-noun-light/30 relative overflow-hidden">
             <div class="absolute inset-0 bg-[radial-gradient(#d1d5db_1px,transparent_1px)] [background-size:20px_20px] opacity-30"></div>
             
-            <div class="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 relative z-10">
                 <div class="lg:flex lg:items-end lg:justify-between lg:gap-12 mb-16" v-reveal>
                     <div class="max-w-xl">
                         <div class="flex items-center gap-3 mb-4">
@@ -945,7 +945,7 @@ const featuredSpecialisations = [
              FOOTER
         ═══════════════════════════════════════════ -->
         <footer id="contact" class="bg-noun-dark border-t border-white/5">
-            <div class="w-full max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+            <div class="w-full w-full mx-auto px-4 sm:px-8 lg:px-16 xl:px-24 py-16 lg:py-24">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
 
                     <!-- Brand -->

@@ -112,6 +112,12 @@ class ApplicationController extends Controller
             'status' => 'STARTED', // Set to started, pending payment
         ]);
 
+        try {
+            \Illuminate\Support\Facades\Mail::to($request->user())->send(new \App\Mail\ApplicationSubmittedMail($application));
+        } catch (\Exception $e) {
+            \Log::error('Failed to send application submitted mail: ' . $e->getMessage());
+        }
+
         return redirect()->route('dashboard')->with('success', 'Application drafted successfully. Please proceed to pay the application fee.');
     }
 

@@ -1,22 +1,28 @@
 <x-mail::message>
-# Application Submitted Successfully
+# Application Successfully Submitted
 
-Dear {{ $application->user->first_name }},
+Dear **{{ $application->user->first_name }}**,
 
-We have received your application for the **{{ $application->programme->name }}** programme at NOUN Business School.
+This email is to confirm that we have successfully received your application for the **{{ $application->programme->name }}** programme at NOUN Business School.
 
-Your application fee payment was successful, and your application is now under review by the admissions committee.
+Your application fee payment was successful, and your application has now been forwarded to the Admissions Committee for review.
 
-**Application Number:** {{ $application->application_number }}
+<x-mail::panel>
+**Application Details:**
+- **Programme:** {{ $application->programme->name }}
+- **Application Number:** {{ $application->application_number }}
+- **Status:** Under Review
+</x-mail::panel>
 
-You can track the status of your application by logging into your dashboard.
+You can track the live status of your application at any time by logging into your dashboard.
 
-<x-mail::button :url="route('dashboard')">
-View Application Status
+<x-mail::button :url="route('dashboard')" color="primary">
+Track Application Status
 </x-mail::button>
 
-We will notify you via email as soon as a decision has been made.
+We will notify you via email as soon as a final decision has been made. Thank you for choosing NOUN Business School.
 
 Best regards,<br>
-**NOUN Business School Admissions Team**
+**Admissions Office**<br>
+NOUN Business School
 </x-mail::message>

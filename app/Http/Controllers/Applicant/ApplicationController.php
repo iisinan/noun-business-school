@@ -81,11 +81,11 @@ class ApplicationController extends Controller
                 if (is_array($fileOrFiles)) {
                     $paths = [];
                     foreach ($fileOrFiles as $f) {
-                        $paths[] = $f->store('applications/documents', 'public');
+                        $paths[] = $f->store('applications/documents', 's3');
                     }
                     $documentPaths[$key] = $paths;
                 } else {
-                    $documentPaths[$key] = $fileOrFiles->store('applications/documents', 'public');
+                    $documentPaths[$key] = $fileOrFiles->store('applications/documents', 's3');
                 }
             }
         }
@@ -93,7 +93,7 @@ class ApplicationController extends Controller
         // Handle passport upload
         $personalInfo = $validated['personal_info'];
         if ($request->hasFile('passport_photograph')) {
-            $personalInfo['passport_photograph_path'] = $request->file('passport_photograph')->store('applications/passports', 'public');
+            $personalInfo['passport_photograph_path'] = $request->file('passport_photograph')->store('applications/passports', 's3');
         }
 
         // Generate application number

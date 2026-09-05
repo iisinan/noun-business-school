@@ -13,6 +13,8 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AccountCreatedMail;
 
 class RegisteredUserController extends Controller
 {
@@ -50,6 +52,9 @@ class RegisteredUserController extends Controller
         $user->assignRole('Applicant');
 
         event(new Registered($user));
+        
+        // Send Welcome Email
+        Mail::to($user)->send(new AccountCreatedMail($user));
 
         Auth::login($user);
 

@@ -7,6 +7,8 @@ use App\Services\RemitaService;
 use App\Models\Payment;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ApplicationSubmittedMail;
 
 class PaymentController extends Controller
 {
@@ -77,6 +79,8 @@ class PaymentController extends Controller
         
         if ($payment->payment_type === 'APPLICATION_FEE' && $payment->application) {
             $payment->application->update(['status' => 'SUBMITTED']);
+            // Send Application Submitted Email
+            Mail::to($payment->user)->send(new ApplicationSubmittedMail($payment->application));
         } elseif ($payment->payment_type === 'ACCEPTANCE_FEE' && $payment->application) {
             $payment->application->update(['status' => 'ENROLLED']);
             // Automatically assign role Student
@@ -114,6 +118,7 @@ class PaymentController extends Controller
             
             if ($payment->payment_type === 'APPLICATION_FEE') {
                 $payment->application->update(['status' => 'SUBMITTED']);
+                Mail::to($payment->user)->send(new ApplicationSubmittedMail($payment->application));
             } elseif ($payment->payment_type === 'ACCEPTANCE_FEE') {
                 $payment->application->update(['status' => 'ENROLLED']);
                 if (!$payment->user->hasRole('Student')) {

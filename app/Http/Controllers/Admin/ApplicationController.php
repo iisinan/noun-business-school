@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Application;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AdmissionOfferedMail;
+use App\Mail\ApplicationRejectedMail;
 
 class ApplicationController extends Controller
 {
@@ -126,8 +129,11 @@ class ApplicationController extends Controller
         $application->update(['status' => $validated['status']]);
 
         if ($validated['status'] === 'ADMITTED') {
+            Mail::to($application->user)->send(new AdmissionOfferedMail($application));
             // AdmissionLetterService::generate($application);
             // $application->user->notify(new AdmissionOffered($application));
+        } elseif ($validated['status'] === 'REJECTED') {
+            Mail::to($application->user)->send(new ApplicationRejectedMail($application));
         }
 
         return redirect()->back()->with('success', 'Application status updated to ' . $validated['status']);

@@ -455,24 +455,60 @@ const featuredSpecialisations = [
                             <h3 class="text-4xl font-extrabold text-noun-dark mb-3">60+ Tracks</h3>
                             <p class="text-gray-500 text-sm leading-relaxed mb-8">The most comprehensive suite of postgraduate business specialisations in West Africa.</p>
                             
-                            <!-- Mini abstract bar chart -->
-                            <div class="space-y-4">
+                            <!-- Mini abstract bar chart grid -->
+                            <div class="grid grid-cols-2 gap-y-5 gap-x-6">
                                 <div>
-                                    <div class="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">
-                                        <span>Master's (MBA/MPA)</span>
-                                        <span class="text-noun-green">30</span>
+                                    <div class="flex justify-between text-[10px] font-bold text-gray-400 mb-1.5 uppercase tracking-widest">
+                                        <span>GDBA</span>
+                                        <span class="text-noun-green">1</span>
                                     </div>
-                                    <div class="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                    <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-noun-green w-[15%] rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-[10px] font-bold text-gray-400 mb-1.5 uppercase tracking-widest">
+                                        <span>MBA</span>
+                                        <span class="text-noun-green">15</span>
+                                    </div>
+                                    <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                                         <div class="h-full bg-noun-green w-[85%] rounded-full"></div>
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest">
-                                        <span>Doctoral (DBA/DPA)</span>
-                                        <span class="text-noun-yellow">30</span>
+                                    <div class="flex justify-between text-[10px] font-bold text-gray-400 mb-1.5 uppercase tracking-widest">
+                                        <span>MPA</span>
+                                        <span class="text-noun-green">15</span>
                                     </div>
-                                    <div class="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                    <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-noun-green w-[85%] rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-[10px] font-bold text-gray-400 mb-1.5 uppercase tracking-widest">
+                                        <span>DBA</span>
+                                        <span class="text-noun-yellow">15</span>
+                                    </div>
+                                    <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
                                         <div class="h-full bg-noun-yellow w-[85%] rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-[10px] font-bold text-gray-400 mb-1.5 uppercase tracking-widest">
+                                        <span>DPA</span>
+                                        <span class="text-noun-yellow">15</span>
+                                    </div>
+                                    <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-noun-yellow w-[85%] rounded-full"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-[10px] font-bold text-gray-400 mb-1.5 uppercase tracking-widest">
+                                        <span>Exec. Certs</span>
+                                        <span class="text-gray-400">Var.</span>
+                                    </div>
+                                    <div class="h-1.5 w-full bg-gray-100 rounded-full overflow-hidden">
+                                        <div class="h-full bg-gray-300 w-[50%] rounded-full"></div>
                                     </div>
                                 </div>
                             </div>

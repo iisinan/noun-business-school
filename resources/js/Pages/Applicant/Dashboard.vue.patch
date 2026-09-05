@@ -1,0 +1,29 @@
+--- resources/js/Pages/Applicant/Dashboard.vue
++++ resources/js/Pages/Applicant/Dashboard.vue
+@@ -19,17 +19,17 @@
+ 
+ const currentStep = computed(() => {
+     if (!props.application) return 0;
+     const status = props.application.status;
+-    if (status === 'STARTED') return 1;
+-    if (status === 'DRAFT' || status === 'SUBMITTED') return 2;
++    if (status === 'STARTED' || status === 'DRAFT') return 1;
++    if (status === 'SUBMITTED') return 2;
+     if (['UNDER REVIEW', 'SHORTLISTED', 'SCREENING', 'RECOMMENDED'].includes(status)) return 3;
+     if (status === 'ADMITTED') return 4;
+     if (status === 'REJECTED') return 4;
+     if (status === 'ENROLLED') return 5;
+     return 1;
+ });
+ 
+ const steps = [
+-    { id: 1, name: 'Application form', description: 'Fill your details' },
+-    { id: 2, name: 'Application Fee', description: 'Pay N25,000 via Remita' },
+-    { id: 3, name: 'Under Review', description: 'Screening by admissions' },
+-    { id: 4, name: 'Decision', description: 'Admission outcome' },
+-    { id: 5, name: 'Enrollment', description: 'Accept offer & Register' },
++    { id: 1, name: 'Registered', description: 'Account created' },
++    { id: 2, name: 'Submitted', description: 'Application sent' },
++    { id: 3, name: 'Under Review', description: 'Documents being verified' },
++    { id: 4, name: 'Decision', description: 'Approved or rejected' },
+ ];

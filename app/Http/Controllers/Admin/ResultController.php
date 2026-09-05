@@ -17,7 +17,7 @@ class ResultController extends Controller
     {
         return Inertia::render('Admin/Results/Upload', [
             'courses' => Course::orderBy('code')->get(),
-            'sessions' => AcademicSession::orderBy('start_date', 'desc')->get(),
+            'sessions' => AcademicSession::orderBy('id', 'desc')->get(),
         ]);
     }
 

@@ -322,7 +322,7 @@ class DashboardController extends Controller
             ->unique();
 
         $sessions = \App\Models\AcademicSession::whereIn('id', $sessionIds)
-            ->orderBy('start_date', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
 
         $resultsBySession = [];

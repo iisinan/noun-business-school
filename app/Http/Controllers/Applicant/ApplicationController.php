@@ -76,8 +76,9 @@ class ApplicationController extends Controller
 
         // Handle document uploads
         $documentPaths = [];
-        if ($request->hasFile('documents')) {
-            foreach ($request->file('documents') as $key => $fileOrFiles) {
+        $documents = $request->file('documents');
+        if (!empty($documents)) {
+            foreach ($documents as $key => $fileOrFiles) {
                 if (is_array($fileOrFiles)) {
                     $paths = [];
                     foreach ($fileOrFiles as $f) {

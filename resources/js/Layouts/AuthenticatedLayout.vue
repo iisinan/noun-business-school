@@ -58,6 +58,45 @@ const showingNavigationDropdown = ref(false);
                                     >
                                         Applications
                                     </NavLink>
+                                    <NavLink
+                                        :href="route('admin.sessions.index')"
+                                        :active="route().current('admin.sessions.*')"
+                                    >
+                                        Sessions
+                                    </NavLink>
+                                    <NavLink
+                                        :href="route('admin.payments.index')"
+                                        :active="route().current('admin.payments.*')"
+                                    >
+                                        Payments
+                                    </NavLink>
+                                    <NavLink
+                                        :href="route('admin.results.upload')"
+                                        :active="route().current('admin.results.*')"
+                                    >
+                                        Results
+                                    </NavLink>
+                                    <NavLink
+                                        :href="route('admin.users.index')"
+                                        :active="route().current('admin.users.*')"
+                                    >
+                                        Users
+                                    </NavLink>
+                                </template>
+
+                                <template v-if="$page.props.auth.user.role === 'Student'">
+                                    <NavLink
+                                        :href="route('student.results')"
+                                        :active="route().current('student.results')"
+                                    >
+                                        My Results
+                                    </NavLink>
+                                    <NavLink
+                                        :href="route('student.payments')"
+                                        :active="route().current('student.payments')"
+                                    >
+                                        Payments
+                                    </NavLink>
                                 </template>
                             </div>
                         </div>

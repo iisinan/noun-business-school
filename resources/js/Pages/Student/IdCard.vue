@@ -9,6 +9,9 @@ const props = defineProps({
     application: Object,
 });
 
+const printCard = () => { window.print(); };
+const goBack = () => { window.history.back(); };
+
 onMounted(() => {
     // We do not auto-print here so the student can preview first.
 });
@@ -20,10 +23,10 @@ onMounted(() => {
     <div class="min-h-screen bg-gray-50 flex flex-col items-center py-10 print:py-0 print:bg-white relative">
         <!-- Action Buttons (Hidden in print) -->
         <div class="fixed top-6 right-6 flex gap-3 print:hidden z-50">
-            <button @click="window.history.back()" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold shadow-sm hover:bg-gray-50 transition">
+            <button @click="goBack" class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold shadow-sm hover:bg-gray-50 transition">
                 Back
             </button>
-            <button @click="window.print()" class="px-4 py-2 bg-noun-green text-white rounded-lg text-sm font-semibold shadow-sm hover:bg-noun-dark transition inline-flex items-center gap-2">
+            <button @click="printCard" class="px-4 py-2 bg-noun-green text-white rounded-lg text-sm font-semibold shadow-sm hover:bg-noun-dark transition inline-flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
                 Print ID Card
             </button>

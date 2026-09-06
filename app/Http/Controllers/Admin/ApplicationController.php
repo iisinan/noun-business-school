@@ -102,9 +102,9 @@ class ApplicationController extends Controller
         if (is_array($application->documents)) {
             foreach ($application->documents as $key => $path) {
                 if (is_array($path)) {
-                    $documentUrls[$key] = array_map(fn($p) => \Illuminate\Support\Facades\Storage::disk('s3')->url($p), $path);
+                    $documentUrls[$key] = array_map(fn($p) => \Illuminate\Support\Facades\Storage::disk('public')->url($p), $path);
                 } else {
-                    $documentUrls[$key] = \Illuminate\Support\Facades\Storage::disk('s3')->url($path);
+                    $documentUrls[$key] = \Illuminate\Support\Facades\Storage::disk('public')->url($path);
                 }
             }
         }
@@ -113,7 +113,7 @@ class ApplicationController extends Controller
         $appData['document_urls'] = $documentUrls;
         
         if (isset($application->personal_info['passport_photograph_path'])) {
-            $appData['passport_url'] = \Illuminate\Support\Facades\Storage::disk('s3')->url($application->personal_info['passport_photograph_path']);
+            $appData['passport_url'] = \Illuminate\Support\Facades\Storage::disk('public')->url($application->personal_info['passport_photograph_path']);
         }
 
         return Inertia::render('Admin/Applications/Show', [

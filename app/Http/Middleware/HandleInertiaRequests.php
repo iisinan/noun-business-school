@@ -38,7 +38,7 @@ class HandleInertiaRequests extends Middleware
                         $data = $user->toArray();
                         $app = \App\Models\Application::where('user_id', $user->id)->latest()->first();
                         if ($app && isset($app->personal_info['passport_photograph_path'])) {
-                            $data['passport_url'] = \Illuminate\Support\Facades\Storage::disk('s3')->url($app->personal_info['passport_photograph_path']);
+                            $data['passport_url'] = \Illuminate\Support\Facades\Storage::disk('public')->url($app->personal_info['passport_photograph_path']);
                         }
                         return $data;
                     }

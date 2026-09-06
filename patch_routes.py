@@ -1,16 +1,13 @@
-file_path = '/Users/sinan/Herd/Business School/routes/web.php'
-with open(file_path, 'r') as f:
+with open('routes/web.php', 'r') as f:
     content = f.read()
 
-search = """        Route::get('/results/upload', [\App\Http\Controllers\Admin\ResultController::class, 'create'])->name('results.upload');"""
+target = "Route::get('/results', [\\App\\Http\\Controllers\\Student\\DashboardController::class, 'results'])->name('results');"
+replacement = "Route::get('/results', [\\App\\Http\\Controllers\\Student\\DashboardController::class, 'results'])->name('results');\n        Route::get('/results/download', [\\App\\Http\\Controllers\\Student\\DashboardController::class, 'downloadResults'])->name('results.download');"
 
-replace = """        Route::get('/results/template', [\App\Http\Controllers\Admin\ResultController::class, 'downloadTemplate'])->name('results.template');
-        Route::get('/results/upload', [\App\Http\Controllers\Admin\ResultController::class, 'create'])->name('results.upload');"""
-
-if search in content:
-    content = content.replace(search, replace)
-    with open(file_path, 'w') as f:
+if target in content:
+    content = content.replace(target, replacement)
+    with open('routes/web.php', 'w') as f:
         f.write(content)
     print("Patched routes")
 else:
-    print("Failed to patch routes")
+    print("Target not found in routes/web.php")

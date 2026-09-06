@@ -89,6 +89,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/courses/register', [\App\Http\Controllers\Student\DashboardController::class, 'registerCourses'])->name('courses.register');
         Route::get('/courses/slip', [\App\Http\Controllers\Student\DashboardController::class, 'printSlip'])->name('courses.slip');
         Route::get('/results', [\App\Http\Controllers\Student\DashboardController::class, 'results'])->name('results');
+        Route::get('/results/download', [\App\Http\Controllers\Student\DashboardController::class, 'downloadResults'])->name('results.download');
         Route::get('/id-card', [\App\Http\Controllers\Student\DashboardController::class, 'idCard'])->name('idcard');
     });
 

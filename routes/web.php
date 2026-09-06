@@ -113,6 +113,7 @@ Route::middleware('auth')->group(function () {
         Route::delete('/specialisations/{specialisation}/courses/{course}', [\App\Http\Controllers\Admin\SpecialisationController::class, 'detachCourse'])->name('specialisations.courses.detach');
         Route::get('/users', [UsersController::class, 'index'])->name('users.index');
         Route::get('/users/{user}', [UsersController::class, 'show'])->name('users.show');
+        Route::delete('/users/{user}', [UsersController::class, 'destroy'])->name('users.destroy');
         Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
         Route::get('/courses/create', [CourseController::class, 'create'])->name('courses.create');
         Route::post('/courses', [CourseController::class, 'store'])->name('courses.store');

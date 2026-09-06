@@ -49,12 +49,36 @@ class DashboardController extends Controller
                 if ($studentSemester == 0) $studentSemester = 1;
 
                 // Get courses for the student's enrolled programme
-                $application = $user->applications()->with('programme')->where('status', 'ENROLLED')->latest()->first();
-                if ($application && $application->programme_id) {
-                    $availableCourses = $application->programme->courses()
-                        ->whereNotIn('courses.id', $excludedCourseIds)
-                        ->where('semester', '<=', $studentSemester)
-                        ->get();
+                $application = $user->applications()->with(['programme', 'specialisation'])->where('status', 'ENROLLED')->latest()->first();
+                
+                $availableCourses = collect();
+
+                if ($application) {
+                    if ($application->programme_id) {
+                        $progCourses = $application->programme->courses()
+                            ->whereNotIn('courses.id', $excludedCourseIds)
+                            ->where('semester', '<=', $studentSemester)
+                            ->get();
+                        $availableCourses = $availableCourses->concat($progCourses);
+                    }
+
+                    if ($application->specialisation_id) {
+                        $specCourses = $application->specialisation->courses()
+                            ->whereNotIn('courses.id', $excludedCourseIds)
+                            ->where('semester', '<=', $studentSemester)
+                            ->get();
+                        
+                        // Map pivot is_elective to course type for UI
+                        $specCourses->each(function($course) {
+                            if ($course->pivot && $course->pivot->is_elective) {
+                                $course->type = 'Elective';
+                            }
+                        });
+
+                        $availableCourses = $availableCourses->concat($specCourses);
+                    }
+
+                    $availableCourses = $availableCourses->unique('id')->values();
                 } else {
                     $availableCourses = Course::whereNotIn('id', $excludedCourseIds)
                         ->where('semester', '<=', $studentSemester)
@@ -131,12 +155,36 @@ class DashboardController extends Controller
                 $studentSemester = SemesterRegistration::where('user_id', $user->id)->count();
                 if ($studentSemester == 0) $studentSemester = 1;
 
-                $application = $user->applications()->with('programme')->where('status', 'ENROLLED')->latest()->first();
-                if ($application && $application->programme_id) {
-                    $availableCourses = $application->programme->courses()
-                        ->whereNotIn('courses.id', $excludedCourseIds)
-                        ->where('semester', '<=', $studentSemester)
-                        ->get();
+                $application = $user->applications()->with(['programme', 'specialisation'])->where('status', 'ENROLLED')->latest()->first();
+                
+                $availableCourses = collect();
+
+                if ($application) {
+                    if ($application->programme_id) {
+                        $progCourses = $application->programme->courses()
+                            ->whereNotIn('courses.id', $excludedCourseIds)
+                            ->where('semester', '<=', $studentSemester)
+                            ->get();
+                        $availableCourses = $availableCourses->concat($progCourses);
+                    }
+
+                    if ($application->specialisation_id) {
+                        $specCourses = $application->specialisation->courses()
+                            ->whereNotIn('courses.id', $excludedCourseIds)
+                            ->where('semester', '<=', $studentSemester)
+                            ->get();
+                        
+                        // Map pivot is_elective to course type for UI
+                        $specCourses->each(function($course) {
+                            if ($course->pivot && $course->pivot->is_elective) {
+                                $course->type = 'Elective';
+                            }
+                        });
+
+                        $availableCourses = $availableCourses->concat($specCourses);
+                    }
+
+                    $availableCourses = $availableCourses->unique('id')->values();
                 } else {
                     $availableCourses = Course::whereNotIn('id', $excludedCourseIds)
                         ->where('semester', '<=', $studentSemester)

@@ -1,6 +1,14 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+
+const deleteUser = (user) => {
+    if (confirm(`Are you sure you want to delete user ${user.first_name} ${user.last_name}? This action cannot be undone.`)) {
+        router.delete(route('admin.users.destroy', user.id), {
+            preserveScroll: true
+        });
+    }
+};
 import { ref, watch } from 'vue';
 
 function debounce(fn, wait) {
@@ -138,7 +146,7 @@ watch([search, role], debounce(function ([newSearch, newRole]) {
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <Link :href="route('admin.users.show', user.id)" class="text-noun-green hover:text-noun-dark transition font-semibold mr-3">View</Link>
-                                        <button class="text-red-500 hover:text-red-700 transition font-semibold">Delete</button>
+                                        <button @click="deleteUser(user)" class="text-red-500 hover:text-red-700 transition font-semibold">Delete</button>
                                     </td>
                                 </tr>
                                 <tr v-if="users.data.length === 0">

@@ -46,4 +46,16 @@ class UsersController extends Controller
             'user' => $user,
         ]);
     }
+
+    public function destroy(User $user)
+    {
+        // Don't allow super admin to delete themselves
+        if (auth()->id() === $user->id) {
+            return back()->with('error', 'You cannot delete yourself.');
+        }
+
+        $user->delete();
+
+        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+    }
 }

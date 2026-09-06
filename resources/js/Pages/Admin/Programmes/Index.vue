@@ -1,6 +1,7 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const toggleStatus = (id, currentStatus) => {
     const action = currentStatus ? 'suspend' : 'activate';
@@ -8,6 +9,17 @@ const toggleStatus = (id, currentStatus) => {
         router.patch(route('admin.programmes.toggle-status', id), {}, {
             preserveScroll: true
         });
+    }
+};
+
+const expandedProgrammes = ref([]);
+
+const toggleExpand = (id) => {
+    const index = expandedProgrammes.value.indexOf(id);
+    if (index > -1) {
+        expandedProgrammes.value.splice(index, 1);
+    } else {
+        expandedProgrammes.value.push(id);
     }
 };
 

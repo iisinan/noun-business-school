@@ -219,8 +219,9 @@ class DashboardController extends Controller
 
         $nextSemester = SemesterRegistration::where('user_id', $user->id)->count() + 1;
 
-        if (SemesterRegistration::where('user_id', $user->id)->where('academic_session_id', $activeSession->id)->where('semester', $nextSemester)->exists()) {
-            return back()->with('error', 'You have already registered for this semester.');
+        // Prevent registering for multiple semesters within the same active session
+        if (SemesterRegistration::where('user_id', $user->id)->where('academic_session_id', $activeSession->id)->exists()) {
+            return back()->with('error', 'You have already registered for the current active semester.');
         }
 
         // Deduct from wallet

@@ -126,6 +126,10 @@ class ApplicationController extends Controller
      */
     public function updateStatus(Request $request, Application $application)
     {
+        if ($application->status === 'STARTED') {
+            return redirect()->back()->with('error', 'Cannot make admissions decisions on unpaid applications.');
+        }
+
         $validated = $request->validate([
             'status' => 'required|in:UNDER REVIEW,ADMITTED,REJECTED'
         ]);

@@ -16,6 +16,8 @@ const form = useForm({
 });
 
 const templateForm = useForm({
+    mode: 'single',
+    course_id: '',
     academic_session_id: props.sessions.length > 0 ? props.sessions[0].id : '',
     semester: 1
 });
@@ -38,7 +40,14 @@ const handleFile = (e) => {
 };
 
 const downloadTemplate = () => {
+    if (templateForm.mode === 'single' && !templateForm.course_id) {
+        alert('Please select a course first.');
+        return;
+    }
+    
     window.location.href = route('results.template', {
+        mode: templateForm.mode,
+        course_id: templateForm.course_id,
         academic_session_id: templateForm.academic_session_id,
         semester: templateForm.semester
     });
@@ -64,9 +73,22 @@ const downloadTemplate = () => {
 
                 <!-- Step 1: Download Template -->
                 <div class="bg-white shadow-sm rounded-xl border border-gray-100 overflow-hidden">
-                    <div class="p-6 border-b border-gray-100 bg-gray-50">
-                        <h3 class="text-lg font-bold text-gray-900">Step 1: Download Smart Excel Template</h3>
-                        <p class="text-sm text-gray-500 mt-1">Generate a pre-filled Excel file with all registered students and their courses.</p>
+                    <div class="p-6 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+                        <div>
+                            <h3 class="text-lg font-bold text-gray-900">Step 1: Download Smart Excel Template</h3>
+                            <p class="text-sm text-gray-500 mt-1">Generate a pre-filled Excel file with registered students.</p>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 bg-white p-1 rounded-lg border border-gray-200 shadow-sm">
+                            <label class="flex items-center gap-2 px-3 py-1.5 cursor-pointer rounded-md transition-colors" :class="templateForm.mode === 'single' ? 'bg-noun-green text-white' : 'text-gray-600 hover:bg-gray-50'">
+                                <input type="radio" v-model="templateForm.mode" value="single" class="sr-only">
+                                <span class="text-sm font-bold tracking-wide">Single Course</span>
+                            </label>
+                            <label class="flex items-center gap-2 px-3 py-1.5 cursor-pointer rounded-md transition-colors" :class="templateForm.mode === 'multiple' ? 'bg-noun-green text-white' : 'text-gray-600 hover:bg-gray-50'">
+                                <input type="radio" v-model="templateForm.mode" value="multiple" class="sr-only">
+                                <span class="text-sm font-bold tracking-wide">Entire Semester</span>
+                            </label>
+                        </div>
                     </div>
 
                     <div class="p-6 space-y-6">
@@ -78,10 +100,18 @@ const downloadTemplate = () => {
                                 </select>
                             </div>
                             
-                            <div>
+                            <div v-if="templateForm.mode === 'multiple'">
                                 <label class="block text-sm font-bold text-gray-700 mb-1">Semester</label>
                                 <select v-model="templateForm.semester" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-noun-green focus:border-noun-green sm:text-sm bg-gray-50">
                                     <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
+                                </select>
+                            </div>
+                            
+                            <div v-if="templateForm.mode === 'single'">
+                                <label class="block text-sm font-bold text-gray-700 mb-1">Course</label>
+                                <select v-model="templateForm.course_id" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-noun-green focus:border-noun-green sm:text-sm bg-gray-50">
+                                    <option value="" disabled>Select a course</option>
+                                    <option v-for="course in courses" :key="course.id" :value="course.id">{{ course.code }} - {{ course.title }}</option>
                                 </select>
                             </div>
                         </div>

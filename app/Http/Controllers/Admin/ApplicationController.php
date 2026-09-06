@@ -111,6 +111,10 @@ class ApplicationController extends Controller
         
         $appData = $application->toArray();
         $appData['document_urls'] = $documentUrls;
+        
+        if (isset($application->personal_info['passport_photograph_path'])) {
+            $appData['passport_url'] = \Illuminate\Support\Facades\Storage::disk('s3')->url($application->personal_info['passport_photograph_path']);
+        }
 
         return Inertia::render('Admin/Applications/Show', [
             'application' => $appData

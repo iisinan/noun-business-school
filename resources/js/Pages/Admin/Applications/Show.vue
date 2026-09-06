@@ -72,7 +72,10 @@ const updateStatus = () => {
                     <!-- Applicant Header -->
                     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                         <div class="px-6 py-4 border-b border-gray-100 flex items-center gap-3 bg-gray-50">
-                            <div class="h-10 w-10 rounded-full bg-noun-dark flex items-center justify-center text-white text-sm font-bold">
+                            <div v-if="application.passport_url" class="h-12 w-12 rounded-full flex items-center justify-center shrink-0 border border-gray-200 shadow-sm overflow-hidden bg-gray-50">
+                                <img :src="application.passport_url" class="h-full w-full object-cover" alt="Applicant Passport" />
+                            </div>
+                            <div v-else class="h-12 w-12 rounded-full bg-noun-dark flex items-center justify-center text-white text-sm font-bold shrink-0 shadow-sm">
                                 {{ application.user.first_name?.charAt(0) }}{{ application.user.last_name?.charAt(0) }}
                             </div>
                             <div>

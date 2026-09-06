@@ -77,7 +77,10 @@ const navigation = [
             <!-- User Profile (Bottom) -->
             <div class="p-4 border-t border-white/10 shrink-0">
                 <div class="flex items-center gap-3 bg-white/5 rounded-xl p-3 border border-white/10">
-                    <div class="h-10 w-10 rounded-lg bg-noun-green flex items-center justify-center text-white font-bold shrink-0 shadow-inner">
+                    <div v-if="user.passport_url" class="h-10 w-10 rounded-lg flex items-center justify-center shrink-0 border border-white/20 shadow-sm overflow-hidden bg-white/5">
+                        <img :src="user.passport_url" class="h-full w-full object-cover" alt="Profile" />
+                    </div>
+                    <div v-else class="h-10 w-10 rounded-lg bg-noun-green flex items-center justify-center text-white font-bold shrink-0 shadow-inner">
                         {{ user.first_name.charAt(0) }}{{ user.last_name.charAt(0) }}
                     </div>
                     <div class="min-w-0 flex-1">

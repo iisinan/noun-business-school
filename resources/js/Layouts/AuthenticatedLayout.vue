@@ -113,9 +113,10 @@ const showingNavigationDropdown = ref(false);
                                     <template #trigger>
                                         <button
                                             type="button"
-                                            class="flex items-center justify-center h-9 w-9 rounded-full bg-noun-green text-white font-bold text-sm hover:bg-green-600 transition ring-2 ring-noun-yellow focus:outline-none"
+                                            class="flex items-center justify-center h-9 w-9 rounded-full bg-noun-green text-white font-bold text-sm hover:bg-green-600 transition ring-2 ring-noun-yellow focus:outline-none overflow-hidden"
                                         >
-                                            {{ $page.props.auth.user.name?.charAt(0)?.toUpperCase() }}
+                                            <img v-if="$page.props.auth.user.passport_url" :src="$page.props.auth.user.passport_url" class="h-full w-full object-cover" />
+                                            <span v-else>{{ $page.props.auth.user.name?.charAt(0)?.toUpperCase() || $page.props.auth.user.first_name?.charAt(0)?.toUpperCase() }}</span>
                                         </button>
                                     </template>
 

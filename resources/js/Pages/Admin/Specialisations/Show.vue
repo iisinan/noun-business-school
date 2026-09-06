@@ -6,6 +6,7 @@ import Modal from '@/Components/Modal.vue';
 
 const props = defineProps({
     specialisation: Object,
+    allCourses: Array,
     programmeCourses: Array
 });
 
@@ -78,7 +79,10 @@ const detachCourse = (courseId) => {
                             <h3 class="text-base font-semibold text-gray-900">Track Curriculum</h3>
                             <p class="text-sm text-gray-500 mt-0.5">Courses strictly for students in the {{ specialisation.name }} track.</p>
                         </div>
-
+                        <button @click="isAttachModalOpen = true" class="inline-flex items-center gap-2 bg-noun-green text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-noun-dark transition shadow-sm">
+                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
+                            Attach Course
+                        </button>
                     </div>
 
                     <table class="min-w-full divide-y divide-gray-100">
@@ -113,7 +117,7 @@ const detachCourse = (courseId) => {
                                 </td>
                             </tr>
                             <tr v-if="!programmeCourses || programmeCourses.length === 0">
-                                <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-400">No courses available in this programme to attach.</td>
+                                <td colspan="5" class="px-6 py-12 text-center text-sm text-gray-400">No courses assigned to the parent Programme yet.</td>
                             </tr>
                         </tbody>
                     </table>

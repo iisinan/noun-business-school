@@ -32,7 +32,18 @@ class HandleInertiaRequests extends Middleware
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => function () use ($request) {
+                    $user = $request->user();
+                    if ($user) {
+                        $data = $user->toArray();
+                        $app = \App\Models\Application::where('user_id', $user->id)->latest()->first();
+                        if ($app && isset($app->personal_info['passport_photograph_path'])) {
+                            $data['passport_url'] = \Illuminate\Support\Facades\Storage::disk('s3')->url($app->personal_info['passport_photograph_path']);
+                        }
+                        return $data;
+                    }
+                    return null;
+                },
             ],
             'flash' => [
                 'success' => $request->session()->get('success'),

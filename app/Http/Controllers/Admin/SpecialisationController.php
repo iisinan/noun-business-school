@@ -13,8 +13,11 @@ class SpecialisationController extends Controller
     public function show(Specialisation $specialisation)
     {
         $specialisation->load(['programme.courses', 'courses']);
+        $allCourses = Course::orderBy('code')->get();
         
-        $programmeCourses = $specialisation->programme->courses->map(function($course) use ($specialisation) {
+        $visibleCourses = $specialisation->programme->courses->merge($specialisation->courses)->unique('id')->sortBy('code')->values();
+        
+        $programmeCourses = $visibleCourses->map(function($course) use ($specialisation) {
             $specialisationCourse = $specialisation->courses->where('id', $course->id)->first();
             $course->is_attached = $specialisationCourse ? true : false;
             $course->is_elective = $specialisationCourse ? (bool) $specialisationCourse->pivot->is_elective : false;
@@ -23,7 +26,8 @@ class SpecialisationController extends Controller
         
         return Inertia::render('Admin/Specialisations/Show', [
             'specialisation' => $specialisation,
-            'programmeCourses' => $programmeCourses
+            'programmeCourses' => $programmeCourses,
+            'allCourses' => $allCourses
         ]);
     }
 

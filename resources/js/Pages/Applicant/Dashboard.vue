@@ -60,12 +60,17 @@ const payForm = useForm({
                 <!-- Welcome Banner -->
                 <div class="bg-noun-dark rounded-xl overflow-hidden shadow-sm">
                     <div class="px-8 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                        <div>
-                            <p class="text-noun-yellow text-sm font-medium uppercase tracking-wider mb-1">NOUN Business School</p>
-                            <h3 class="text-2xl font-bold text-white">Welcome, {{ $page.props.auth.user.first_name }}!</h3>
+                        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                            <div v-if="$page.props.auth.user.passport_url" class="h-16 w-16 sm:h-20 sm:w-20 rounded-full border-2 border-noun-yellow shadow-lg overflow-hidden shrink-0 bg-gray-50">
+                                <img :src="$page.props.auth.user.passport_url" class="h-full w-full object-cover" alt="Passport" />
+                            </div>
+                            <div>
+                                <p class="text-noun-yellow text-sm font-medium uppercase tracking-wider mb-1">NOUN Business School</p>
+                                <h3 class="text-2xl font-bold text-white">Welcome, {{ $page.props.auth.user.first_name }}!</h3>
                             <p class="mt-2 text-green-300 text-sm max-w-md">
                                 Track your admission progress and complete any pending registrations.
                             </p>
+                            </div>
                         </div>
                         <a
                             v-if="!application"

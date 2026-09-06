@@ -50,7 +50,7 @@
             </div>
             @if(isset($application->personal_info['passport_photograph_path']))
             <div class="h-28 w-28 border-2 border-[#006600] p-1 bg-white shrink-0">
-                <img src="{{ \Illuminate\Support\Facades\Storage::disk('s3')->url($application->personal_info['passport_photograph_path']) }}" class="h-full w-full object-cover" alt="Passport">
+                <img src="{{ \Illuminate\Support\Facades\Storage::disk('public')->url($application->personal_info['passport_photograph_path']) }}" class="h-full w-full object-cover" alt="Passport">
             </div>
             @endif
         </div>

@@ -31,27 +31,29 @@ class DashboardController extends Controller
             $hasRegisteredSemester = $sessionRegistrationsCount >= $activeSession->current_semester;
             
             if ($hasRegisteredSemester) {
-                // Get already registered courses in this session
-                $currentSessionCourseIds = CourseRegistration::where('user_id', $user->id)
-                    ->where('academic_session_id', $activeSession->id)
-                    ->pluck('course_id')
-                    ->toArray();
-
-                $registeredCourses = Course::whereIn('id', $currentSessionCourseIds)->get();
-
-                $passedCourseIds = CourseRegistration::where('user_id', $user->id)
-                    ->whereNotNull('grade')
-                    ->where('grade', '!=', 'F')
-                    ->pluck('course_id')
-                    ->toArray();
-
-                $excludedCourseIds = array_unique(array_merge($currentSessionCourseIds, $passedCourseIds));
-
                 $studentSemester = SemesterRegistration::where('user_id', $user->id)->count();
                 if (!$hasRegisteredSemester) {
                     $studentSemester += 1;
                 }
                 if ($studentSemester == 0) $studentSemester = 1;
+
+                $currentSemesterCourseIds = CourseRegistration::where('user_id', $user->id)
+                    ->where('academic_session_id', $activeSession->id)
+                    ->where('semester', $studentSemester)
+                    ->pluck('course_id')
+                    ->toArray();
+
+                $registeredCourses = Course::whereIn('id', $currentSemesterCourseIds)->get();
+
+                $passedOrPendingCourseIds = CourseRegistration::where('user_id', $user->id)
+                    ->where(function($q) {
+                        $q->whereNull('grade')
+                          ->orWhere('grade', '!=', 'F');
+                    })
+                    ->pluck('course_id')
+                    ->toArray();
+
+                $excludedCourseIds = array_unique(array_merge($currentSemesterCourseIds, $passedOrPendingCourseIds));
 
                 // Get courses for the student's enrolled programme
                 $application = $user->applications()->with(['programme', 'specialisation'])->where('status', 'ENROLLED')->latest()->first();
@@ -167,26 +169,29 @@ class DashboardController extends Controller
             $hasRegisteredSemester = $sessionRegistrationsCount >= $activeSession->current_semester;
             
             if ($hasRegisteredSemester) {
-                $currentSessionCourseIds = CourseRegistration::where('user_id', $user->id)
-                    ->where('academic_session_id', $activeSession->id)
-                    ->pluck('course_id')
-                    ->toArray();
-
-                $registeredCourses = Course::whereIn('id', $currentSessionCourseIds)->get();
-
-                $passedCourseIds = CourseRegistration::where('user_id', $user->id)
-                    ->whereNotNull('grade')
-                    ->where('grade', '!=', 'F')
-                    ->pluck('course_id')
-                    ->toArray();
-
-                $excludedCourseIds = array_unique(array_merge($currentSessionCourseIds, $passedCourseIds));
-
                 $studentSemester = SemesterRegistration::where('user_id', $user->id)->count();
                 if (!$hasRegisteredSemester) {
                     $studentSemester += 1;
                 }
                 if ($studentSemester == 0) $studentSemester = 1;
+
+                $currentSemesterCourseIds = CourseRegistration::where('user_id', $user->id)
+                    ->where('academic_session_id', $activeSession->id)
+                    ->where('semester', $studentSemester)
+                    ->pluck('course_id')
+                    ->toArray();
+
+                $registeredCourses = Course::whereIn('id', $currentSemesterCourseIds)->get();
+
+                $passedOrPendingCourseIds = CourseRegistration::where('user_id', $user->id)
+                    ->where(function($q) {
+                        $q->whereNull('grade')
+                          ->orWhere('grade', '!=', 'F');
+                    })
+                    ->pluck('course_id')
+                    ->toArray();
+
+                $excludedCourseIds = array_unique(array_merge($currentSemesterCourseIds, $passedOrPendingCourseIds));
 
                 $application = $user->applications()->with(['programme', 'specialisation'])->where('status', 'ENROLLED')->latest()->first();
                 

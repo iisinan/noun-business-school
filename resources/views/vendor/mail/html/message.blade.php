@@ -21,7 +21,13 @@
 {{-- Footer --}}
 <x-slot:footer>
 <x-mail::footer>
-© {{ date('Y') }} {{ config('app.name') }}. {{ __('All rights reserved.') }}
+<div style="text-align: center; color: #a1a1aa; font-size: 12px; line-height: 1.5;">
+    <strong>NOUN Business School</strong><br>
+    Plot 91 Cadastral Zone, Nnamdi Azikiwe Expressway, Jabi, Abuja, Nigeria.<br>
+    <a href="mailto:admissions@noun.edu.ng" style="color: #006600; text-decoration: underline;">admissions@noun.edu.ng</a> | 
+    <a href="{{ config('app.url') }}" style="color: #006600; text-decoration: underline;">{{ config('app.url') }}</a><br><br>
+    © {{ date('Y') }} {{ config('app.name') }}. All rights reserved.
+</div>
 </x-mail::footer>
 </x-slot:footer>
 </x-mail::layout>

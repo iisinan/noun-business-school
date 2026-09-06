@@ -272,7 +272,9 @@ img {
 }
 
 .panel-content {
-    background-color: #fafafa;
+    background-color: #e6f2e6;
+    border: 1px solid #006600;
+    border-radius: 8px;
     color: #52525b;
     padding: 16px;
 }

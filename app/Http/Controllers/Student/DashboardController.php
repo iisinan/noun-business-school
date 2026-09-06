@@ -520,4 +520,19 @@ class DashboardController extends Controller
             'registeredCourses' => $registeredCourses,
         ]);
     }
+
+    public function idCard(Request $request)
+    {
+        $user = $request->user();
+        $application = $user->applications()->with(['programme', 'specialisation'])->where('status', 'ENROLLED')->latest()->first();
+
+        if (!$application) {
+            return redirect()->route('dashboard')->with('error', 'No active enrollment found to generate ID card.');
+        }
+
+        return Inertia::render('Student/IdCard', [
+            'user' => $user,
+            'application' => $application,
+        ]);
+    }
 }

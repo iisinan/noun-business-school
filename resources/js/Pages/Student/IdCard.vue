@@ -2,6 +2,8 @@
 import { Head } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 
+defineOptions({ layout: null });
+
 const props = defineProps({
     user: Object,
     application: Object,

@@ -21,6 +21,39 @@ const props = defineProps({
     application: Object
 });
 
+const admissionRequirements = computed(() => {
+    const type = props.application?.programme?.type;
+    
+    if (type === 'GDBA') {
+        return [
+            "Bachelor's Degree (minimum Third Class) or HND (minimum Lower Credit).",
+            "NYSC Discharge or Exemption Certificate.",
+            "O'Level results with 5 credits including English and Mathematics."
+        ];
+    } else if (type === 'MBA') {
+        return [
+            "Bachelor's Degree (minimum Second Class Lower) or GDBA.",
+            "Minimum of 3 years post-graduation work experience.",
+            "NYSC Discharge or Exemption Certificate.",
+            "O'Level results with 5 credits including English and Mathematics."
+        ];
+    } else if (type === 'DBA') {
+        return [
+            "Master's Degree with a minimum CGPA of 3.5 (or 60% average).",
+            "Comprehensive Research Proposal.",
+            "Previous Master's Dissertation / Thesis.",
+            "NYSC Discharge or Exemption Certificate."
+        ];
+    } else if (type === 'Certificate') {
+        return [
+            "Minimum of O'Level results with 5 credits.",
+            "Relevant work experience in the subject area."
+        ];
+    }
+    
+    return ["Standard University admission requirements apply."];
+});
+
 const statusColor = {
     'STARTED': 'bg-yellow-100 text-yellow-800',
     'SUBMITTED': 'bg-blue-100 text-blue-800',
@@ -259,7 +292,16 @@ const updateStatus = () => {
                             <h3 class="text-sm font-semibold text-white">Admissions Decision</h3>
                         </div>
                         <div class="px-6 py-5">
-                            <form @submit.prevent="updateStatus">
+                            <div v-if="application.status === 'STARTED'" class="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                                <div class="flex gap-2">
+                                    <svg class="h-5 w-5 text-yellow-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                    <div>
+                                        <h4 class="text-xs font-bold text-yellow-800 uppercase tracking-wider mb-1">Fee Pending</h4>
+                                        <p class="text-xs text-yellow-700">This applicant has not paid the application fee yet. You cannot review or make an admissions decision until payment is complete.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <form v-else @submit.prevent="updateStatus">
                                 <div class="mb-4">
                                     <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Update Status</label>
                                     <select v-model="statusForm.status" @change="updateStatus" class="block w-full rounded-lg border-gray-300 shadow-sm focus:border-noun-green focus:ring-noun-green text-sm">
@@ -280,6 +322,27 @@ const updateStatus = () => {
                                     Update Status
                                 </button>
                             </form>
+                        </div>
+                    </div>
+
+                    <!-- Admission Requirements Smart Card -->
+                    <div class="bg-indigo-50 border border-indigo-100 rounded-xl shadow-sm overflow-hidden">
+                        <div class="px-6 py-4 border-b border-indigo-200 bg-indigo-100 flex items-center gap-2">
+                            <svg class="h-5 w-5 text-indigo-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <h3 class="text-sm font-bold text-indigo-900">Smart Requirements Match</h3>
+                        </div>
+                        <div class="px-6 py-5">
+                            <p class="text-xs font-medium text-indigo-800 mb-3 uppercase tracking-wider">For {{ application.programme.type }} Programmes:</p>
+                            <ul class="space-y-2">
+                                <li v-for="(req, idx) in admissionRequirements" :key="idx" class="flex items-start gap-2 text-sm text-indigo-900">
+                                    <svg class="h-5 w-5 text-indigo-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <span class="leading-tight">{{ req }}</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
 

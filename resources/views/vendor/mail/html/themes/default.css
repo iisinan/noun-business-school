@@ -28,7 +28,7 @@ blockquote {
 }
 
 a {
-    color: #18181b;
+    color: #004d00;
 }
 
 a img {
@@ -38,7 +38,7 @@ a img {
 /* Typography */
 
 h1 {
-    color: #18181b;
+    color: #004d00;
     font-size: 18px;
     font-weight: bold;
     margin-top: 0;
@@ -103,7 +103,7 @@ img {
 }
 
 .header a {
-    color: #18181b;
+    color: #004d00;
     font-size: 19px;
     font-weight: bold;
     text-decoration: none;
@@ -239,20 +239,20 @@ img {
 
 .button-blue,
 .button-primary {
-    background-color: #18181b;
-    border-bottom: 8px solid #18181b;
-    border-left: 18px solid #18181b;
-    border-right: 18px solid #18181b;
-    border-top: 8px solid #18181b;
+    background-color: #004d00;
+    border-bottom: 8px solid #004d00;
+    border-left: 18px solid #004d00;
+    border-right: 18px solid #004d00;
+    border-top: 8px solid #004d00;
 }
 
 .button-green,
 .button-success {
-    background-color: #16a34a;
-    border-bottom: 8px solid #16a34a;
-    border-left: 18px solid #16a34a;
-    border-right: 18px solid #16a34a;
-    border-top: 8px solid #16a34a;
+    background-color: #006600;
+    border-bottom: 8px solid #006600;
+    border-left: 18px solid #006600;
+    border-right: 18px solid #006600;
+    border-top: 8px solid #006600;
 }
 
 .button-red,
@@ -267,7 +267,7 @@ img {
 /* Panels */
 
 .panel {
-    border-left: #18181b solid 4px;
+    border-left: #004d00 solid 4px;
     margin: 21px 0;
 }
 

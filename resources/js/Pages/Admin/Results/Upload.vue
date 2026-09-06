@@ -45,7 +45,7 @@ const downloadTemplate = () => {
         return;
     }
     
-    window.location.href = route('results.template', {
+    window.location.href = route('admin.results.template', {
         mode: templateForm.mode,
         course_id: templateForm.course_id,
         academic_session_id: templateForm.academic_session_id,

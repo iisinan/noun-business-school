@@ -1,29 +1,38 @@
-with open('app/Http/Controllers/Student/DashboardController.php', 'r') as f:
+with open('app/Http/Controllers/Admin/SpecialisationController.php', 'r') as f:
     content = f.read()
 
-target = "    public function registration(Request $request)"
-replacement = """    public function payments(Request $request)
+target = """    public function show(Specialisation $specialisation)
     {
-        $user = $request->user();
+        $specialisation->load('programme', 'courses');
+        $allCourses = Course::orderBy('code')->get();
         
-        $walletTransactions = \\App\\Models\\WalletTransaction::where('user_id', $user->id)
-            ->latest()
-            ->get();
-            
-        $gatewayPayments = \\App\\Models\\Payment::where('user_id', $user->id)
-            ->latest()
-            ->get();
-
-        return Inertia::render('Student/Payments', [
-            'wallet_balance' => (float) $user->wallet_balance,
-            'walletTransactions' => $walletTransactions,
-            'gatewayPayments' => $gatewayPayments,
+        return Inertia::render('Admin/Specialisations/Show', [
+            'specialisation' => $specialisation,
+            'allCourses' => $allCourses
         ]);
-    }
+    }"""
 
-    public function registration(Request $request)"""
+replacement = """    public function show(Specialisation $specialisation)
+    {
+        $specialisation->load(['programme.courses', 'courses']);
+        
+        $programmeCourses = $specialisation->programme->courses->map(function($course) use ($specialisation) {
+            $specialisationCourse = $specialisation->courses->where('id', $course->id)->first();
+            $course->is_attached = $specialisationCourse ? true : false;
+            $course->is_elective = $specialisationCourse ? (bool) $specialisationCourse->pivot->is_elective : false;
+            return $course;
+        });
+        
+        return Inertia::render('Admin/Specialisations/Show', [
+            'specialisation' => $specialisation,
+            'programmeCourses' => $programmeCourses
+        ]);
+    }"""
 
-content = content.replace(target, replacement)
-
-with open('app/Http/Controllers/Student/DashboardController.php', 'w') as f:
-    f.write(content)
+if target in content:
+    content = content.replace(target, replacement)
+    with open('app/Http/Controllers/Admin/SpecialisationController.php', 'w') as f:
+        f.write(content)
+    print("Controller Patched")
+else:
+    print("Target not found")

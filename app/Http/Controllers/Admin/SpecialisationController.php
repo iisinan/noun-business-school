@@ -12,12 +12,18 @@ class SpecialisationController extends Controller
 {
     public function show(Specialisation $specialisation)
     {
-        $specialisation->load('programme', 'courses');
-        $allCourses = Course::orderBy('code')->get();
+        $specialisation->load(['programme.courses', 'courses']);
+        
+        $programmeCourses = $specialisation->programme->courses->map(function($course) use ($specialisation) {
+            $specialisationCourse = $specialisation->courses->where('id', $course->id)->first();
+            $course->is_attached = $specialisationCourse ? true : false;
+            $course->is_elective = $specialisationCourse ? (bool) $specialisationCourse->pivot->is_elective : false;
+            return $course;
+        });
         
         return Inertia::render('Admin/Specialisations/Show', [
             'specialisation' => $specialisation,
-            'allCourses' => $allCourses
+            'programmeCourses' => $programmeCourses
         ]);
     }
 

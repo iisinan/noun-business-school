@@ -77,6 +77,10 @@ const electiveAvailableCourses = computed(() => {
     return props.availableCourses ? props.availableCourses.filter(c => c.type === 'Elective') : [];
 });
 
+const selectedElectivesCount = computed(() => {
+    return electiveAvailableCourses.value.filter(c => courseForm.course_ids.includes(c.id)).length;
+});
+
 const calculateSelectedCost = computed(() => {
     if (!props.availableCourses) return 0;
     return props.availableCourses
@@ -465,6 +469,10 @@ const canRegisterMore = computed(() => {
                                         <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
                                         Exceeds balance by ₦{{ (calculateSelectedCost - wallet_balance).toLocaleString() }}
                                     </p>
+                                    <p v-if="selectedElectivesCount > 2" class="text-red-400 text-xs font-medium mt-1 flex items-center gap-1">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                                        You can only select up to 2 elective courses!
+                                    </p>
                                     <p v-if="!canRegisterMore && courseForm.course_ids.length > 0" class="text-red-400 text-xs font-medium mt-1 flex items-center gap-1">
                                         <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
                                         Exceeds maximum {{ MAX_CREDITS }} units per semester!
@@ -472,7 +480,7 @@ const canRegisterMore = computed(() => {
                                 </div>
                                 <button
                                     @click="registerCourses"
-                                    :disabled="courseForm.processing || courseForm.course_ids.length === 0 || !canAffordSelection || !canRegisterMore"
+                                    :disabled="courseForm.processing || courseForm.course_ids.length === 0 || !canAffordSelection || !canRegisterMore || selectedElectivesCount > 2"
                                     class="flex-shrink-0 inline-flex items-center gap-2 px-5 py-2.5 bg-noun-yellow text-noun-dark font-bold text-sm rounded-xl hover:bg-yellow-400 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                                 >
                                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>

@@ -55,7 +55,11 @@ class ProgrammeController extends Controller
     public function show(Programme $programme)
     {
         $programme->load('courses', 'specialisations');
-        $allCourses = \App\Models\Course::orderBy('code')->get();
+        
+        $allCourses = \App\Models\Course::orderBy('code')->get()->map(function($course) use ($programme) {
+            $course->is_attached = $programme->courses->where('id', $course->id)->isNotEmpty();
+            return $course;
+        });
         
         return Inertia::render('Admin/Programmes/Show', [
             'programme' => $programme,

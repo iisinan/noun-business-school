@@ -24,9 +24,11 @@ class DashboardController extends Controller
         $availableCourses = [];
 
         if ($activeSession) {
-            $hasRegisteredSemester = SemesterRegistration::where('user_id', $user->id)
+            $sessionRegistrationsCount = SemesterRegistration::where('user_id', $user->id)
                 ->where('academic_session_id', $activeSession->id)
-                ->exists();
+                ->count();
+                
+            $hasRegisteredSemester = $sessionRegistrationsCount >= $activeSession->current_semester;
             
             if ($hasRegisteredSemester) {
                 // Get already registered courses in this session
@@ -158,9 +160,11 @@ class DashboardController extends Controller
         $availableCourses = [];
 
         if ($activeSession) {
-            $hasRegisteredSemester = SemesterRegistration::where('user_id', $user->id)
+            $sessionRegistrationsCount = SemesterRegistration::where('user_id', $user->id)
                 ->where('academic_session_id', $activeSession->id)
-                ->exists();
+                ->count();
+                
+            $hasRegisteredSemester = $sessionRegistrationsCount >= $activeSession->current_semester;
             
             if ($hasRegisteredSemester) {
                 $currentSessionCourseIds = CourseRegistration::where('user_id', $user->id)
@@ -271,8 +275,12 @@ class DashboardController extends Controller
 
         $nextSemester = SemesterRegistration::where('user_id', $user->id)->count() + 1;
 
-        // Prevent registering for multiple semesters within the same active session
-        if (SemesterRegistration::where('user_id', $user->id)->where('academic_session_id', $activeSession->id)->exists()) {
+        // Prevent registering for more semesters than the active session's current semester
+        $sessionRegistrationsCount = SemesterRegistration::where('user_id', $user->id)
+            ->where('academic_session_id', $activeSession->id)
+            ->count();
+            
+        if ($sessionRegistrationsCount >= $activeSession->current_semester) {
             return back()->with('error', 'You have already registered for the current active semester.');
         }
 
@@ -309,8 +317,12 @@ class DashboardController extends Controller
         $user = $request->user();
         $activeSession = AcademicSession::where('is_active', true)->firstOrFail();
 
-        // Ensure semester is registered
-        if (!SemesterRegistration::where('user_id', $user->id)->where('academic_session_id', $activeSession->id)->exists()) {
+        // Ensure semester is registered for the current session's semester limit
+        $sessionRegistrationsCount = SemesterRegistration::where('user_id', $user->id)
+            ->where('academic_session_id', $activeSession->id)
+            ->count();
+            
+        if ($sessionRegistrationsCount < $activeSession->current_semester) {
             return back()->with('error', 'You must register for the semester first.');
         }
 
@@ -494,7 +506,11 @@ class DashboardController extends Controller
         $activeSession = AcademicSession::where('is_active', true)->firstOrFail();
 
         // Ensure semester is registered
-        if (!SemesterRegistration::where('user_id', $user->id)->where('academic_session_id', $activeSession->id)->exists()) {
+        $sessionRegistrationsCount = SemesterRegistration::where('user_id', $user->id)
+            ->where('academic_session_id', $activeSession->id)
+            ->count();
+            
+        if ($sessionRegistrationsCount < $activeSession->current_semester) {
             return redirect()->route('dashboard')->with('error', 'You must register for the semester first.');
         }
 

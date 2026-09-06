@@ -1,11 +1,16 @@
-with open('routes/web.php', 'r') as f:
+file_path = '/Users/sinan/Herd/Business School/routes/web.php'
+with open(file_path, 'r') as f:
     content = f.read()
 
-target = "Route::get('/registration', [\\App\\Http\\Controllers\\Student\\DashboardController::class, 'registration'])->name('registration');"
-replacement = """Route::get('/registration', [\\App\\Http\\Controllers\\Student\\DashboardController::class, 'registration'])->name('registration');
-        Route::get('/payments', [\\App\\Http\\Controllers\\Student\\DashboardController::class, 'payments'])->name('payments');"""
+search = """        Route::get('/results/upload', [\App\Http\Controllers\Admin\ResultController::class, 'create'])->name('results.upload');"""
 
-content = content.replace(target, replacement)
+replace = """        Route::get('/results/template', [\App\Http\Controllers\Admin\ResultController::class, 'downloadTemplate'])->name('results.template');
+        Route::get('/results/upload', [\App\Http\Controllers\Admin\ResultController::class, 'create'])->name('results.upload');"""
 
-with open('routes/web.php', 'w') as f:
-    f.write(content)
+if search in content:
+    content = content.replace(search, replace)
+    with open(file_path, 'w') as f:
+        f.write(content)
+    print("Patched routes")
+else:
+    print("Failed to patch routes")

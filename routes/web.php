@@ -127,6 +127,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/sessions/{session}', [AcademicSessionController::class, 'update'])->name('sessions.update');
         Route::delete('/sessions/{session}', [AcademicSessionController::class, 'destroy'])->name('sessions.destroy');
         
+        Route::get('/results/template', [\App\Http\Controllers\Admin\ResultController::class, 'downloadTemplate'])->name('results.template');
         Route::get('/results/upload', [\App\Http\Controllers\Admin\ResultController::class, 'create'])->name('results.upload');
         Route::post('/results/upload', [\App\Http\Controllers\Admin\ResultController::class, 'store'])->name('results.store');
         

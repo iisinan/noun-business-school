@@ -100,6 +100,16 @@ class DashboardController extends Controller
                         return $course->type === 'Elective';
                     })->values();
                 }
+
+                // Identify Carry Over (CO) courses
+                $failedCourseIds = CourseRegistration::where('user_id', $user->id)
+                    ->where('grade', 'F')
+                    ->pluck('course_id')
+                    ->toArray();
+
+                $availableCourses->each(function($course) use ($failedCourseIds) {
+                    $course->is_carry_over = in_array($course->id, $failedCourseIds);
+                });
             }
         }
 
@@ -222,6 +232,16 @@ class DashboardController extends Controller
                         return $course->type === 'Elective';
                     })->values();
                 }
+
+                // Identify Carry Over (CO) courses
+                $failedCourseIds = CourseRegistration::where('user_id', $user->id)
+                    ->where('grade', 'F')
+                    ->pluck('course_id')
+                    ->toArray();
+
+                $availableCourses->each(function($course) use ($failedCourseIds) {
+                    $course->is_carry_over = in_array($course->id, $failedCourseIds);
+                });
             }
         }
 

@@ -56,13 +56,9 @@ class DashboardController extends Controller
                 // Get courses for the student's enrolled programme
                 $application = $user->applications()->with(['programme', 'specialisation'])->where('status', 'ENROLLED')->latest()->first();
                 
-                // Count registered electives (not failed)
+                // Count ALL registered electives (including failed ones, because they will be retaken as CO)
                 $registeredElectivesCount = \App\Models\CourseRegistration::join('courses', 'course_registrations.course_id', '=', 'courses.id')
                     ->where('course_registrations.user_id', $user->id)
-                    ->where(function($q) {
-                        $q->whereNull('course_registrations.grade')
-                          ->orWhere('course_registrations.grade', '!=', 'F');
-                    })
                     ->where('courses.type', 'Elective')
                     ->count();
 
@@ -194,13 +190,9 @@ class DashboardController extends Controller
 
                 $application = $user->applications()->with(['programme', 'specialisation'])->where('status', 'ENROLLED')->latest()->first();
                 
-                // Count registered electives (not failed)
+                // Count ALL registered electives (including failed ones, because they will be retaken as CO)
                 $registeredElectivesCount = \App\Models\CourseRegistration::join('courses', 'course_registrations.course_id', '=', 'courses.id')
                     ->where('course_registrations.user_id', $user->id)
-                    ->where(function($q) {
-                        $q->whereNull('course_registrations.grade')
-                          ->orWhere('course_registrations.grade', '!=', 'F');
-                    })
                     ->where('courses.type', 'Elective')
                     ->count();
 
@@ -355,10 +347,6 @@ class DashboardController extends Controller
         // Count how many electives they already have registered in total
         $alreadyRegisteredElectivesCount = \App\Models\CourseRegistration::join('courses', 'course_registrations.course_id', '=', 'courses.id')
             ->where('course_registrations.user_id', $user->id)
-            ->where(function($q) {
-                $q->whereNull('course_registrations.grade')
-                  ->orWhere('course_registrations.grade', '!=', 'F');
-            })
             ->where('courses.type', 'Elective')
             ->count();
 
@@ -506,15 +494,39 @@ class DashboardController extends Controller
 
         $cgpa = $cumulativeCredits > 0 ? round($cumulativePoints / $cumulativeCredits, 2) : 0.00;
 
+        $application = $user->applications()->with(['programme', 'specialisation'])->latest()->first();
+
+        // Get logo base64
+        $logoPath = public_path('nbs-logo.png');
+        $logoBase64 = '';
+        if (file_exists($logoPath)) {
+            $logoData = file_get_contents($logoPath);
+            $logoBase64 = 'data:image/png;base64,' . base64_encode($logoData);
+        }
+
+        // Get passport base64
+        $passportBase64 = '';
+        if ($application && isset($application->personal_info['passport_photograph_path'])) {
+            $passportPath = storage_path('app/public/' . $application->personal_info['passport_photograph_path']);
+            if (file_exists($passportPath)) {
+                $passportData = file_get_contents($passportPath);
+                $type = pathinfo($passportPath, PATHINFO_EXTENSION);
+                $passportBase64 = 'data:image/' . $type . ';base64,' . base64_encode($passportData);
+            }
+        }
+
         $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('student.results-pdf', [
             'user' => $user,
-            'application' => $user->applications()->with(['programme', 'specialisation'])->latest()->first(),
+            'application' => $application,
             'resultsBySession' => $resultsBySession,
             'cgpa' => $cgpa,
-            'cumulativeCredits' => $cumulativeCredits
+            'cumulativeCredits' => $cumulativeCredits,
+            'logoBase64' => $logoBase64,
+            'passportBase64' => $passportBase64
         ]);
 
-        return $pdf->download('results-'.$user->matric_number.'.pdf');
+        $safeAppNumber = str_replace(['/', '\\'], '-', $application->application_number);
+        return $pdf->stream('results-'.$safeAppNumber.'.pdf');
     }
 
     public function results(Request $request)

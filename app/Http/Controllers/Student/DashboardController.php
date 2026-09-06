@@ -100,17 +100,18 @@ class DashboardController extends Controller
                         ->get();
                 }
 
-                if ($registeredElectivesCount >= 2) {
-                    $availableCourses = $availableCourses->reject(function($course) {
-                        return $course->type === 'Elective';
-                    })->values();
-                }
-
                 // Identify Carry Over (CO) courses
                 $failedCourseIds = CourseRegistration::where('user_id', $user->id)
                     ->where('grade', 'F')
                     ->pluck('course_id')
                     ->toArray();
+
+                if ($registeredElectivesCount >= 2) {
+                    $availableCourses = $availableCourses->reject(function($course) use ($failedCourseIds) {
+                        // Reject electives only if they are NOT carry overs
+                        return $course->type === 'Elective' && !in_array($course->id, $failedCourseIds);
+                    })->values();
+                }
 
                 $availableCourses->each(function($course) use ($failedCourseIds) {
                     $course->is_carry_over = in_array($course->id, $failedCourseIds);
@@ -237,17 +238,18 @@ class DashboardController extends Controller
                         ->get();
                 }
 
-                if ($registeredElectivesCount >= 2) {
-                    $availableCourses = $availableCourses->reject(function($course) {
-                        return $course->type === 'Elective';
-                    })->values();
-                }
-
                 // Identify Carry Over (CO) courses
                 $failedCourseIds = CourseRegistration::where('user_id', $user->id)
                     ->where('grade', 'F')
                     ->pluck('course_id')
                     ->toArray();
+
+                if ($registeredElectivesCount >= 2) {
+                    $availableCourses = $availableCourses->reject(function($course) use ($failedCourseIds) {
+                        // Reject electives only if they are NOT carry overs
+                        return $course->type === 'Elective' && !in_array($course->id, $failedCourseIds);
+                    })->values();
+                }
 
                 $availableCourses->each(function($course) use ($failedCourseIds) {
                     $course->is_carry_over = in_array($course->id, $failedCourseIds);
@@ -360,10 +362,15 @@ class DashboardController extends Controller
             ->where('courses.type', 'Elective')
             ->count();
 
-        $newElectivesCount = $courses->where('type', 'Elective')->count();
+        $failedCourseIds = CourseRegistration::where('user_id', $user->id)
+            ->where('grade', 'F')
+            ->pluck('course_id')
+            ->toArray();
+
+        $newElectivesCount = $courses->where('type', 'Elective')->whereNotIn('id', $failedCourseIds)->count();
 
         if (($alreadyRegisteredElectivesCount + $newElectivesCount) > 2) {
-            return back()->with('error', 'You cannot register for more than 2 elective courses in total.');
+            return back()->with('error', 'You cannot register for more than 2 new elective courses in total.');
         }
 
         $alreadyRegisteredCredits = CourseRegistration::join('courses', 'course_registrations.course_id', '=', 'courses.id')
@@ -561,11 +568,17 @@ class DashboardController extends Controller
         }
 
         $cgpa = $cumulativeCredits > 0 ? round($cumulativePoints / $cumulativeCredits, 2) : 0.00;
+        
+        // Check if student has at least one actual grade uploaded
+        $hasAnyGrades = \App\Models\CourseRegistration::where('user_id', $user->id)
+            ->whereNotNull('grade')
+            ->exists();
 
         return Inertia::render('Student/Results', [
             'resultsBySession' => $resultsBySession,
             'cgpa' => $cgpa,
-            'cumulativeCredits' => $cumulativeCredits
+            'cumulativeCredits' => $cumulativeCredits,
+            'hasAnyGrades' => $hasAnyGrades
         ]);
     }
 

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class UsersController extends Controller
 {
@@ -60,8 +62,38 @@ class UsersController extends Controller
             return back()->with('error', 'You cannot delete yourself.');
         }
 
-        $user->delete();
+        try {
+            DB::beginTransaction();
 
-        return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
+            // 1. Delete physical files from storage
+            $applications = \App\Models\Application::where('user_id', $user->id)->get();
+            foreach ($applications as $app) {
+                if (isset($app->personal_info['passport_photograph_path'])) {
+                    Storage::disk('public')->delete($app->personal_info['passport_photograph_path']);
+                }
+                if (isset($app->personal_info['certificate_path'])) {
+                    Storage::disk('public')->delete($app->personal_info['certificate_path']);
+                }
+                if (isset($app->personal_info['nysc_path'])) {
+                    Storage::disk('public')->delete($app->personal_info['nysc_path']);
+                }
+                if (isset($app->personal_info['resume_path'])) {
+                    Storage::disk('public')->delete($app->personal_info['resume_path']);
+                }
+            }
+
+            // 2. Delete Payments (no cascade on DB level)
+            \App\Models\Payment::where('user_id', $user->id)->delete();
+
+            // 3. Finally delete the user (which cascades to applications, wallet_txs, registrations)
+            $user->delete();
+
+            DB::commit();
+
+            return redirect()->route('admin.users.index')->with('success', 'User and all associated records completely deleted.');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Failed to delete user: ' . $e->getMessage());
+        }
     }
 }

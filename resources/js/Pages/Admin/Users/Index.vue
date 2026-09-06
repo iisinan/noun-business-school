@@ -3,7 +3,7 @@ import AdminLayout from '@/Layouts/AdminLayout.vue';
 import { Head, Link, router } from '@inertiajs/vue3';
 
 const deleteUser = (user) => {
-    if (confirm(`Are you sure you want to delete user ${user.first_name} ${user.last_name}? This action cannot be undone.`)) {
+    if (confirm(`Are you absolutely sure you want to COMPLETELY delete ${user.first_name} ${user.last_name}?\n\nThis will permanently destroy their application, payments, wallet balance, and results. This action CANNOT be undone.`)) {
         router.delete(route('admin.users.destroy', user.id), {
             preserveScroll: true
         });

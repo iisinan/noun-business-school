@@ -1,10 +1,18 @@
 <script setup>
 import AdminLayout from '@/Layouts/AdminLayout.vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
 
 const props = defineProps({
     user: Object,
 });
+
+const page = usePage();
+
+const deleteUser = () => {
+    if (confirm(`Are you absolutely sure you want to COMPLETELY delete ${props.user.first_name} ${props.user.last_name}?\n\nThis will permanently destroy their application, payments, wallet balance, and results. This action CANNOT be undone.`)) {
+        router.delete(route('admin.users.destroy', props.user.id));
+    }
+};
 
 const getInitials = (first, last) => {
     return (first?.charAt(0) || '') + (last?.charAt(0) || '');
@@ -16,13 +24,18 @@ const getInitials = (first, last) => {
 
     <AdminLayout>
         <template #header>
-            <div class="flex items-center gap-4">
-                <Link :href="route('admin.users.index')" class="text-gray-500 hover:text-gray-700">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                </Link>
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
-                    User Details: {{ user.first_name }} {{ user.last_name }}
-                </h2>
+            <div class="flex items-center justify-between w-full">
+                <div class="flex items-center gap-4">
+                    <Link :href="route('admin.users.index')" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    </Link>
+                    <h2 class="text-xl font-semibold leading-tight text-gray-800">
+                        User Details: {{ user.first_name }} {{ user.last_name }}
+                    </h2>
+                </div>
+                <button v-if="page.props.auth.user.id !== user.id" @click="deleteUser" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded shadow">
+                    Delete User
+                </button>
             </div>
         </template>
 

@@ -1,18 +1,24 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { courseDetails } from '../data/courseDetails.js';
 
 const mobileMenuOpen = ref(false);
+const scrolled = ref(false);
+
+function handleScroll() { scrolled.value = window.scrollY > 60; }
+onMounted(() => window.addEventListener('scroll', handleScroll));
+onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 
 const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'About', href: route('about') },
+    { label: 'Home',       href: '/' },
+    { label: 'About',      href: route('about') },
     { label: 'Programmes', href: route('programmes') },
     { label: 'Admissions', href: '/#admissions' },
-    { label: 'Media', href: route('media') },
-    { label: 'Resources', href: route('resources') },
-    { label: 'Contact', href: '/#contact' },
+    { label: 'Media',      href: route('media') },
+    { label: 'Resources',  href: route('resources') },
+    { label: 'Careers',    href: route('career') },
+    { label: 'Contact',    href: '/#contact' },
 ];
 
 const vReveal = {
@@ -141,29 +147,36 @@ Object.values(courseDetails).forEach(course => {
 
             <!-- Page Banner -->
             <div class="bg-noun-dark relative overflow-hidden lg:flex-shrink-0">
-                <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:32px_32px]"></div>
-                <div class="absolute top-0 right-0 w-[600px] h-full bg-gradient-to-l from-noun-green/20 to-transparent pointer-events-none"></div>
-                <div class="relative z-10 w-full mx-auto px-2 sm:px-4 lg:px-6 py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div>
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="h-px w-6 bg-noun-yellow"></div>
-                            <span class="text-noun-yellow text-xs font-bold tracking-widest uppercase">Academic Catalogue</span>
+                <!-- Decorative blobs -->
+                <div class="absolute -top-[30%] -right-[5%] w-[600px] h-[600px] bg-noun-green/15 rounded-full blur-[120px] pointer-events-none"></div>
+                <div class="absolute bottom-0 left-[5%] w-[400px] h-[400px] bg-noun-yellow/5 rounded-full blur-[100px] pointer-events-none"></div>
+                <div class="absolute inset-0 bg-[linear-gradient(to_right,#ffffff06_1px,transparent_1px),linear-gradient(to_bottom,#ffffff06_1px,transparent_1px)] bg-[size:40px_40px]"></div>
+
+                <div class="relative z-10 w-full mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-14 flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+                    <div class="max-w-2xl">
+                        <div class="inline-flex items-center gap-2 bg-noun-green/20 border border-noun-green/30 text-noun-yellow text-xs font-bold uppercase tracking-widest px-3 py-1.5 rounded-full mb-5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-noun-yellow animate-pulse"></span>
+                            Academic Catalogue
                         </div>
-                        <h1 class="text-3xl lg:text-4xl font-extrabold text-white leading-tight">
+                        <h1 class="text-3xl lg:text-4xl xl:text-5xl font-black text-white leading-tight mb-3">
                             Our Programmes &amp; <span class="text-noun-yellow">Specialisations</span>
                         </h1>
-                        <p class="text-white/60 mt-3 text-base max-w-xl">
+                        <p class="text-white/60 text-base max-w-xl">
                             Over 60 specialisation tracks across 5 degree types — all delivered through Open Distance Learning.
                         </p>
                     </div>
-                    <div class="flex-shrink-0 flex gap-4 text-center">
-                        <div class="bg-white/10 rounded-2xl px-6 py-4 border border-white/10">
-                            <div class="text-3xl font-extrabold text-noun-yellow">60+</div>
-                            <div class="text-white/60 text-xs mt-1 uppercase tracking-wider">Specialisations</div>
+                    <div class="flex gap-4 flex-shrink-0">
+                        <div class="bg-white/10 border border-white/10 rounded-2xl px-6 py-5 text-center backdrop-blur-sm">
+                            <div class="text-3xl font-black text-noun-yellow">60+</div>
+                            <div class="text-white/50 text-xs mt-1 uppercase tracking-wider font-semibold">Specialisations</div>
                         </div>
-                        <div class="bg-white/10 rounded-2xl px-6 py-4 border border-white/10">
-                            <div class="text-3xl font-extrabold text-noun-yellow">5</div>
-                            <div class="text-white/60 text-xs mt-1 uppercase tracking-wider">Degree Types</div>
+                        <div class="bg-white/10 border border-white/10 rounded-2xl px-6 py-5 text-center backdrop-blur-sm">
+                            <div class="text-3xl font-black text-noun-yellow">5</div>
+                            <div class="text-white/50 text-xs mt-1 uppercase tracking-wider font-semibold">Degree Types</div>
+                        </div>
+                        <div class="hidden sm:block bg-white/10 border border-white/10 rounded-2xl px-6 py-5 text-center backdrop-blur-sm">
+                            <div class="text-3xl font-black text-noun-yellow">100%</div>
+                            <div class="text-white/50 text-xs mt-1 uppercase tracking-wider font-semibold">Online (ODL)</div>
                         </div>
                     </div>
                 </div>
@@ -183,6 +196,7 @@ Object.values(courseDetails).forEach(course => {
                 <div class="w-full mx-auto px-2 sm:px-4 lg:px-6 lg:h-full lg:flex lg:flex-col lg:overflow-hidden lg:py-10 relative z-10">
                     
                     <div class="flex flex-col lg:flex-row gap-10 lg:flex-grow lg:overflow-hidden">
+
                         
                         <!-- Sidebar Navigation -->
                         <div class="w-full lg:w-72 flex-shrink-0 lg:h-full lg:overflow-y-auto lg:pb-10 hide-scrollbar">
@@ -733,11 +747,11 @@ Object.values(courseDetails).forEach(course => {
                         <h4 class="text-white font-bold text-sm mb-6 tracking-wide">Contact</h4>
                         <ul class="space-y-4 text-sm text-white/60">
                             <li class="flex items-start gap-3">
-                                <span class="text-noun-yellow mt-0.5 flex-shrink-0">📍</span>
+                                <svg class="w-4 h-4 text-noun-yellow flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                                 <span>NOUN Headquarters, University Village, Jabi, Abuja, Nigeria</span>
                             </li>
                             <li class="flex items-start gap-3">
-                                <span class="text-noun-yellow mt-0.5 flex-shrink-0">🌐</span>
+                                <svg class="w-4 h-4 text-noun-yellow flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
                                 <a href="https://www.noun.edu.ng" target="_blank" class="hover:text-noun-yellow transition-colors">www.noun.edu.ng</a>
                             </li>
                         </ul>

@@ -23,8 +23,8 @@ const fileError = ref(null);
 const handlePassportUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-        if (file.size > 2 * 1024 * 1024) {
-            fileError.value = 'Passport photograph must be less than 2MB.';
+        if (file.size > 500 * 1024) {
+            fileError.value = 'Passport photograph must be less than 500KB.';
             e.target.value = '';
             return;
         }
@@ -248,9 +248,9 @@ const isDBA = computed(() => {
 const handleFileSelect = (e, reqDesc) => {
     const file = e.target.files[0];
     if (file) {
-        // 5MB limit
-        if (file.size > 5 * 1024 * 1024) {
-            fileError.value = `The file "${file.name}" is too large. Please select a file smaller than 5MB.`;
+        // 500KB limit
+        if (file.size > 500 * 1024) {
+            fileError.value = `The file "${file.name}" is too large. Please select a file smaller than 500KB.`;
             e.target.value = '';
             return;
         }
@@ -534,7 +534,7 @@ const removeAttachedFile = (reqDesc, idx) => {
                                     </div>
                                     <div class="flex-1 w-full text-center sm:text-left">
                                         <h4 class="font-bold text-gray-800 text-sm mb-1">Passport Photograph <span class="text-red-500">*</span></h4>
-                                        <p class="text-xs text-gray-500 mb-4">Upload a recent, clear passport-sized photograph. Max 2MB (JPG/PNG).</p>
+                                        <p class="text-xs text-gray-500 mb-4">Upload a recent, clear passport-sized photograph. Max 500KB (JPG/PNG).</p>
                                         <div class="flex justify-center sm:justify-start">
                                             <label for="passport_upload" class="cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold text-noun-green hover:text-noun-dark bg-green-50 hover:bg-green-100 px-4 py-2 rounded-full transition-colors border border-green-200 shadow-sm" :class="errorClass('passport_photograph')">
                                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
@@ -669,7 +669,7 @@ const removeAttachedFile = (reqDesc, idx) => {
                                     <div v-if="req.is_document == 1 || req.is_document === true || req.is_document === '1'" class="mb-6 bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
                                         <div class="flex justify-between items-start mb-3">
                                             <label class="block text-sm font-medium text-gray-800">{{ req.description }} <span class="text-red-500">*</span></label>
-                                            <span class="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">Max 5MB</span>
+                                            <span class="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">Max 500KB</span>
                                         </div>
                                         
                                         <!-- List of attached files -->
@@ -683,7 +683,7 @@ const removeAttachedFile = (reqDesc, idx) => {
                                             </li>
                                         </ul>
                                         
-                                        <div v-if="!form.documents[req.description] || form.documents[req.description].length === 0" class="text-xs text-gray-400 italic mb-3">No documents attached yet. (Max 5MB. Formats: PDF, JPG, PNG)</div>
+                                        <div v-if="!form.documents[req.description] || form.documents[req.description].length === 0" class="text-xs text-gray-400 italic mb-3">No documents attached yet. (Max 500KB. Formats: PDF, JPG, PNG)</div>
 
                                         <div class="flex items-center gap-2">
                                             <label :for="'file_' + req.id" class="cursor-pointer inline-flex items-center gap-1.5 text-xs font-bold text-noun-green hover:text-noun-dark bg-green-50 hover:bg-green-100 px-4 py-2 rounded-full transition-colors border border-green-200 shadow-sm" :class="errorClass('doc_' + req.id)">

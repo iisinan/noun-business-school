@@ -61,11 +61,11 @@ class ApplicationController extends Controller
             'academic_background' => 'required|array',
             'olevel_results' => 'required|array',
             'employment_info' => 'required|array',
-            'passport_photograph' => 'required|image|max:2048', // 2MB passport photo
+            'passport_photograph' => 'required|image|max:500', // 500KB limit
             // Documents are passed as files
             'documents' => 'required|array',
             'documents.*' => 'required|array',
-            'documents.*.*' => 'file|mimes:pdf,jpg,jpeg,png|max:5120', // 5MB limit
+            'documents.*.*' => 'file|mimes:pdf,jpg,jpeg,png|max:500', // 500KB limit
         ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             \Log::error('VALIDATION FAILED', $e->errors());

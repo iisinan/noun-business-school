@@ -302,61 +302,87 @@ Object.values(courseDetails).forEach(course => {
 
                         <!-- Track Cards Grid -->
                         <div class="flex-grow min-w-0 lg:h-full lg:overflow-y-auto lg:pr-4 lg:pb-20 hide-scrollbar">
+
                             <!-- Section header -->
-                            <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+                            <div class="flex items-start justify-between mb-8 flex-wrap gap-4">
                                 <div>
-                                    <h2 class="text-2xl font-extrabold text-noun-dark" v-if="activeTab === 'gdp'">Graduate Diploma in Business Administration</h2>
-                                    <h2 class="text-2xl font-extrabold text-noun-dark" v-if="activeTab === 'mpa'">Master of Public Administration</h2>
-                                    <h2 class="text-2xl font-extrabold text-noun-dark" v-if="activeTab === 'mba'">Master of Business Administration</h2>
-                                    <h2 class="text-2xl font-extrabold text-noun-dark" v-if="activeTab === 'dpa'">Doctor of Public Administration</h2>
-                                    <h2 class="text-2xl font-extrabold text-noun-dark" v-if="activeTab === 'dba'">Doctor of Business Administration</h2>
-                                    <p class="text-gray-500 text-sm mt-1">{{ programmes[activeTab].length }} specialisation{{ programmes[activeTab].length > 1 ? 's' : '' }} available</p>
+                                    <div class="flex items-center gap-2 mb-2">
+                                        <div class="w-1.5 h-5 bg-noun-green rounded-full"></div>
+                                        <span class="text-xs font-black uppercase tracking-widest text-noun-green">
+                                            {{ { gdp: 'GDBA', mpa: 'MPA', mba: 'MBA', dpa: 'DPA', dba: 'DBA' }[activeTab] }}
+                                        </span>
+                                    </div>
+                                    <h2 class="text-xl sm:text-2xl font-black text-noun-dark leading-tight">
+                                        <span v-if="activeTab === 'gdp'">Graduate Diploma in Business Administration</span>
+                                        <span v-if="activeTab === 'mpa'">Master of Public Administration</span>
+                                        <span v-if="activeTab === 'mba'">Master of Business Administration</span>
+                                        <span v-if="activeTab === 'dpa'">Doctor of Public Administration</span>
+                                        <span v-if="activeTab === 'dba'">Doctor of Business Administration</span>
+                                    </h2>
+                                    <p class="text-gray-400 text-sm mt-1">
+                                        <span class="font-bold text-noun-dark">{{ programmes[activeTab].length }}</span>
+                                        specialisation{{ programmes[activeTab].length !== 1 ? 's' : '' }} — click any track to explore the full curriculum
+                                    </p>
                                 </div>
-                                <div class="inline-flex items-center gap-2 bg-noun-yellow/10 text-noun-dark text-xs font-bold px-4 py-2 rounded-full border border-noun-yellow/20">
-                                    <svg class="w-3.5 h-3.5 text-noun-yellow" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
-                                    NUC Accredited
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <div class="inline-flex items-center gap-1.5 bg-noun-yellow/10 text-noun-dark text-xs font-bold px-3 py-1.5 rounded-full border border-noun-yellow/20">
+                                        <svg class="w-3 h-3 text-noun-yellow" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                                        NUC Accredited
+                                    </div>
+                                    <div class="inline-flex items-center gap-1.5 bg-noun-green/10 text-noun-green text-xs font-bold px-3 py-1.5 rounded-full border border-noun-green/20">
+                                        <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                        100% Online
+                                    </div>
                                 </div>
                             </div>
 
-                            <div class="grid sm:grid-cols-2 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
-                                <div v-for="track in programmes[activeTab]" :key="track.code"
+                            <!-- Cards Grid -->
+                            <div class="grid sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-5">
+                                <div
+                                    v-for="(track, idx) in programmes[activeTab]"
+                                    :key="track.code"
                                     @click="openCourse(track)"
-                                    class="relative bg-white border border-gray-200/60 rounded-2xl p-4 shadow-sm hover:shadow-[0_16px_40px_-10px_rgba(0,77,0,0.15)] hover:-translate-y-1.5 hover:border-noun-green/30 transition-all duration-300 cursor-pointer group flex flex-col overflow-hidden">
-                                    
-                                    <!-- Beautiful Top Gradient Glow -->
-                                    <div class="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-noun-yellow via-noun-green to-noun-dark opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                    <div class="absolute -top-12 -right-12 w-24 h-24 bg-noun-green/5 rounded-full blur-2xl group-hover:bg-noun-green/10 transition-colors duration-500"></div>
-                                    
-                                    <!-- Icon + code -->
-                                    <div class="flex items-start justify-between mb-4 relative z-10">
-                                        <div class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-noun-green/10 group-hover:scale-110 transition-all duration-300 shadow-sm border border-gray-100 group-hover:border-noun-green/20">
-                                            <svg class="w-4 h-4 text-gray-400 group-hover:text-noun-green transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                                        </div>
-                                        <span class="text-[10px] font-black tracking-widest text-noun-dark bg-gray-100 group-hover:bg-noun-yellow group-hover:text-white px-3 py-1.5 rounded-full uppercase transition-colors duration-300 shadow-sm">{{ track.code }}</span>
-                                    </div>
+                                    class="relative bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl hover:shadow-noun-green/10 hover:-translate-y-1 hover:border-noun-green/30 transition-all duration-300 cursor-pointer group flex flex-col"
+                                >
+                                    <!-- Always-visible top accent bar -->
+                                    <div class="h-1.5 w-full bg-gradient-to-r from-noun-dark via-noun-green to-noun-yellow flex-shrink-0"></div>
 
-                                    <!-- Title -->
-                                    <h4 class="text-sm font-extrabold text-gray-900 mb-3 group-hover:text-noun-green transition-colors duration-300 leading-snug flex-grow relative z-10 pr-2">{{ track.title }}</h4>
+                                    <!-- Subtle inner glow on hover -->
+                                    <div class="absolute inset-0 bg-gradient-to-br from-noun-green/0 to-noun-green/0 group-hover:from-noun-green/[0.03] group-hover:to-transparent transition-all duration-500 pointer-events-none rounded-2xl"></div>
 
-                                    <!-- Meta items with icons -->
-                                    <div class="flex flex-col gap-2 mb-4 relative z-10">
-                                        <div class="flex items-center gap-1.5 text-[11px] font-semibold text-gray-500">
-                                            <svg class="w-3.5 h-3.5 text-gray-400 group-hover:text-noun-yellow transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
-                                            100% Online (ODL)
+                                    <div class="p-5 flex flex-col flex-grow">
+                                        <!-- Header: icon + code badge -->
+                                        <div class="flex items-start justify-between mb-4">
+                                            <div class="w-11 h-11 rounded-xl bg-noun-green/10 flex items-center justify-center group-hover:bg-noun-green group-hover:scale-105 transition-all duration-300 shadow-sm">
+                                                <svg class="w-5 h-5 text-noun-green group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                                                </svg>
+                                            </div>
+                                            <span class="text-[10px] font-black tracking-widest text-white bg-noun-dark group-hover:bg-noun-green px-2.5 py-1 rounded-lg uppercase transition-colors duration-300">{{ track.code }}</span>
                                         </div>
-                                        <div class="flex items-center gap-1.5 text-[11px] font-semibold text-gray-500">
-                                            <svg class="w-3.5 h-3.5 text-gray-400 group-hover:text-noun-green transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                            18–24 Months
-                                        </div>
-                                    </div>
 
-                                    <!-- Footer -->
-                                    <div class="pt-3 border-t border-gray-100 flex items-center justify-between mt-auto relative z-10">
-                                        <span class="text-[10px] font-bold text-gray-400 uppercase tracking-wide">NBS Track</span>
-                                        <span class="flex items-center gap-1 text-[11px] font-bold text-noun-green transition-all duration-300">
-                                            Explore
-                                            <svg class="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                                        </span>
+                                        <!-- Title -->
+                                        <h4 class="font-black text-gray-900 text-sm leading-snug mb-4 group-hover:text-noun-green transition-colors duration-300 flex-grow">{{ track.title }}</h4>
+
+                                        <!-- Pills -->
+                                        <div class="flex flex-wrap gap-1.5 mb-5">
+                                            <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                                                <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                                                ODL Online
+                                            </span>
+                                            <span class="inline-flex items-center gap-1 text-[10px] font-semibold text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                                                <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                                18–24 Months
+                                            </span>
+                                        </div>
+
+                                        <!-- CTA Button -->
+                                        <div class="mt-auto pt-4 border-t border-gray-100">
+                                            <div class="w-full flex items-center justify-center gap-2 bg-gray-50 group-hover:bg-noun-green text-gray-500 group-hover:text-white text-xs font-bold py-2.5 rounded-xl transition-all duration-300">
+                                                View Programme
+                                                <svg class="w-3.5 h-3.5 transform group-hover:translate-x-0.5 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -365,6 +391,7 @@ Object.values(courseDetails).forEach(course => {
                     </div>
                 </div>
             </section>
+
 
             <!-- Course Detail Slide-over Modal -->
             <Transition name="slide-over">

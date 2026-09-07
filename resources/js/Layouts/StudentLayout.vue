@@ -22,12 +22,12 @@ const navigation = [
 </script>
 
 <template>
-    <div class="min-h-screen bg-gray-50 flex">
+    <div class="min-h-screen bg-gray-50 flex print:block print:bg-white">
         <!-- Mobile Sidebar Overlay -->
         <div v-if="sidebarOpen" class="fixed inset-0 z-40 bg-gray-900/80 backdrop-blur-sm lg:hidden transition-opacity" @click="sidebarOpen = false"></div>
 
         <!-- Sidebar -->
-        <aside :class="[sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0']" class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-noun-dark to-[#004d00] text-white transition-transform duration-300 ease-in-out flex flex-col shadow-2xl lg:shadow-none lg:static">
+        <aside :class="[sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0']" class="print:hidden fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-noun-dark to-[#004d00] text-white transition-transform duration-300 ease-in-out flex flex-col shadow-2xl lg:shadow-none lg:static">
             
             <!-- Branding -->
             <div class="h-20 flex items-center px-6 bg-noun-dark border-b border-white/10 shrink-0">
@@ -98,9 +98,9 @@ const navigation = [
         </aside>
 
         <!-- Main Content -->
-        <main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-gray-50/50">
+        <main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-gray-50/50 print:block print:overflow-visible print:bg-white">
             <!-- Topbar -->
-            <header class="h-20 bg-white border-b border-gray-100 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0 shadow-sm z-10">
+            <header class="print:hidden h-20 bg-white border-b border-gray-100 flex items-center justify-between px-4 sm:px-6 lg:px-8 shrink-0 shadow-sm z-10">
                 <div class="flex items-center gap-4">
                     <button @click="sidebarOpen = true" class="lg:hidden p-2 text-gray-500 hover:bg-gray-100 rounded-lg">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"/></svg>
@@ -129,7 +129,7 @@ const navigation = [
             </header>
 
             <!-- Page Content -->
-            <div class="flex-1 overflow-y-auto">
+            <div class="flex-1 overflow-y-auto print:overflow-visible">
                 <slot />
             </div>
         </main>

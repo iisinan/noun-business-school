@@ -197,12 +197,14 @@ const submit = () => {
                 submitLoader.value.text = 'Submission complete!';
             },
             onError: (errors) => {
-                submitLoader.value.active = false;
                 const serverErrors = Object.values(errors).flat();
                 if (serverErrors.length > 0) {
                     validationErrors.value = serverErrors;
                     setTimeout(() => { validationErrors.value = []; }, 8000);
                 }
+            },
+            onFinish: () => {
+                submitLoader.value.active = false;
             }
         });
     }, 1500);
@@ -317,6 +319,14 @@ const removeAttachedFile = (reqDesc, idx) => {
                     <h3 class="text-xl font-black text-gray-900 mb-2 tracking-tight">{{ submitLoader.text }}</h3>
                     <p v-if="submitLoader.text !== 'Submission complete!'" class="text-sm text-gray-500 font-medium">Please do not close or refresh this page.</p>
                     <p v-else class="text-sm text-gray-500 font-medium">Redirecting you to dashboard...</p>
+                    
+                    <!-- Upload Progress -->
+                    <div v-if="form.progress" class="w-full mt-5">
+                        <div class="w-full bg-gray-100 rounded-full h-2 overflow-hidden relative">
+                            <div class="bg-noun-green h-full rounded-full transition-all duration-300" :style="{ width: form.progress.percentage + '%' }"></div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2 font-bold">{{ form.progress.percentage }}% Uploaded</p>
+                    </div>
                 </div>
             </div>
         </Transition>

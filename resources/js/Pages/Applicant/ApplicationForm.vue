@@ -246,23 +246,34 @@ const isDBA = computed(() => {
 });
 
 const handleFileSelect = (e, reqDesc) => {
-    const file = e.target.files[0];
-    if (file) {
-        // 500KB limit
-        if (file.size > 500 * 1024) {
-            fileError.value = `The file "${file.name}" is too large. Please select a file smaller than 500KB.`;
-            e.target.value = '';
-            return;
-        }
-
+    const files = e.target.files;
+    if (files.length > 0) {
         if (!form.documents[reqDesc]) {
             form.documents[reqDesc] = [];
         }
-        form.documents[reqDesc].push(file);
+        
+        let hasLargeFile = false;
+        
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            // 500KB limit
+            if (file.size > 500 * 1024) {
+                fileError.value = `The file "${file.name}" is too large. Please select a file smaller than 500KB.`;
+                hasLargeFile = true;
+            } else {
+                form.documents[reqDesc].push(file);
+            }
+        }
+        
         // trigger reactivity
         form.documents[reqDesc] = [...form.documents[reqDesc]];
         
         // Reset the input
+        if (hasLargeFile && files.length === 1) {
+            e.target.value = '';
+        } else {
+            e.target.value = '';
+        }
         e.target.value = '';
     }
 };
@@ -690,7 +701,7 @@ const removeAttachedFile = (reqDesc, idx) => {
                                                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                                                 {{ form.documents[req.description] && form.documents[req.description].length > 0 ? 'Add another document' : 'Attach Document' }}
                                             </label>
-                                            <input :id="'file_' + req.id" type="file" accept=".pdf,.jpg,.jpeg,.png" class="hidden" @change="e => handleFileSelect(e, req.description)">
+                                            <input :id="'file_' + req.id" type="file" multiple accept=".pdf,.jpg,.jpeg,.png" class="hidden" @change="e => handleFileSelect(e, req.description)">
                                         </div>
                                     </div>
                                 </div>

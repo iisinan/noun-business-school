@@ -25,13 +25,22 @@ const programmeRequirements = computed(() => {
     return selectedProgramme.value.admission_requirements;
 });
 
+const requiresSpecialisation = computed(() => {
+    return selectedProgramme.value && selectedProgramme.value.specialisations.length > 0;
+});
+
+const canContinue = computed(() => {
+    if (!form.value.programme_id) return false;
+    if (requiresSpecialisation.value && !form.value.specialisation_id) return false;
+    return true;
+});
+
 const continueUrl = computed(() => {
+    if (!canContinue.value) return '#';
     let url = page.props.auth && page.props.auth.user ? route('applicant.application.create') : route('register');
-    if (form.value.programme_id) {
-        url += '?programme_id=' + form.value.programme_id;
-        if (form.value.specialisation_id) {
-            url += '&specialisation_id=' + form.value.specialisation_id;
-        }
+    url += '?programme_id=' + form.value.programme_id;
+    if (form.value.specialisation_id) {
+        url += '&specialisation_id=' + form.value.specialisation_id;
     }
     return url;
 });
@@ -83,11 +92,15 @@ const continueUrl = computed(() => {
         </div>
 
         <div class="mt-8">
+            <p v-if="requiresSpecialisation && !form.specialisation_id" class="mb-3 text-xs text-amber-600 font-medium flex items-center gap-1.5">
+                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>
+                Please select a specialisation to continue.
+            </p>
             <Link 
                 :href="continueUrl"
                 :class="[
                     'w-full flex justify-center items-center px-4 py-3 text-sm font-semibold rounded-lg transition-all', 
-                    form.programme_id 
+                    canContinue
                         ? 'bg-noun-green text-white hover:bg-noun-dark shadow-md hover:shadow-lg' 
                         : 'bg-gray-100 text-gray-400 cursor-not-allowed pointer-events-none'
                 ]"

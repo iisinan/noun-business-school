@@ -254,7 +254,7 @@ const saveDraft = () => {
 };
 
 const selectedProgramme = computed(() => {
-    return props.programmes.find(p => p.id === form.programme_id);
+    return props.programmes.find(p => p.id == form.programme_id);
 });
 
 const programmeRequirements = computed(() => {

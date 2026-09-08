@@ -2,7 +2,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { ref, computed } from 'vue';
-
+import Autocomplete from '@/Components/Autocomplete.vue';
 const props = defineProps({
     programmes: Array,
     active_session: Object,
@@ -610,10 +610,7 @@ const removeAttachedFile = (reqDesc, idx) => {
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label class="block text-xs font-medium text-gray-700 mb-1">Institution <span class="text-red-500">*</span></label>
-                                        <input type="text" v-model="edu.institution" :list="'institutions_list_'+index" :class="errorClass('edu_institution_'+index)" class="block w-full rounded-lg sm:text-sm shadow-sm focus:border-noun-green focus:ring-noun-green" placeholder="Type or select institution...">
-                                        <datalist :id="'institutions_list_'+index">
-                                            <option v-for="inst in nigerianInstitutions" :key="inst" :value="inst"></option>
-                                        </datalist>
+                                        <Autocomplete v-model="edu.institution" :options="nigerianInstitutions" :errorClass="errorClass('edu_institution_'+index)" placeholder="Type or select institution..." />
                                     </div>
                                     <div>
                                         <label class="block text-xs font-medium text-gray-700 mb-1">Qualification <span class="text-red-500">*</span></label>
@@ -624,10 +621,7 @@ const removeAttachedFile = (reqDesc, idx) => {
                                     </div>
                                     <div>
                                         <label class="block text-xs font-medium text-gray-700 mb-1">Course of Study <span class="text-red-500">*</span></label>
-                                        <input type="text" v-model="edu.course_of_study" :list="'courses_list_'+index" :class="errorClass('edu_course_'+index)" class="block w-full rounded-lg sm:text-sm shadow-sm focus:border-noun-green focus:ring-noun-green" placeholder="Type or select course...">
-                                        <datalist :id="'courses_list_'+index">
-                                            <option v-for="course in nigerianCourses" :key="course" :value="course"></option>
-                                        </datalist>
+                                        <Autocomplete v-model="edu.course_of_study" :options="nigerianCourses" :errorClass="errorClass('edu_course_'+index)" placeholder="Type or select course..." />
                                     </div>
                                     <div>
                                         <label class="block text-xs font-medium text-gray-700 mb-1">Grade / Classification <span class="text-red-500">*</span></label>

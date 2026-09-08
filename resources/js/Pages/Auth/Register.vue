@@ -3,14 +3,18 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import Modal from '@/Components/Modal.vue';
 import TextInput from '@/Components/TextInput.vue';
 import PasswordInput from '@/Components/PasswordInput.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const urlParams = new URLSearchParams(window.location.search);
 
 const form = useForm({
     first_name: '',
+    middle_name: '',
     last_name: '',
     phone: '',
     email: '',
@@ -20,10 +24,23 @@ const form = useForm({
     specialisation_id: urlParams.get('specialisation_id') || '',
 });
 
+const confirmingDetails = ref(false);
+
 const submit = () => {
+    confirmingDetails.value = true;
+};
+
+const confirmAndRegister = () => {
     form.post(route('register'), {
+        onSuccess: () => {
+            confirmingDetails.value = false;
+        },
         onFinish: () => form.reset('password', 'password_confirmation'),
     });
+};
+
+const closeModal = () => {
+    confirmingDetails.value = false;
 };
 </script>
 
@@ -37,7 +54,7 @@ const submit = () => {
         </div>
 
         <form @submit.prevent="submit" class="space-y-5">
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
                     <InputLabel for="first_name" value="First Name" />
                     <TextInput
@@ -50,6 +67,19 @@ const submit = () => {
                         autocomplete="given-name"
                     />
                     <InputError class="mt-2" :message="form.errors.first_name" />
+                </div>
+
+
+                <div>
+                    <InputLabel for="middle_name" value="Middle Name (Optional)" />
+                    <TextInput
+                        id="middle_name"
+                        type="text"
+                        class="mt-1 block w-full"
+                        v-model="form.middle_name"
+                        autocomplete="additional-name"
+                    />
+                    <InputError class="mt-2" :message="form.errors.middle_name" />
                 </div>
 
                 <div>
@@ -136,5 +166,41 @@ const submit = () => {
                 </Link>
             </div>
         </form>
+
+        <Modal :show="confirmingDetails" @close="closeModal">
+            <div class="p-6">
+                <h2 class="text-lg font-bold text-gray-900">
+                    Confirm Your Details
+                </h2>
+
+                <p class="mt-2 text-sm text-gray-600">
+                    Are you sure you want to proceed with these details? <strong class="text-red-600">Your admission letter and certificate will carry these exact names.</strong>
+                </p>
+
+                <div class="mt-4 space-y-2 bg-gray-50 p-4 rounded-lg text-sm text-gray-800 border border-gray-100">
+                    <div><span class="font-bold w-24 inline-block text-gray-500">First Name:</span> <span class="font-bold">{{ form.first_name }}</span></div>
+                    <div v-if="form.middle_name"><span class="font-bold w-24 inline-block text-gray-500">Middle Name:</span> <span class="font-bold">{{ form.middle_name }}</span></div>
+                    <div><span class="font-bold w-24 inline-block text-gray-500">Last Name:</span> <span class="font-bold">{{ form.last_name }}</span></div>
+                    <div><span class="font-bold w-24 inline-block text-gray-500">Email:</span> <span class="font-bold">{{ form.email }}</span></div>
+                    <div><span class="font-bold w-24 inline-block text-gray-500">Phone:</span> <span class="font-bold">{{ form.phone }}</span></div>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <SecondaryButton @click="closeModal">
+                        Cancel, let me edit
+                    </SecondaryButton>
+
+                    <PrimaryButton
+                        class="ms-3 !bg-noun-green hover:!bg-noun-dark"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                        @click="confirmAndRegister"
+                    >
+                        Proceed & Create Account
+                    </PrimaryButton>
+                </div>
+            </div>
+        </Modal>
     </GuestLayout>
 </template>
+

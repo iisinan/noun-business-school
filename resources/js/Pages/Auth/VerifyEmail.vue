@@ -11,6 +11,7 @@
             <h2 class="text-xl font-bold text-gray-900">Check your email</h2>
             <p class="mt-2 text-sm text-gray-500 leading-relaxed">
                 Thanks for signing up! We've sent a verification link to your email. Click it to activate your account.
+                <br><strong>Please also check your spam or junk folder if you don't see it in your inbox.</strong>
             </p>
         </div>
 

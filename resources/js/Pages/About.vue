@@ -39,10 +39,11 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll));
 const navLinks = [
     { label: 'Home',             href: route('home') },
     { label: 'About',            href: route('about') },
-    { label: 'Programmes',       href: '/#programmes' },
+    { label: 'Programmes',       href: route('programmes') },
     { label: 'Admissions',       href: '/#admissions' },
     { label: 'Media',            href: route('media') },
     { label: 'Resources',        href: route('resources') },
+    { label: 'Careers',          href: route('career') },
     { label: 'Contact',          href: '#contact' },
 ];
 </script>

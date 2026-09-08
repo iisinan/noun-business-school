@@ -96,7 +96,7 @@ class ApplicationController extends Controller
      */
     public function show(Application $application)
     {
-        $application->load('user', 'programme', 'specialisation', 'payments');
+        $application->load('user', 'programme', 'specialisation', 'payments', 'referees');
         
         $documentUrls = [];
         if (is_array($application->documents)) {

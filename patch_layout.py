@@ -2,18 +2,38 @@ file_path = '/Users/sinan/Herd/Business School/resources/js/Layouts/StudentLayou
 with open(file_path, 'r') as f:
     content = f.read()
 
-search = """    { name: 'My Results', href: route('student.results'), active: route().current('student.results'), icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
-    { header: 'FINANCE' },"""
+import re
 
-replace = """    { name: 'My Results', href: route('student.results'), active: route().current('student.results'), icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
-    { header: 'RECORDS' },
-    { name: 'ID Card', href: route('student.idcard'), active: route().current('student.idcard'), icon: 'M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2' },
-    { header: 'FINANCE' },"""
+# 1. Add print classes to main wrapper div
+content = content.replace(
+    '<div class="min-h-screen bg-gray-50 flex">',
+    '<div class="min-h-screen bg-gray-50 flex print:block print:bg-white">'
+)
 
-if search in content:
-    content = content.replace(search, replace)
-    with open(file_path, 'w') as f:
-        f.write(content)
-    print("Patched StudentLayout.vue")
-else:
-    print("Search block not found")
+# 2. Add print:hidden to aside
+content = content.replace(
+    'class="fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-noun-dark to-[#004d00]',
+    'class="print:hidden fixed inset-y-0 left-0 z-50 w-72 bg-gradient-to-b from-noun-dark to-[#004d00]'
+)
+
+# 3. Add print classes to main container
+content = content.replace(
+    '<main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-gray-50/50">',
+    '<main class="flex-1 flex flex-col min-w-0 overflow-hidden bg-gray-50/50 print:block print:overflow-visible print:bg-white">'
+)
+
+# 4. Add print:hidden to header
+content = content.replace(
+    '<header class="h-20 bg-white border-b border-gray-100',
+    '<header class="print:hidden h-20 bg-white border-b border-gray-100'
+)
+
+# 5. Add print classes to page content wrapper
+content = content.replace(
+    '<div class="flex-1 overflow-y-auto">',
+    '<div class="flex-1 overflow-y-auto print:overflow-visible">'
+)
+
+with open(file_path, 'w') as f:
+    f.write(content)
+print("Patched StudentLayout")

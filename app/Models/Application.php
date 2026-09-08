@@ -24,4 +24,5 @@ class Application extends Model
     public function specialisation() { return $this->belongsTo(Specialisation::class); }
     public function payments() { return $this->hasMany(Payment::class); }
     public function academicSession() { return $this->belongsTo(AcademicSession::class); }
+    public function referees() { return $this->hasMany(Referee::class); }
 }

@@ -40,6 +40,10 @@ Route::get('/career', function () {
     return Inertia::render('Career');
 })->name('career');
 
+Route::get('/reference/success', [\App\Http\Controllers\RefereeController::class, 'submitted'])->name('referee.submitted');
+Route::get('/reference/{token}', [\App\Http\Controllers\RefereeController::class, 'show'])->name('referee.form');
+Route::post('/reference/{token}', [\App\Http\Controllers\RefereeController::class, 'store'])->name('referee.store');
+
 Route::get('/apply', [\App\Http\Controllers\AdmissionController::class, 'start'])->name('admission.start');
 
 Route::middleware(['auth', 'verified'])->group(function () {

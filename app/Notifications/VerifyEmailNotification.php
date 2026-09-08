@@ -10,15 +10,17 @@ use Illuminate\Support\Facades\URL;
 
 class VerifyEmailNotification extends BaseVerifyEmail
 {
-    protected function buildMailMessage($url): MailMessage
+    public function toMail($notifiable): MailMessage
     {
-        $expireMinutes = Config::get('auth.verification.expire', 60);
+        $verificationUrl = $this->verificationUrl($notifiable);
+        $expireMinutes   = Config::get('auth.verification.expire', 60);
 
         return (new MailMessage)
             ->subject('Verify Your Email — NOUN Business School')
             ->markdown('emails.verify-email', [
-                'url'           => $url,
+                'url'           => $verificationUrl,
                 'expireMinutes' => $expireMinutes,
+                'firstName'     => $notifiable->first_name ?? 'Applicant',
             ]);
     }
 

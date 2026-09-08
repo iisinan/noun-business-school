@@ -101,7 +101,7 @@ const downloadTemplate = () => {
                                         </label>
                                         <label class="flex items-center gap-2 px-3 py-1 cursor-pointer rounded-md transition-colors" :class="templateForm.mode === 'multiple' ? 'bg-noun-green text-white' : 'text-gray-600 hover:bg-gray-50'">
                                             <input type="radio" v-model="templateForm.mode" value="multiple" class="sr-only">
-                                            <span class="text-xs font-bold tracking-wide">Semester</span>
+                                            <span class="text-xs font-bold tracking-wide">Multiple Courses</span>
                                         </label>
                                     </div>
                                 </div>
@@ -114,12 +114,7 @@ const downloadTemplate = () => {
                                         </select>
                                     </div>
                                     
-                                    <div v-if="templateForm.mode === 'multiple'">
-                                        <label class="block text-sm font-bold text-gray-700 mb-1.5">Semester</label>
-                                        <select v-model="templateForm.semester" class="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-noun-green focus:border-noun-green text-sm bg-white">
-                                            <option v-for="i in 6" :key="i" :value="i">Semester {{ i }}</option>
-                                        </select>
-                                    </div>
+
                                     
                                     <div v-if="templateForm.mode === 'single'">
                                         <label class="block text-sm font-bold text-gray-700 mb-1.5">Course</label>

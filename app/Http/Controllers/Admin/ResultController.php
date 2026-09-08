@@ -34,7 +34,6 @@ class ResultController extends Controller
             'mode' => 'required|in:single,multiple',
             'course_id' => 'required_if:mode,single|nullable|exists:courses,id',
             'academic_session_id' => 'required|exists:academic_sessions,id',
-            'semester' => 'required_if:mode,multiple|nullable|integer|min:1|max:6',
         ]);
 
         $session = AcademicSession::find($request->academic_session_id);
@@ -50,8 +49,7 @@ class ResultController extends Controller
             $course = Course::find($request->course_id);
             $fileName = "results_template_{$course->code}_{$session->name}.xlsx";
         } else {
-            $query->where('semester', $request->semester);
-            $fileName = "results_template_sem{$request->semester}_{$session->name}.xlsx";
+            $fileName = "results_template_all_courses_{$session->name}.xlsx";
         }
         
         $registrations = $query->get();

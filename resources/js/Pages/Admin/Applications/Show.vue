@@ -255,6 +255,32 @@ const updateStatus = () => {
                                 </div>
                             </div>
 
+                            <!-- Referees -->
+                            <div v-if="application.referees && application.referees.length > 0" class="mb-8">
+                                <h4 class="text-sm font-bold text-gray-700 mb-3 border-b pb-1">Referees</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div v-for="referee in application.referees" :key="referee.id" class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                        <div class="flex justify-between items-start mb-2">
+                                            <h5 class="font-bold text-gray-900">{{ referee.name }}</h5>
+                                            <span :class="[referee.status === 'SUBMITTED' ? 'bg-green-100 text-green-800' : 'bg-amber-100 text-amber-800', 'px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wide']">
+                                                {{ referee.status }}
+                                            </span>
+                                        </div>
+                                        <div class="text-xs text-gray-600 space-y-1 mb-3">
+                                            <div><span class="font-medium">Email:</span> <a :href="'mailto:' + referee.email" class="text-noun-green hover:underline">{{ referee.email }}</a></div>
+                                            <div><span class="font-medium">Phone:</span> {{ referee.phone || 'N/A' }}</div>
+                                            <div><span class="font-medium">Role:</span> {{ referee.organisation || 'N/A' }}</div>
+                                        </div>
+                                        <div v-if="referee.status === 'SUBMITTED'" class="bg-white p-3 rounded border border-gray-200 text-sm text-gray-800 whitespace-pre-wrap">
+                                            {{ referee.reference_content }}
+                                        </div>
+                                        <div v-else class="text-xs text-gray-500 italic">
+                                            Reference not yet submitted.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Documents -->
                             <div>
                                 <h4 class="text-sm font-bold text-gray-700 mb-3 border-b pb-1">Uploaded Documents</h4>

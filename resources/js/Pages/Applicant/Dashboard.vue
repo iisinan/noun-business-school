@@ -72,16 +72,19 @@ const payForm = useForm({
                             </p>
                             </div>
                         </div>
-                        <a
+                        <Link
                             v-if="!application"
-                            href="/apply"
+                            :href="$page.props.auth.user.application_draft ? route('applicant.application.create') : '/apply'"
                             class="flex-shrink-0 inline-flex items-center gap-2 px-6 py-3 bg-noun-yellow text-noun-dark font-bold rounded-lg hover:bg-yellow-400 transition shadow-md text-sm"
                         >
-                            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg v-if="!$page.props.auth.user.application_draft" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                             </svg>
-                            Start Application
-                        </a>
+                            <svg v-else class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                            {{ $page.props.auth.user.application_draft ? 'Resume Application' : 'Start Application' }}
+                        </Link>
                     </div>
                     <div class="h-1 bg-gradient-to-r from-noun-green via-noun-yellow to-noun-green"></div>
                 </div>

@@ -170,7 +170,7 @@ class ApplicationController extends Controller
         $user->application_draft = $draftData;
         $user->save();
 
-        return redirect()->back()->with('success', 'Progress saved! You can resume later.');
+        return redirect()->route('dashboard')->with('success', 'Progress saved successfully! You can resume your application later.');
     }
 
     /**

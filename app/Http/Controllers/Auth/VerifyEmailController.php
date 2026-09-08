@@ -15,13 +15,25 @@ class VerifyEmailController extends Controller
     public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+            return $this->redirectAfterVerification();
         }
 
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
 
-        return redirect()->intended(route('dashboard', absolute: false).'?verified=1');
+        return $this->redirectAfterVerification();
+    }
+
+    protected function redirectAfterVerification(): RedirectResponse
+    {
+        // If the user was on their way to apply for a specific programme, send them there
+        if (session()->has('preselected_programme')) {
+            return redirect()->route('applicant.application.create')
+                ->with('success', 'Email verified! You can now complete your application.');
+        }
+
+        return redirect()->route('dashboard')
+            ->with('success', 'Email verified! Welcome to NOUN Business School.');
     }
 }

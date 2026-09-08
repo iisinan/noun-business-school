@@ -13,8 +13,6 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\AccountCreatedMail;
 
 class RegisteredUserController extends Controller
 {
@@ -53,21 +51,20 @@ class RegisteredUserController extends Controller
 
         $user->assignRole('Applicant');
 
+        // Dispatching Registered event sends the verification email automatically
         event(new Registered($user));
-        
-        // Send Welcome Email
-        Mail::to($user)->send(new AccountCreatedMail($user));
 
         Auth::login($user);
 
+        // Store programme/specialisation in session so it survives email verification
         if ($request->filled('programme_id')) {
             session(['preselected_programme' => $request->programme_id]);
             if ($request->filled('specialisation_id')) {
                 session(['preselected_specialisation' => $request->specialisation_id]);
             }
-            return redirect()->route('applicant.application.create');
         }
 
-        return redirect(route('dashboard', absolute: false));
+        // Redirect directly to the verify-email notice screen
+        return redirect()->route('verification.notice');
     }
 }

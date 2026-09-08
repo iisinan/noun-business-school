@@ -25,6 +25,7 @@ class ApplicationController extends Controller
             'active_session' => \App\Models\AcademicSession::where('is_active', true)->first(),
             'preselected_programme' => $preselectedProgramme ? (int)$preselectedProgramme : null,
             'preselected_specialisation' => $preselectedSpecialisation ? (int)$preselectedSpecialisation : null,
+            'application_draft' => $request->user()->application_draft,
         ]);
     }
 
@@ -62,6 +63,11 @@ class ApplicationController extends Controller
             'olevel_results' => 'required|array',
             'employment_info' => 'required|array',
             'passport_photograph' => 'required|image|max:500', // 500KB limit
+            'referees' => 'nullable|array',
+            'referees.*.name' => 'required_with:referees|string',
+            'referees.*.email' => 'required_with:referees|email',
+            'referees.*.phone' => 'required_with:referees|string',
+            'referees.*.organisation' => 'nullable|string',
             // Documents are passed as files
             'documents' => 'required|array',
             'documents.*' => 'required|array',
@@ -120,13 +126,51 @@ class ApplicationController extends Controller
             'status' => 'STARTED', // Set to started, pending payment
         ]);
 
+        // Process Referees if present
+        if (!empty($validated['referees'])) {
+            foreach ($validated['referees'] as $refData) {
+                if (empty($refData['name']) || empty($refData['email'])) continue;
+                $referee = $application->referees()->create([
+                    'name' => $refData['name'],
+                    'email' => $refData['email'],
+                    'phone' => $refData['phone'] ?? null,
+                    'organisation' => $refData['organisation'] ?? null,
+                    'token' => \Illuminate\Support\Str::random(40),
+                ]);
+
+                try {
+                    \Illuminate\Support\Facades\Mail::to($referee->email)->send(new \App\Mail\SendRefereeRequestMail($referee));
+                } catch (\Exception $e) {
+                    \Log::error('Failed to send referee request mail: ' . $e->getMessage());
+                }
+            }
+        }
+
         try {
             \Illuminate\Support\Facades\Mail::to($request->user())->send(new \App\Mail\ApplicationSubmittedMail($application));
         } catch (\Exception $e) {
             \Log::error('Failed to send application submitted mail: ' . $e->getMessage());
         }
 
-        return redirect()->route('dashboard')->with('success', 'Application drafted successfully. Please proceed to pay the application fee.');
+        // Clear the draft once successfully submitted
+        $request->user()->forceFill(['application_draft' => null])->save();
+
+        return redirect()->route('dashboard')->with('success', 'Application submitted successfully. Please proceed to pay the application fee.');
+    }
+
+    /**
+     * Save the application progress as a draft.
+     */
+    public function saveDraft(Request $request)
+    {
+        $user = $request->user();
+        
+        $draftData = $request->except(['_token', 'passport_photograph', 'documents']);
+        
+        $user->application_draft = $draftData;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Progress saved! You can resume later.');
     }
 
     /**

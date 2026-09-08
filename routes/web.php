@@ -79,6 +79,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/application/docket', [ApplicationController::class, 'docket'])->name('application.docket');
         Route::get('/admission-letter', [ApplicationController::class, 'letter'])->name('application.letter');
         Route::post('/application', [ApplicationController::class, 'store'])->name('application.store');
+        Route::post('/application/draft', [ApplicationController::class, 'saveDraft'])->name('application.draft');
         Route::get('/payment/initiate', [PaymentController::class, 'initiate'])->name('payment.initiate');
     });
 

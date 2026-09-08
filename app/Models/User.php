@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
-#[Fillable(['first_name', 'middle_name', 'last_name', 'phone', 'email', 'password', 'wallet_balance'])]
+#[Fillable(['first_name', 'middle_name', 'last_name', 'phone', 'email', 'password', 'wallet_balance', 'application_draft'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -31,6 +31,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'application_draft' => 'array',
         ];
     }
 

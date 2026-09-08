@@ -7,13 +7,16 @@ const props = defineProps({
     programmes: Array,
     active_session: Object,
     preselected_programme: [String, Number],
-    preselected_specialisation: [String, Number]
+    preselected_specialisation: [String, Number],
+    application_draft: Object
 });
 
 const page = usePage();
 const user = page.props.auth.user;
 
-const currentStep = ref(props.preselected_programme ? 2 : 1);
+const draft = props.application_draft || {};
+
+const currentStep = ref(draft.currentStep || (props.preselected_programme ? 2 : 1));
 const totalSteps = 4;
 
 const passportPreview = ref(null);
@@ -39,11 +42,11 @@ const handlePassportUpload = (e) => {
 
 
 const form = useForm({
-    programme_id: props.preselected_programme || '',
-    specialisation_id: props.preselected_specialisation || '',
+    currentStep: draft.currentStep || 1, // Store here to easily save it
+    programme_id: draft.programme_id || props.preselected_programme || '',
+    specialisation_id: draft.specialisation_id || props.preselected_specialisation || '',
     passport_photograph: null,
-    passport_photograph: null,
-    personal_info: {
+    personal_info: draft.personal_info || {
         title: '',
         first_name: user.first_name || '',
         middle_name: user.middle_name || '',
@@ -61,23 +64,27 @@ const form = useForm({
         email: user.email || '',
         identification_type: '',
     },
-    academic_background: [{
+    academic_background: draft.academic_background || [{
         institution: '',
         qualification: '',
         course_of_study: '',
         graduation_year: '',
         grade: '',
     }],
-    olevel_results: [
+    olevel_results: draft.olevel_results || [
         { exam_type: '', exam_year: '', exam_number: '', sitting: 1, subjects: [{name: 'English Language', grade: ''}, {name: 'Mathematics', grade: ''}, {name: '', grade: ''}, {name: '', grade: ''}, {name: '', grade: ''}] }
     ],
-    employment_info: {
+    employment_info: draft.employment_info || {
         status: '',
         organisation: '',
         job_title: '',
         years_experience: '',
     },
-    documents: {}
+    documents: {},
+    referees: draft.referees || [
+        {name: '', email: '', phone: '', organisation: ''},
+        {name: '', email: '', phone: '', organisation: ''}
+    ]
 });
 
 
@@ -185,14 +192,29 @@ const submit = () => {
     if (!emp.years_experience) { fieldErrors.value.emp_years = true; hasError = true; }
     if (hasError) validationErrors.value.push('Please fill in your current employment details.');
 
-    // Validate Required Documents
-    const reqDocs = programmeRequirements.value.filter(req => req.is_document == 1 || req.is_document === true || req.is_document === '1');
+    // Validate Required Documents (exclude references, handled separately)
+    const reqDocs = programmeRequirements.value.filter(req => 
+        (req.is_document == 1 || req.is_document === true || req.is_document === '1') 
+        && !req.description.toLowerCase().includes('reference letter')
+    );
     for (let req of reqDocs) {
         if (!form.documents[req.description] || form.documents[req.description].length === 0) {
             validationErrors.value.push(`Please upload the required document: ${req.description}`);
             fieldErrors.value['doc_' + req.id] = true;
             hasError = true;
         }
+    }
+
+    // Validate Referees if programme requires them
+    const requiresReferees = programmeRequirements.value.some(req => req.description.toLowerCase().includes('reference letter'));
+    if (requiresReferees) {
+        form.referees.forEach((ref, index) => {
+            if (!ref.name || !ref.email || !ref.phone) {
+                validationErrors.value.push(`Please complete all required fields for Referee ${index + 1}`);
+                fieldErrors.value[`referee_${index}`] = true;
+                hasError = true;
+            }
+        });
     }
 
     if (hasError) return;
@@ -218,6 +240,17 @@ const submit = () => {
             }
         });
     }, 1500);
+};
+
+const saveDraft = () => {
+    form.currentStep = currentStep.value; // Store the current step index
+    // Post to the draft endpoint. We don't want to validate on save.
+    form.post(route('applicant.application.draft'), {
+        preserveScroll: true,
+        onSuccess: () => {
+            // Optional: you can leave them here or it will already redirect.
+        }
+    });
 };
 
 const selectedProgramme = computed(() => {
@@ -721,10 +754,45 @@ const removeAttachedFile = (reqDesc, idx) => {
 
                                 <div v-for="req in programmeRequirements" :key="req.id">
                                     <div v-if="req.is_document == 1 || req.is_document === true || req.is_document === '1'" class="mb-6 bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                                        <div class="flex justify-between items-start mb-3">
-                                            <label class="block text-sm font-medium text-gray-800">{{ req.description }} <span class="text-red-500">*</span></label>
-                                            <span class="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">Max 500KB</span>
+                                        
+                                        <!-- REFEREE FORM INTERCEPT -->
+                                        <div v-if="req.description.toLowerCase().includes('reference letter')">
+                                            <div class="mb-4">
+                                                <label class="block text-sm font-bold text-gray-800">{{ req.description }} <span class="text-red-500">*</span></label>
+                                                <p class="text-xs text-gray-500 mt-1">Please provide the details of your referees. They will receive an email with a secure link to submit their reference.</p>
+                                            </div>
+                                            
+                                            <div class="space-y-6">
+                                                <div v-for="(referee, rIdx) in form.referees" :key="rIdx" class="p-4 bg-gray-50 rounded-lg border border-gray-200">
+                                                    <h5 class="font-semibold text-gray-700 mb-3 text-sm">Referee {{ rIdx + 1 }}</h5>
+                                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label class="block text-xs font-medium text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                                                            <input type="text" v-model="referee.name" :class="errorClass('referee_'+rIdx)" class="block w-full rounded-md shadow-sm border-gray-300 focus:border-noun-green sm:text-sm py-1.5">
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-xs font-medium text-gray-700 mb-1">Email Address <span class="text-red-500">*</span></label>
+                                                            <input type="email" v-model="referee.email" :class="errorClass('referee_'+rIdx)" class="block w-full rounded-md shadow-sm border-gray-300 focus:border-noun-green sm:text-sm py-1.5">
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-xs font-medium text-gray-700 mb-1">Phone Number <span class="text-red-500">*</span></label>
+                                                            <input type="text" v-model="referee.phone" :class="errorClass('referee_'+rIdx)" class="block w-full rounded-md shadow-sm border-gray-300 focus:border-noun-green sm:text-sm py-1.5">
+                                                        </div>
+                                                        <div>
+                                                            <label class="block text-xs font-medium text-gray-700 mb-1">Organisation/Role</label>
+                                                            <input type="text" v-model="referee.organisation" class="block w-full rounded-md shadow-sm border-gray-300 focus:border-noun-green sm:text-sm py-1.5">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+
+                                        <!-- STANDARD DOCUMENT UPLOAD -->
+                                        <div v-else>
+                                            <div class="flex justify-between items-start mb-3">
+                                                <label class="block text-sm font-medium text-gray-800">{{ req.description }} <span class="text-red-500">*</span></label>
+                                                <span class="text-[10px] uppercase font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded">Max 500KB</span>
+                                            </div>
                                         
                                         <!-- List of attached files -->
                                         <ul v-if="form.documents[req.description] && form.documents[req.description].length > 0" class="mb-3 space-y-2">
@@ -746,6 +814,7 @@ const removeAttachedFile = (reqDesc, idx) => {
                                             </label>
                                             <input :id="'file_' + req.id" type="file" multiple accept=".pdf,.jpg,.jpeg,.png" class="hidden" @change="e => handleFileSelect(e, req.description)">
                                         </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -757,13 +826,19 @@ const removeAttachedFile = (reqDesc, idx) => {
                                 Back
                             </button>
 
-                            <button type="button" v-if="currentStep < totalSteps" @click="nextStep" class="px-6 py-2.5 bg-noun-green text-white text-sm font-semibold rounded-lg hover:bg-noun-dark transition shadow-sm">
-                                Continue Step {{ currentStep + 1 }}
-                            </button>
-                            
-                            <button type="submit" v-if="currentStep === totalSteps" class="px-8 py-2.5 bg-noun-yellow text-noun-dark text-sm font-bold rounded-lg hover:bg-yellow-400 transition shadow-sm" :disabled="form.processing">
-                                Submit Application
-                            </button>
+                            <div class="flex items-center gap-3">
+                                <button type="button" @click="saveDraft" class="px-5 py-2.5 text-noun-green hover:bg-green-50 text-sm font-semibold rounded-lg transition" :disabled="form.processing">
+                                    Save & Continue Later
+                                </button>
+
+                                <button type="button" v-if="currentStep < totalSteps" @click="nextStep" class="px-6 py-2.5 bg-noun-green text-white text-sm font-semibold rounded-lg hover:bg-noun-dark transition shadow-sm">
+                                    Continue Step {{ currentStep + 1 }}
+                                </button>
+                                
+                                <button type="submit" v-if="currentStep === totalSteps" class="px-8 py-2.5 bg-noun-yellow text-noun-dark text-sm font-bold rounded-lg hover:bg-yellow-400 transition shadow-sm" :disabled="form.processing">
+                                    Submit Application
+                                </button>
+                            </div>
                         </div>
                     </form>
 

@@ -600,14 +600,14 @@ const featuredSpecialisations = [
                         <div class="absolute -top-10 -left-8 text-[10rem] text-noun-yellow/10 font-serif leading-none select-none">"</div>
                         <blockquote class="relative">
                             <p class="text-3xl lg:text-4xl font-light text-noun-dark leading-snug italic">
-                                To our maiden cohort: you are not merely enrolling in a programme, you are helping to establish the standards, character and reputation of this Business School.
+                                I invite you to join this pioneering cohort — to help shape the culture, standards and legacy of a Business School that will, in time, be counted among Africa's finest. Welcome to NOUN Business School.
                             </p>
                             <footer class="mt-10">
                                 <div class="flex items-center gap-5 sm:gap-7">
-                                    <img src="/Mande.jpeg" alt="Professor Samaila Mande" class="w-24 sm:w-28 h-24 sm:h-28 rounded-full object-cover border-4 border-noun-yellow shadow-md" />
+                                    <img src="/vc_pic.png" alt="Professor Olufemi Peters" class="w-24 sm:w-28 h-24 sm:h-28 rounded-full object-cover border-4 border-noun-yellow shadow-md" />
                                     <div>
-                                        <div class="font-bold text-noun-dark text-lg">Professor Samaila Mande</div>
-                                        <div class="text-gray-500 text-sm uppercase tracking-wider font-medium mt-1">Director, NOUN Business School</div>
+                                        <div class="font-bold text-noun-dark text-lg">Professor Olufemi Peters</div>
+                                        <div class="text-gray-500 text-sm uppercase tracking-wider font-medium mt-1">Vice Chancellor, National Open University of Nigeria</div>
                                     </div>
                                 </div>
                             </footer>
@@ -1069,6 +1069,7 @@ const featuredSpecialisations = [
                                 { label: 'Admissions', href: '#admissions' },
                                 { label: 'Media', href: route('media') },
                                 { label: 'Resources', href: route('resources') },
+                                { label: 'Careers', href: route('career') },
                             ]" :key="link.label">
                                 <a v-if="link.href.startsWith('#')" :href="link.href" class="text-white/60 hover:text-noun-yellow text-sm transition-colors">{{ link.label }}</a>
                                 <Link v-else :href="link.href" class="text-white/60 hover:text-noun-yellow text-sm transition-colors">{{ link.label }}</Link>

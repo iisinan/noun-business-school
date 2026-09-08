@@ -74,54 +74,78 @@ Object.values(courseDetails).forEach(course => {
     else if (course.type === 'MBA') programmes.mba.push(track);
     else if (course.type === 'DBA') programmes.dba.push(track);
 });
+
+// Degree definitions for the sidebar v-for
+const degrees = [
+    {
+        key: 'gdp',
+        abbr: 'GDBA',
+        label: 'Graduate Diploma',
+        icon: 'M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z',
+    },
+    {
+        key: 'mpa',
+        abbr: 'MPA',
+        label: 'Master of Public Admin.',
+        icon: 'M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4',
+    },
+    {
+        key: 'mba',
+        abbr: 'MBA',
+        label: 'Master of Business Admin.',
+        icon: 'M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z',
+    },
+    {
+        key: 'dpa',
+        abbr: 'DPA',
+        label: 'Doctor of Public Admin.',
+        icon: 'M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z',
+    },
+    {
+        key: 'dba',
+        abbr: 'DBA',
+        label: 'Doctor of Business Admin.',
+        icon: 'M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z',
+    },
+];
 </script>
 
+
 <template>
-    <Head title="Programmes - NOUN Business School" />
+    <Head title="Programmes — NOUN Business School" />
     <div class="min-h-screen bg-white text-gray-900 font-sans antialiased flex flex-col">
-<!-- HEADER -->
+
+        <!-- HEADER -->
         <header
             class="fixed top-0 inset-x-0 z-50 transition-all duration-500"
-            :class="scrolled ? 'bg-white/85 backdrop-blur-lg border-b border-gray-200/50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]' : 'bg-transparent'"
+            :class="scrolled ? 'bg-white/90 backdrop-blur-lg border-b border-gray-200/60 shadow-sm' : 'bg-white border-b border-gray-200'"
         >
             <div class="w-full 2xl:px-12 px-4 sm:px-6 lg:px-8">
                 <div class="flex items-center justify-between h-20">
                     <Link :href="route('home')" class="flex items-center gap-3 flex-shrink-0">
                         <img src="/nbs-logo.png" alt="NOUN Business School Logo" class="h-12 w-auto object-contain drop-shadow-sm" />
                         <div class="leading-tight">
-                            <div class="font-bold text-sm tracking-tight text-noun-dark transition-colors duration-300">
-                                NOUN Business School
-                            </div>
-                            <div class="text-xs text-gray-500 transition-colors duration-300">
-                                National Open University
-                            </div>
+                            <div class="font-bold text-sm tracking-tight text-noun-dark">NOUN Business School</div>
+                            <div class="text-xs text-gray-500">National Open University</div>
                         </div>
                     </Link>
 
                     <nav class="hidden lg:flex items-center gap-7">
                         <template v-for="link in navLinks" :key="link.label">
-                            <a
-                                v-if="link.href.startsWith('#') || link.href.startsWith('/#')"
-                                :href="link.href"
-                                class="text-sm font-medium text-gray-600 hover:text-noun-green transition-colors duration-200"
-                            >{{ link.label }}</a>
-                            <Link
-                                v-else
-                                :href="link.href"
-                                class="text-sm font-medium text-gray-600 hover:text-noun-green transition-colors duration-200"
-                            >{{ link.label }}</Link>
+                            <a v-if="link.href.startsWith('#') || link.href.startsWith('/#')" :href="link.href" class="text-sm font-medium text-gray-600 hover:text-noun-green transition-colors">{{ link.label }}</a>
+                            <Link v-else :href="link.href" class="text-sm font-medium text-gray-600 hover:text-noun-green transition-colors">{{ link.label }}</Link>
                         </template>
                     </nav>
 
                     <div class="hidden lg:flex items-center gap-3">
                         <Link v-if="$page.props.auth?.user" :href="route('dashboard')" class="text-sm font-medium text-noun-green hover:text-noun-dark transition-colors">My Dashboard</Link>
                         <template v-else>
-                            <Link :href="route('login')" class="text-sm font-medium border rounded-md px-4 py-2 transition-all duration-200 text-noun-dark border-gray-300 hover:border-noun-dark hover:bg-gray-50">Applicant Login</Link>
-                            <Link :href="route('admission.start')" class="text-sm font-semibold bg-noun-green text-white px-5 py-2 rounded-md hover:bg-noun-dark transition-colors shadow-sm">Apply Now</Link>
+                            <Link :href="route('login')" class="text-sm font-medium border border-gray-300 text-noun-dark px-5 py-2.5 rounded-full hover:border-noun-dark hover:bg-gray-50 transition-all">Applicant Login</Link>
+                            <Link :href="route('admission.start')" class="text-sm font-bold bg-noun-green text-white px-5 py-2.5 rounded-full hover:bg-noun-dark transition shadow-lg shadow-noun-green/20">Apply Now</Link>
                         </template>
                     </div>
 
-                    <button class="lg:hidden p-2 rounded-md text-noun-dark transition-colors" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Toggle menu">
+                    <button class="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-gray-100" @click="mobileMenuOpen = !mobileMenuOpen" aria-label="Toggle menu">
                         <svg v-if="!mobileMenuOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                         <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                     </button>
@@ -132,18 +156,20 @@ Object.values(courseDetails).forEach(course => {
             <div v-if="mobileMenuOpen" class="lg:hidden bg-white border-t border-gray-100 shadow-xl">
                 <div class="px-4 pt-4 pb-6 space-y-1">
                     <template v-for="link in navLinks" :key="link.label">
-                        <a v-if="link.href.startsWith('#') || link.href.startsWith('/#')" :href="link.href" class="block px-3 py-3 text-gray-700 hover:text-noun-green hover:bg-gray-50 rounded-md text-sm font-medium transition-colors" @click="mobileMenuOpen = false">{{ link.label }}</a>
-                        <Link v-else :href="link.href" class="block px-3 py-3 text-gray-700 hover:text-noun-green hover:bg-gray-50 rounded-md text-sm font-medium transition-colors" @click="mobileMenuOpen = false">{{ link.label }}</Link>
+                        <a v-if="link.href.startsWith('#') || link.href.startsWith('/#')" :href="link.href" class="block px-3 py-3 text-gray-700 hover:text-noun-green hover:bg-gray-50 rounded-lg text-sm font-medium transition-colors" @click="mobileMenuOpen = false">{{ link.label }}</a>
+                        <Link v-else :href="link.href" class="block px-3 py-3 text-gray-700 hover:text-noun-green hover:bg-gray-50 rounded-lg text-sm font-medium transition-colors" @click="mobileMenuOpen = false">{{ link.label }}</Link>
                     </template>
                     <div class="pt-4 border-t border-gray-100 space-y-2 mt-4">
-                        <Link :href="route('login')" class="block px-3 py-3 text-center text-noun-dark border border-gray-200 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors" @click="mobileMenuOpen = false">Applicant Login</Link>
-                        <Link :href="route('admission.start')" class="block px-3 py-3 text-center bg-noun-green text-white rounded-md text-sm font-semibold hover:bg-noun-dark transition-colors" @click="mobileMenuOpen = false">Apply Now</Link>
+                        <Link :href="route('login')" class="block px-3 py-3 text-center text-noun-dark border border-gray-200 rounded-full text-sm font-medium hover:bg-gray-50 transition-colors" @click="mobileMenuOpen = false">Applicant Login</Link>
+                        <Link :href="route('admission.start')" class="block px-3 py-3 text-center bg-noun-green text-white rounded-full text-sm font-bold hover:bg-noun-dark transition-colors" @click="mobileMenuOpen = false">Apply Now</Link>
                     </div>
                 </div>
             </div>
         </header>
+
         <!-- MAIN CONTENT -->
         <main class="flex-grow pt-20 bg-white lg:flex lg:flex-col lg:h-screen lg:overflow-hidden">
+
 
             <!-- Page Banner -->
             <div class="bg-noun-dark relative overflow-hidden lg:flex-shrink-0">
@@ -200,105 +226,67 @@ Object.values(courseDetails).forEach(course => {
                         
                         <!-- Sidebar Navigation -->
                         <div class="w-full lg:w-72 flex-shrink-0 lg:h-full lg:overflow-y-auto lg:pb-10 hide-scrollbar">
-                            <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100">
-                                <div class="bg-gradient-to-r from-noun-dark to-noun-green px-6 py-5">
-                                    <h3 class="text-sm font-bold text-white/80 uppercase tracking-widest">Degrees Offered</h3>
+
+                            <!-- Mobile: horizontal pill scroller -->
+                            <div class="flex lg:hidden gap-2 overflow-x-auto pb-3 hide-scrollbar mb-6">
+                                <button v-for="deg in degrees" :key="deg.key"
+                                    @click="activeTab = deg.key"
+                                    :class="activeTab === deg.key ? 'bg-noun-green text-white shadow-lg shadow-noun-green/25' : 'bg-white text-gray-600 border border-gray-200'"
+                                    class="flex-shrink-0 flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all duration-200"
+                                >
+                                    <span>{{ deg.abbr }}</span>
+                                    <span :class="activeTab === deg.key ? 'bg-white/30 text-white' : 'bg-gray-100 text-gray-500'" class="text-[10px] font-black px-1.5 py-0.5 rounded-full">{{ programmes[deg.key].length }}</span>
+                                </button>
+                            </div>
+
+                            <!-- Desktop: full sidebar card -->
+                            <div class="hidden lg:block bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100">
+                                <!-- Sidebar header -->
+                                <div class="relative bg-noun-dark px-6 py-5 overflow-hidden">
+                                    <div class="absolute -top-8 -right-8 w-28 h-28 bg-noun-green/20 rounded-full blur-2xl"></div>
+                                    <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-noun-green/40 to-transparent"></div>
+                                    <p class="text-noun-yellow text-[10px] font-black uppercase tracking-widest mb-1">Academic Catalogue</p>
+                                    <h3 class="text-white font-black text-sm leading-tight">Select a Degree Programme</h3>
                                 </div>
+
+                                <!-- Degree buttons -->
                                 <div class="p-3 flex flex-col gap-1">
-                                    <!-- GDBA -->
-                                    <button @click="activeTab = 'gdp'"
-                                        :class="activeTab === 'gdp' ? 'bg-noun-green/10 text-noun-green border-noun-green/20' : 'text-gray-600 hover:bg-gray-50 border-transparent'"
-                                        class="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-left transition-all duration-300 border group">
-                                        <div :class="activeTab === 'gdp' ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-400 group-hover:bg-gray-200'"
+                                    <button v-for="deg in degrees" :key="deg.key"
+                                        @click="activeTab = deg.key"
+                                        :class="activeTab === deg.key ? 'bg-noun-green/10 border-noun-green/25 text-noun-green' : 'border-transparent text-gray-600 hover:bg-gray-50'"
+                                        class="w-full flex items-center gap-3 px-4 py-3.5 rounded-2xl text-left transition-all duration-200 border group"
+                                    >
+                                        <div :class="activeTab === deg.key ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-400 group-hover:bg-gray-200'"
                                             class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="deg.icon"/>
+                                            </svg>
                                         </div>
                                         <div class="flex-grow min-w-0">
-                                            <div class="font-bold text-sm leading-tight">Graduate Diploma</div>
-                                            <div class="text-xs mt-0.5" :class="activeTab === 'gdp' ? 'text-noun-green/70' : 'text-gray-400'">GDBA</div>
+                                            <div class="font-bold text-sm leading-tight truncate">{{ deg.label }}</div>
+                                            <div class="text-[11px] mt-0.5 truncate" :class="activeTab === deg.key ? 'text-noun-green/70' : 'text-gray-400'">{{ deg.abbr }}{{ programmes[deg.key].length > 1 ? ' · ' + programmes[deg.key].length + ' tracks' : '' }}</div>
                                         </div>
-                                        <span class="text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0"
-                                            :class="activeTab === 'gdp' ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-500'">1</span>
-                                    </button>
-
-                                    <!-- MPA -->
-                                    <button @click="activeTab = 'mpa'"
-                                        :class="activeTab === 'mpa' ? 'bg-noun-green/10 text-noun-green border-noun-green/20' : 'text-gray-600 hover:bg-gray-50 border-transparent'"
-                                        class="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-left transition-all duration-300 border group">
-                                        <div :class="activeTab === 'mpa' ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-400 group-hover:bg-gray-200'"
-                                            class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                                        </div>
-                                        <div class="flex-grow min-w-0">
-                                            <div class="font-bold text-sm leading-tight">Master of Public Admin.</div>
-                                            <div class="text-xs mt-0.5" :class="activeTab === 'mpa' ? 'text-noun-green/70' : 'text-gray-400'">MPA</div>
-                                        </div>
-                                        <span class="text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0"
-                                            :class="activeTab === 'mpa' ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-500'">2</span>
-                                    </button>
-
-                                    <!-- MBA -->
-                                    <button @click="activeTab = 'mba'"
-                                        :class="activeTab === 'mba' ? 'bg-noun-green/10 text-noun-green border-noun-green/20' : 'text-gray-600 hover:bg-gray-50 border-transparent'"
-                                        class="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-left transition-all duration-300 border group">
-                                        <div :class="activeTab === 'mba' ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-400 group-hover:bg-gray-200'"
-                                            class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                                        </div>
-                                        <div class="flex-grow min-w-0">
-                                            <div class="font-bold text-sm leading-tight">Master of Business Admin.</div>
-                                            <div class="text-xs mt-0.5" :class="activeTab === 'mba' ? 'text-noun-green/70' : 'text-gray-400'">MBA · 28 Specialisations</div>
-                                        </div>
-                                        <span class="text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0"
-                                            :class="activeTab === 'mba' ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-500'">28</span>
-                                    </button>
-
-                                    <!-- DPA -->
-                                    <button @click="activeTab = 'dpa'"
-                                        :class="activeTab === 'dpa' ? 'bg-noun-green/10 text-noun-green border-noun-green/20' : 'text-gray-600 hover:bg-gray-50 border-transparent'"
-                                        class="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-left transition-all duration-300 border group">
-                                        <div :class="activeTab === 'dpa' ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-400 group-hover:bg-gray-200'"
-                                            class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
-                                        </div>
-                                        <div class="flex-grow min-w-0">
-                                            <div class="font-bold text-sm leading-tight">Doctor of Public Admin.</div>
-                                            <div class="text-xs mt-0.5" :class="activeTab === 'dpa' ? 'text-noun-green/70' : 'text-gray-400'">DPA</div>
-                                        </div>
-                                        <span class="text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0"
-                                            :class="activeTab === 'dpa' ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-500'">1</span>
-                                    </button>
-
-                                    <!-- DBA -->
-                                    <button @click="activeTab = 'dba'"
-                                        :class="activeTab === 'dba' ? 'bg-noun-green/10 text-noun-green border-noun-green/20' : 'text-gray-600 hover:bg-gray-50 border-transparent'"
-                                        class="w-full flex items-center gap-4 px-4 py-4 rounded-2xl text-left transition-all duration-300 border group">
-                                        <div :class="activeTab === 'dba' ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-400 group-hover:bg-gray-200'"
-                                            class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-colors">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-                                        </div>
-                                        <div class="flex-grow min-w-0">
-                                            <div class="font-bold text-sm leading-tight">Doctor of Business Admin.</div>
-                                            <div class="text-xs mt-0.5" :class="activeTab === 'dba' ? 'text-noun-green/70' : 'text-gray-400'">DBA · 28 Specialisations</div>
-                                        </div>
-                                        <span class="text-xs font-bold px-2 py-1 rounded-lg flex-shrink-0"
-                                            :class="activeTab === 'dba' ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-500'">28</span>
+                                        <span class="text-[11px] font-black px-2 py-1 rounded-lg flex-shrink-0 transition-colors"
+                                            :class="activeTab === deg.key ? 'bg-noun-green text-white' : 'bg-gray-100 text-gray-500'">
+                                            {{ programmes[deg.key].length }}
+                                        </span>
                                     </button>
                                 </div>
 
                                 <!-- Apply CTA -->
-                                <div class="p-4 border-t border-gray-100">
-                                    <Link :href="route('admission.start')" class="w-full flex items-center justify-center gap-2 bg-noun-green text-white font-bold text-sm py-3.5 rounded-2xl hover:bg-noun-dark transition-all duration-300 shadow-[0_4px_15px_rgba(0,102,0,0.25)] hover:shadow-[0_8px_25px_rgba(0,102,0,0.35)] hover:-translate-y-0.5">
+                                <div class="p-4 border-t border-gray-100 space-y-2">
+                                    <Link :href="route('admission.start')" class="w-full flex items-center justify-center gap-2 bg-noun-green text-white font-bold text-sm py-3.5 rounded-2xl hover:bg-noun-dark transition-all duration-300 shadow-md shadow-noun-green/25 hover:shadow-lg hover:-translate-y-0.5">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
                                         Apply Now
                                     </Link>
-                                    <Link :href="route('resources')" class="w-full flex items-center justify-center gap-2 text-noun-dark font-semibold text-sm py-3 mt-2 rounded-2xl hover:bg-gray-50 transition-all duration-300 border border-gray-200 hover:border-gray-300">
+                                    <Link :href="route('resources')" class="w-full flex items-center justify-center gap-2 text-noun-dark font-semibold text-sm py-3 rounded-2xl hover:bg-gray-50 transition-all duration-200 border border-gray-200 hover:border-gray-300">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                                         Download Brochure
                                     </Link>
                                 </div>
                             </div>
                         </div>
+
 
                         <!-- Track Cards Grid -->
                         <div class="flex-grow min-w-0 lg:h-full lg:overflow-y-auto lg:pr-4 lg:pb-20 hide-scrollbar">

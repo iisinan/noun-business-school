@@ -598,22 +598,24 @@ const featuredSpecialisations = [
                     <!-- Pull quote -->
                     <div class="relative" v-reveal="100">
                         <div class="absolute -top-10 -left-8 text-[10rem] text-noun-yellow/10 font-serif leading-none select-none">"</div>
-                        <blockquote class="relative">
-                            <p class="text-3xl lg:text-4xl font-light text-noun-dark leading-snug italic">
+                        <blockquote class="relative mb-12">
+                            <p class="text-2xl lg:text-3xl font-light text-noun-dark leading-snug italic">
                                 I invite you to join this pioneering cohort — to help shape the culture, standards and legacy of a Business School that will, in time, be counted among Africa's finest. Welcome to NOUN Business School.
                             </p>
-                            <footer class="mt-10">
-                                <div class="flex items-center gap-5 sm:gap-7">
-                                    <img src="/vc_pic.png" alt="Professor Olufemi Peters" class="w-24 sm:w-28 h-24 sm:h-28 rounded-full object-cover border-4 border-noun-yellow shadow-md" />
-                                    <div>
-                                        <div class="font-bold text-noun-dark text-lg">Professor Olufemi Peters</div>
-                                        <div class="text-gray-500 text-sm uppercase tracking-wider font-medium mt-1">Vice Chancellor, National Open University of Nigeria</div>
-                                    </div>
-                                </div>
-                            </footer>
                         </blockquote>
 
-                        <div class="mt-16 pt-12 border-t border-gray-100">
+                        <div class="relative mb-16 max-w-md lg:max-w-sm xl:max-w-md mx-auto lg:mx-0 mt-8">
+                            <div class="absolute inset-0 bg-noun-green rounded-3xl translate-x-4 translate-y-4 opacity-10"></div>
+                            <img src="/vc_pic.png" alt="Prof. Uduma. O. Uduma" class="relative z-10 w-full h-[350px] lg:h-[400px] object-cover object-top rounded-3xl border-4 border-white shadow-xl" />
+                            
+                            <!-- Floating Badge -->
+                            <div class="absolute -bottom-6 -left-4 sm:-left-6 z-20 bg-white p-5 rounded-2xl shadow-xl border border-gray-100 max-w-[280px]">
+                                <div class="text-noun-dark font-bold text-lg leading-tight">Prof. Uduma. O. Uduma</div>
+                                <div class="text-noun-yellow font-bold text-[10px] sm:text-xs uppercase tracking-wider mt-1.5">Vice Chancellor, NOUN</div>
+                            </div>
+                        </div>
+
+                        <div class="pt-8 border-t border-gray-100">
                             <div class="flex items-start gap-5">
                                 <div class="w-1.5 flex-shrink-0 h-16 bg-gradient-to-b from-noun-yellow to-noun-yellow-light rounded-full mt-1"></div>
                                 <div>

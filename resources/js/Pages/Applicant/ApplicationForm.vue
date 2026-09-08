@@ -243,6 +243,15 @@ const addOlevel = () => {
     }
 };
 
+const getAvailableSubjects = (sittingIndex, currentSubjectIdx) => {
+    const currentSitting = form.olevel_results[sittingIndex];
+    const selectedSubjects = currentSitting.subjects
+        .map((sub, idx) => idx !== currentSubjectIdx ? sub.name : null)
+        .filter(name => name && name !== 'Other');
+
+    return olevelSubjects.filter(subject => !selectedSubjects.includes(subject));
+};
+
 const removeOlevel = (index) => {
     form.olevel_results.splice(index, 1);
 };
@@ -662,7 +671,7 @@ const removeAttachedFile = (reqDesc, idx) => {
                                     <div class="grid grid-cols-2 gap-3" v-for="(sub, subIdx) in olevel.subjects" :key="subIdx">
                                         <select v-model="sub.name" :disabled="subIdx === 0 || subIdx === 1" :class="[errorClass('olevel_sub_name_'+index+'_'+subIdx), subIdx === 0 || subIdx === 1 ? 'bg-gray-100 cursor-not-allowed text-gray-600' : '']" class="block w-full rounded-lg sm:text-sm shadow-sm focus:border-noun-green focus:ring-noun-green py-2">
                                             <option value="">Select Subject...</option>
-                                            <option v-for="subject in olevelSubjects" :key="subject" :value="subject">{{ subject }}</option>
+                                            <option v-for="subject in getAvailableSubjects(index, subIdx)" :key="subject" :value="subject">{{ subject }}</option>
                                             <option value="Other">Other...</option>
                                         </select>
                                         <select v-model="sub.grade" :class="errorClass('olevel_sub_grade_'+index+'_'+subIdx)" class="block w-full rounded-lg sm:text-sm shadow-sm focus:border-noun-green focus:ring-noun-green py-2">

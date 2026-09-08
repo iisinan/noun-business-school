@@ -24,7 +24,7 @@
             </svg>
             <p class="text-xs text-amber-800 leading-relaxed">
                 <strong>Can't find it?</strong> Check your <strong>spam or junk folder</strong>.
-                Look for an email from <em class="font-medium">admissions@pricenquote.com</em>.
+                Look for an email from <em class="font-medium">admissions@noun.edu.ng</em>.
             </p>
         </div>
 

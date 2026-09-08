@@ -676,6 +676,20 @@ const removeAttachedFile = (reqDesc, idx) => {
 
                             <div>
                                 <h4 class="font-semibold text-gray-900 mb-4">Required Documents</h4>
+
+                                <!-- Official Transcript Notice -->
+                                <div class="mb-5 bg-amber-50 border border-amber-200 rounded-xl p-4 flex gap-3">
+                                    <svg class="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
+                                    </svg>
+                                    <div>
+                                        <h5 class="text-sm font-bold text-amber-900 mb-1">Official Transcripts Required</h5>
+                                        <p class="text-xs text-amber-800 leading-relaxed">
+                                            While you can upload a <strong>student copy</strong> of your transcript below to proceed with your application, you must also request your previous institution to forward your <strong>official transcript</strong> directly to <a href="mailto:nounbusinessschool@noun.edu.ng" class="font-semibold underline hover:text-amber-900">nounbusinessschool@noun.edu.ng</a>.
+                                        </p>
+                                    </div>
+                                </div>
+
                                 <div v-for="req in programmeRequirements" :key="req.id">
                                     <div v-if="req.is_document == 1 || req.is_document === true || req.is_document === '1'" class="mb-6 bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
                                         <div class="flex justify-between items-start mb-3">

@@ -62,7 +62,7 @@ class ApplicationController extends Controller
             'academic_background' => 'required|array',
             'olevel_results' => 'required|array',
             'employment_info' => 'required|array',
-            'passport_photograph' => 'required|image|max:500', // 500KB limit
+            'passport_photograph' => 'nullable|image|max:500', // Nullable – draft may have already saved it
             'referees' => 'nullable|array',
             'referees.*.name' => 'required_with:referees|string',
             'referees.*.email' => 'required_with:referees|email',
@@ -97,10 +97,15 @@ class ApplicationController extends Controller
             }
         }
 
-        // Handle passport upload
+        // Handle passport upload – fall back to draft-saved passport if no new one uploaded
         $personalInfo = $validated['personal_info'];
         if ($request->hasFile('passport_photograph')) {
             $personalInfo['passport_photograph_path'] = $request->file('passport_photograph')->store('applications/passports', 'public');
+        } elseif (isset($request->user()->application_draft['personal_info']['passport_photograph_path'])) {
+            $personalInfo['passport_photograph_path'] = $request->user()->application_draft['personal_info']['passport_photograph_path'];
+        } else {
+            // No passport at all – fail gracefully
+            return back()->withErrors(['passport_photograph' => 'A passport photograph is required.'])->withInput();
         }
 
         // Smart capture: if the user didn't have a middle name but provided it here, save it to their profile.
@@ -166,6 +171,18 @@ class ApplicationController extends Controller
         $user = $request->user();
         
         $draftData = $request->except(['_token', 'passport_photograph', 'documents']);
+        
+        if (!isset($draftData['personal_info'])) {
+            $draftData['personal_info'] = [];
+        }
+
+        if ($request->hasFile('passport_photograph')) {
+            $path = $request->file('passport_photograph')->store('applications/passports', 'public');
+            $draftData['personal_info']['passport_photograph_path'] = $path;
+        } elseif (isset($user->application_draft['personal_info']['passport_photograph_path'])) {
+            // Retain the previously uploaded draft passport if a new one wasn't uploaded this time
+            $draftData['personal_info']['passport_photograph_path'] = $user->application_draft['personal_info']['passport_photograph_path'];
+        }
         
         $user->application_draft = $draftData;
         $user->save();

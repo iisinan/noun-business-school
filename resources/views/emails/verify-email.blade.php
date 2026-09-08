@@ -10,7 +10,7 @@
 
 ---
 
-**Hello {{ $notifiable->first_name }},**
+**Hello {{ $firstName }},**
 
 Thank you for registering with NOUN Business School. To complete your account setup and begin your application, please verify your email address by clicking the button below.
 

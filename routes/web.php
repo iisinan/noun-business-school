@@ -36,9 +36,13 @@ Route::get('/resources', function () {
     return Inertia::render('Resources');
 })->name('resources');
 
+Route::get('/career', function () {
+    return Inertia::render('Career');
+})->name('career');
+
 Route::get('/apply', [\App\Http\Controllers\AdmissionController::class, 'start'])->name('admission.start');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

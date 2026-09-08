@@ -45,7 +45,9 @@ const form = useForm({
     passport_photograph: null,
     personal_info: {
         title: '',
-        full_name: user.full_name || '',
+        first_name: user.first_name || '',
+        middle_name: user.middle_name || '',
+        last_name: user.last_name || '',
         gender: '',
         marital_status: '',
         dob: '',
@@ -101,7 +103,7 @@ const nextStep = () => {
     // Step 2 Validation
     if (currentStep.value === 2) {
         const p = form.personal_info;
-        const requiredFields = ['full_name', 'gender', 'marital_status', 'dob', 'nationality', 'state_of_origin', 'phone', 'email', 'address'];
+        const requiredFields = ['first_name', 'last_name', 'gender', 'marital_status', 'dob', 'nationality', 'state_of_origin', 'phone', 'email', 'address'];
         requiredFields.forEach(f => {
             if (!p[f]) { fieldErrors.value[f] = true; hasError = true; }
         });
@@ -480,11 +482,21 @@ const removeAttachedFile = (reqDesc, idx) => {
                                 <h3 class="text-xl font-bold text-gray-900">Personal Information</h3>
                                 <p class="text-sm text-gray-500 mt-1">Please provide your basic contact and background details. (<span class="text-red-500">*</span> Required fields)</p>
                             </div>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-5">
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Full Name <span class="text-red-500">*</span></label>
-                                    <input type="text" v-model="form.personal_info.full_name" readonly :class="errorClass('full_name')" class="block w-full rounded-lg bg-gray-100 text-gray-600 shadow-sm sm:text-sm cursor-not-allowed">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">First Name <span class="text-red-500">*</span></label>
+                                    <input type="text" v-model="form.personal_info.first_name" readonly class="block w-full rounded-lg bg-gray-100 text-gray-600 shadow-sm sm:text-sm cursor-not-allowed border-gray-200">
                                 </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Middle Name</label>
+                                    <input type="text" v-model="form.personal_info.middle_name" :readonly="!!user.middle_name" :class="[user.middle_name ? 'bg-gray-100 text-gray-600 cursor-not-allowed border-gray-200' : 'focus:border-noun-green focus:ring-noun-green']" class="block w-full rounded-lg shadow-sm sm:text-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Last Name <span class="text-red-500">*</span></label>
+                                    <input type="text" v-model="form.personal_info.last_name" readonly class="block w-full rounded-lg bg-gray-100 text-gray-600 shadow-sm sm:text-sm cursor-not-allowed border-gray-200">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1.5">Gender <span class="text-red-500">*</span></label>
                                     <select v-model="form.personal_info.gender" :class="errorClass('gender')" class="block w-full rounded-lg shadow-sm focus:border-noun-green focus:ring-noun-green sm:text-sm py-2">

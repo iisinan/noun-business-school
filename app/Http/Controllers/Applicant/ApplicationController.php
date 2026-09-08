@@ -97,6 +97,13 @@ class ApplicationController extends Controller
             $personalInfo['passport_photograph_path'] = $request->file('passport_photograph')->store('applications/passports', 'public');
         }
 
+        // Smart capture: if the user didn't have a middle name but provided it here, save it to their profile.
+        $user = $request->user();
+        if (empty($user->middle_name) && !empty($personalInfo['middle_name'])) {
+            $user->middle_name = $personalInfo['middle_name'];
+            $user->save();
+        }
+
         // Generate application number
         $applicationNumber = 'APP/' . date('Y') . '/' . str_pad(rand(1, 99999), 5, '0', STR_PAD_LEFT);
 

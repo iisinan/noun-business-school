@@ -45,7 +45,7 @@ const form = useForm({
     passport_photograph: null,
     personal_info: {
         title: '',
-        full_name: `${user.first_name} ${user.last_name || ''}`.trim(),
+        full_name: user.full_name || '',
         gender: '',
         marital_status: '',
         dob: '',

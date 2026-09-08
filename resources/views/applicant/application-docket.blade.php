@@ -55,7 +55,7 @@
         <div class="mb-8">
             <h4 class="bg-gray-200 text-gray-800 font-bold px-4 py-2 uppercase text-xs tracking-wider mb-4 border-l-4 border-[#006600]">1. Personal Information</h4>
             <div class="grid grid-cols-2 gap-y-4 gap-x-8 px-4">
-                <div><span class="text-gray-500 text-xs block">Full Name</span><span class="font-semibold">{{ $application->personal_info['full_name'] ?? $application->user->first_name . ' ' . $application->user->last_name }}</span></div>
+                <div><span class="text-gray-500 text-xs block">Full Name</span><span class="font-semibold">{{ $application->personal_info['full_name'] ?? $application->user->full_name }}</span></div>
                 <div><span class="text-gray-500 text-xs block">Email Address</span><span class="font-semibold">{{ $application->user->email }}</span></div>
                 <div><span class="text-gray-500 text-xs block">Phone Number</span><span class="font-semibold">{{ $application->personal_info['phone'] ?? 'N/A' }}</span></div>
                 <div><span class="text-gray-500 text-xs block">Date of Birth</span><span class="font-semibold">{{ $application->personal_info['dob'] ?? 'N/A' }}</span></div>

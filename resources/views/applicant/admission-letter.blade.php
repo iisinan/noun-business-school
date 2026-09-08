@@ -44,7 +44,7 @@
         <!-- Addressee & Passport -->
         <div class="mb-8 flex justify-between items-start">
             <div>
-                <p class="font-bold text-lg">{{ $application->user->first_name }} {{ $application->user->last_name }}</p>
+                <p class="font-bold text-lg">{{ $application->user->full_name }}</p>
                 <p>{{ $application->personal_info['address'] ?? 'Applicant Address' }}</p>
                 <p>{{ $application->personal_info['state_of_origin'] ?? '' }}, {{ $application->personal_info['nationality'] ?? '' }}</p>
             </div>

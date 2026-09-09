@@ -30,13 +30,24 @@ const vReveal = {
 // ── Navigation state ──────────────────────────────────────────────────────────
 const mobileMenuOpen = ref(false);
 const scrolled = ref(false);
+const showMainLogo = ref(false);
+let logoInterval;
 
 function handleScroll() {
     scrolled.value = window.scrollY > 60;
 }
 
-onMounted(() => window.addEventListener('scroll', handleScroll));
-onUnmounted(() => window.removeEventListener('scroll', handleScroll));
+onMounted(() => {
+    window.addEventListener('scroll', handleScroll);
+    logoInterval = setInterval(() => {
+        showMainLogo.value = !showMainLogo.value;
+    }, 5000);
+});
+
+onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+    clearInterval(logoInterval);
+});
 
 // ── Specialisation accordion state ────────────────────────────────────────────
 const openAccordion = ref(null);
@@ -261,7 +272,19 @@ const featuredSpecialisations = [
 
                     <!-- Logo -->
                     <a href="#home" class="flex items-center gap-3 flex-shrink-0">
-                        <img src="/nbs-logo.png" alt="NOUN Business School Logo" class="h-12 w-auto object-contain drop-shadow-sm" />
+                        <div class="relative h-12 w-[3.5rem] flex-shrink-0 [perspective:1000px]">
+                            <transition
+                                enter-active-class="transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] absolute inset-0"
+                                leave-active-class="transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] absolute inset-0"
+                                enter-from-class="opacity-0 [transform:rotateY(-90deg)] scale-75"
+                                enter-to-class="opacity-100 [transform:rotateY(0deg)] scale-100"
+                                leave-from-class="opacity-100 [transform:rotateY(0deg)] scale-100"
+                                leave-to-class="opacity-0 [transform:rotateY(90deg)] scale-75"
+                            >
+                                <img v-if="!showMainLogo" src="/nbs-logo.png" alt="NOUN Business School Logo" class="h-12 w-full object-contain drop-shadow-sm absolute inset-0" />
+                                <img v-else src="/noun-logo.png" alt="NOUN Logo" class="h-12 w-full object-contain drop-shadow-sm absolute inset-0" />
+                            </transition>
+                        </div>
                         <div class="leading-tight">
                             <div class="font-bold text-sm tracking-tight text-noun-dark transition-colors duration-300">
                                 NOUN Business School

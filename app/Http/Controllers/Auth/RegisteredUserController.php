@@ -14,6 +14,8 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
+use Illuminate\Support\Str;
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -37,8 +39,10 @@ class RegisteredUserController extends Controller
             'last_name' => 'required|string|max:255',
             'phone' => 'required|string|max:20',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
-            'referral_code' => 'nullable|string|max:255',
+            'referral_code' => 'nullable|string|exists:users,personal_referral_code',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ], [
+            'referral_code.exists' => 'The provided referral code is invalid.',
         ]);
 
         $user = User::create([
@@ -48,6 +52,7 @@ class RegisteredUserController extends Controller
             'phone' => $request->phone,
             'email' => $request->email,
             'referral_code' => $request->referral_code,
+            'personal_referral_code' => strtoupper(substr(preg_replace('/[^A-Za-z]/', '', $request->first_name), 0, 3)) . rand(1000, 9999),
             'password' => Hash::make($request->password),
         ]);
 

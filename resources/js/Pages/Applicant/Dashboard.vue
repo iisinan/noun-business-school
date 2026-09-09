@@ -89,6 +89,26 @@ const payForm = useForm({
                     <div class="h-1 bg-gradient-to-r from-noun-green via-noun-yellow to-noun-green"></div>
                 </div>
 
+                <!-- Referral Widget -->
+                <div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                    <div class="px-6 py-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div>
+                            <h3 class="font-bold text-gray-900 flex items-center gap-2">
+                                <svg class="w-5 h-5 text-noun-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                                </svg>
+                                Refer a Friend
+                            </h3>
+                            <p class="text-sm text-gray-500 mt-1">Share this code with your friends and colleagues to earn rewards when they enroll.</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="bg-gray-100 border border-gray-200 text-gray-800 font-mono font-bold px-4 py-2 rounded-lg text-lg tracking-wider">
+                                {{ $page.props.auth.user.personal_referral_code || 'PENDING' }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div v-if="application" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                     <!-- Tracker Visual -->
                     <div class="lg:col-span-1 bg-white rounded-xl shadow-sm border border-gray-200 p-6">

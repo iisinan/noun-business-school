@@ -84,6 +84,7 @@ watch([search, role], debounce(function ([newSearch, newRole]) {
                                 <tr class="bg-gray-50">
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">User</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Contact</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Referral Code</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">System Role</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Wallet</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Joined</th>
@@ -120,6 +121,14 @@ watch([search, role], debounce(function ([newSearch, newRole]) {
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900 font-medium">{{ user.email }}</div>
                                         <div class="text-xs text-gray-500 mt-0.5">{{ user.phone || 'No phone' }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-700 font-mono">
+                                            <span v-if="user.referral_code" class="px-2 py-1 bg-gray-100 rounded text-xs border border-gray-200">
+                                                {{ user.referral_code }}
+                                            </span>
+                                            <span v-else class="text-xs text-gray-400 italic">None</span>
+                                        </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex gap-1 flex-wrap">

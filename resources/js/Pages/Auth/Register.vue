@@ -18,6 +18,7 @@ const form = useForm({
     last_name: '',
     phone: '',
     email: '',
+    referral_code: '',
     password: '',
     password_confirmation: '',
     programme_id: urlParams.get('programme_id') || '',
@@ -144,6 +145,24 @@ const closeModal = () => {
                     />
                 </div>
                 <InputError class="mt-1" :message="form.errors.email" />
+            </div>
+
+            <!-- Referral Code -->
+            <div>
+                <InputLabel for="referral_code" value="Referral Code (Optional)" />
+                <div class="relative mt-1">
+                    <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                    </div>
+                    <TextInput
+                        id="referral_code"
+                        type="text"
+                        class="block w-full pl-10"
+                        v-model="form.referral_code"
+                        placeholder="Enter code if you have one"
+                    />
+                </div>
+                <InputError class="mt-1" :message="form.errors.referral_code" />
             </div>
 
             <!-- Divider -->

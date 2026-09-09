@@ -17,6 +17,19 @@ const closeDocument = () => {
     setTimeout(() => { viewingDocumentUrl.value = null; }, 300);
 };
 
+const viewingReference = ref(null);
+const isReferenceModalOpen = ref(false);
+
+const openReference = (referee) => {
+    viewingReference.value = referee;
+    isReferenceModalOpen.value = true;
+};
+
+const closeReference = () => {
+    isReferenceModalOpen.value = false;
+    setTimeout(() => { viewingReference.value = null; }, 300);
+};
+
 const props = defineProps({
     application: Object
 });
@@ -288,8 +301,10 @@ const updateStatus = () => {
                                 </div>
                                 <!-- Reference Content -->
                                 <div v-if="referee.status === 'SUBMITTED'" class="mt-3">
-                                    <div class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Reference Letter</div>
-                                    <div class="bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-800 leading-relaxed whitespace-pre-wrap max-h-64 overflow-y-auto">{{ referee.reference_content }}</div>
+                                    <button @click="openReference(referee)" class="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-medium text-noun-dark hover:bg-gray-50 hover:border-gray-300 transition-colors shadow-sm">
+                                        <svg class="w-4 h-4 text-noun-green" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                                        View Reference Letter
+                                    </button>
                                 </div>
                                 <div v-else class="flex items-center gap-2 mt-3 text-xs text-amber-700 bg-amber-50 border border-amber-100 rounded-lg px-3 py-2">
                                     <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -440,6 +455,32 @@ const updateStatus = () => {
                 </div>
             </div>
         </Modal>
+
+        <!-- Reference Letter Modal -->
+        <Modal :show="isReferenceModalOpen" @close="closeReference" maxWidth="2xl">
+            <div v-if="viewingReference" class="bg-white rounded-lg overflow-hidden flex flex-col max-h-[85vh]">
+                <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50 shrink-0">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900">Reference Letter</h3>
+                        <p class="text-xs text-gray-500 mt-1">Submitted by {{ viewingReference.name }}</p>
+                    </div>
+                    <button @click="closeReference" class="text-gray-400 hover:text-gray-600 transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+                <div class="p-6 overflow-y-auto">
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 text-sm text-gray-800 leading-relaxed whitespace-pre-wrap font-serif">
+                        {{ viewingReference.reference_content }}
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t border-gray-100 bg-gray-50 flex justify-end shrink-0">
+                    <button @click="closeReference" class="px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </Modal>
+
 
     </AdminLayout>
 </template>

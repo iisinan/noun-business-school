@@ -272,14 +272,14 @@ const featuredSpecialisations = [
 
                     <!-- Logo -->
                     <a href="#home" class="flex items-center gap-3 flex-shrink-0 group">
-                        <div class="relative h-12 w-[3.5rem] flex-shrink-0">
+                        <div class="relative h-12 w-[3.5rem] flex-shrink-0 [perspective:1000px]">
                             <transition
-                                enter-active-class="transition-all duration-700 ease-[cubic-bezier(0.34,1.15,0.64,1)] absolute inset-0"
-                                leave-active-class="transition-all duration-700 ease-[cubic-bezier(0.34,1.15,0.64,1)] absolute inset-0"
-                                enter-from-class="opacity-0 [transform:perspective(500px)_rotateX(-90deg)_scale(0.8)]"
-                                enter-to-class="opacity-100 [transform:perspective(500px)_rotateX(0)_scale(1)]"
-                                leave-from-class="opacity-100 [transform:perspective(500px)_rotateX(0)_scale(1)]"
-                                leave-to-class="opacity-0 [transform:perspective(500px)_rotateX(90deg)_scale(0.8)]"
+                                enter-active-class="transition-all duration-1000 ease-in-out absolute inset-0 [transform-style:preserve-3d]"
+                                leave-active-class="transition-all duration-1000 ease-in-out absolute inset-0 [transform-style:preserve-3d]"
+                                enter-from-class="[transform:rotateY(-180deg)]"
+                                enter-to-class="[transform:rotateY(0deg)]"
+                                leave-from-class="[transform:rotateY(0deg)]"
+                                leave-to-class="[transform:rotateY(180deg)]"
                             >
                                 <img v-if="!showMainLogo" src="/nbs-logo.png" alt="NOUN Business School Logo" class="h-12 w-full object-contain drop-shadow-sm absolute inset-0 [backface-visibility:hidden]" />
                                 <img v-else src="/noun-logo.png" alt="NOUN Logo" class="h-12 w-full object-contain drop-shadow-sm absolute inset-0 [backface-visibility:hidden]" />

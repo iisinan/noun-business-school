@@ -96,6 +96,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/payments/statement', [\App\Http\Controllers\Student\DashboardController::class, 'statement'])->name('payments.statement');
         Route::post('/semester/register', [\App\Http\Controllers\Student\DashboardController::class, 'registerSemester'])->name('semester.register');
         Route::post('/courses/register', [\App\Http\Controllers\Student\DashboardController::class, 'registerCourses'])->name('courses.register');
+        Route::post('/summer/activate', [\App\Http\Controllers\Student\DashboardController::class, 'activateSummer'])->name('summer.activate');
+        Route::post('/summer/courses/register', [\App\Http\Controllers\Student\DashboardController::class, 'registerSummerCourses'])->name('summer.courses.register');
         Route::get('/courses/slip', [\App\Http\Controllers\Student\DashboardController::class, 'printSlip'])->name('courses.slip');
         Route::get('/results', [\App\Http\Controllers\Student\DashboardController::class, 'results'])->name('results');
         Route::get('/results/download', [\App\Http\Controllers\Student\DashboardController::class, 'downloadResults'])->name('results.download');

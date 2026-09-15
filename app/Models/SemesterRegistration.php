@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class SemesterRegistration extends Model
 {
-    protected $fillable = ['user_id', 'academic_session_id', 'school_semester', 'semester', 'amount', 'status'];
+    protected $fillable = ['user_id', 'academic_session_id', 'school_semester', 'semester', 'amount', 'status', 'is_summer'];
 
     public function user()
     {

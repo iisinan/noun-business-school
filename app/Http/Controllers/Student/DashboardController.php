@@ -252,6 +252,29 @@ class DashboardController extends Controller
 
         $transactions = WalletTransaction::where('user_id', $user->id)->latest()->take(10)->get();
 
+        $completedSemesters = [];
+        for ($i = 1; $i < $user->current_semester; $i++) {
+            $hasSummer = SemesterRegistration::where('user_id', $user->id)
+                ->where('semester', $i)
+                ->where('is_summer', true)
+                ->exists();
+                
+            $summerCourses = [];
+            if ($hasSummer) {
+                $summerCourses = CourseRegistration::with('course')
+                    ->where('user_id', $user->id)
+                    ->where('semester', $i)
+                    ->where('is_summer', true)
+                    ->get();
+            }
+
+            $completedSemesters[] = [
+                'semester' => $i,
+                'summer_activated' => $hasSummer,
+                'registered_courses' => $summerCourses
+            ];
+        }
+
         return Inertia::render('Student/Registration', [
             'wallet_balance' => (float) $user->wallet_balance,
             'transactions' => $transactions,
@@ -260,6 +283,7 @@ class DashboardController extends Controller
             'registeredCourses' => $registeredCourses,
             'availableCourses' => $availableCourses ?? [],
             'studentSemester' => $studentSemester ?? 1,
+            'completedSemesters' => $completedSemesters,
         ]);
     }
 
@@ -652,5 +676,142 @@ class DashboardController extends Controller
             'user' => $user,
             'application' => $application,
         ]);
+    }
+
+    public function activateSummer(Request $request)
+    {
+        $request->validate(['semester' => 'required|integer|min:1']);
+        $user = $request->user();
+        $semester = $request->semester;
+
+        if ($semester >= $user->current_semester) {
+            return back()->with('error', 'You can only activate summer for completed semesters.');
+        }
+
+        $activeSession = AcademicSession::where('is_active', true)->firstOrFail();
+        $cost = 15000.00;
+
+        if ($user->wallet_balance < $cost) {
+            return back()->with('error', 'Insufficient wallet balance for Summer Registration (N15,000).');
+        }
+
+        $alreadyActivated = SemesterRegistration::where('user_id', $user->id)
+            ->where('semester', $semester)
+            ->where('is_summer', true)
+            ->exists();
+
+        if ($alreadyActivated) {
+            return back()->with('error', 'Summer is already activated for Semester ' . $semester);
+        }
+
+        $user->wallet_balance -= $cost;
+        $user->save();
+
+        SemesterRegistration::create([
+            'user_id' => $user->id,
+            'academic_session_id' => $activeSession->id,
+            'school_semester' => $activeSession->current_semester,
+            'semester' => $semester,
+            'amount' => $cost,
+            'type' => 'semester_registration',
+            'description' => 'Summer Registration Fee for Sem ' . $semester,
+            'is_summer' => true,
+        ]);
+
+        WalletTransaction::create([
+            'user_id' => $user->id,
+            'amount' => $cost,
+            'type' => 'semester_registration',
+            'description' => 'Summer Registration for Sem ' . $semester,
+            'reference_id' => 'SUMMER_REG_' . $user->id . '_' . time(),
+            'is_credit' => false,
+        ]);
+
+        return back()->with('success', 'Summer session activated successfully for Semester ' . $semester . '!');
+    }
+
+    public function registerSummerCourses(Request $request)
+    {
+        $request->validate([
+            'semester' => 'required|integer',
+            'course_ids' => 'required|array|min:1',
+            'course_ids.*' => 'exists:courses,id'
+        ]);
+
+        $user = $request->user();
+        $semester = $request->semester;
+        $activeSession = AcademicSession::where('is_active', true)->firstOrFail();
+
+        $hasSummer = SemesterRegistration::where('user_id', $user->id)
+            ->where('semester', $semester)
+            ->where('is_summer', true)
+            ->exists();
+
+        if (!$hasSummer) {
+            return back()->with('error', 'You must activate Summer for Semester ' . $semester . ' first.');
+        }
+
+        $passedCourseIds = CourseRegistration::where('user_id', $user->id)
+            ->whereNotNull('grade')
+            ->where('grade', '!=', 'F')
+            ->pluck('course_id')
+            ->toArray();
+
+        $courses = Course::whereIn('id', $request->course_ids)
+            ->whereNotIn('id', $passedCourseIds)
+            ->get();
+
+        if ($courses->isEmpty()) {
+            return back()->with('error', 'All selected courses are either already passed or invalid.');
+        }
+
+        $totalCost = 0;
+        foreach ($courses as $c) {
+            $totalCost += ($c->units == 2) ? 2500 : (($c->units == 3) ? 3500 : ($c->units * 1000));
+        }
+
+        if ($user->wallet_balance < $totalCost) {
+            return back()->with('error', 'Insufficient wallet balance for selected courses.');
+        }
+
+        $registeredCount = 0;
+        foreach ($courses as $course) {
+            $exists = CourseRegistration::where('user_id', $user->id)
+                ->where('semester', $semester)
+                ->where('is_summer', true)
+                ->where('course_id', $course->id)
+                ->exists();
+
+            if (!$exists) {
+                $cost = ($course->units == 2) ? 2500 : (($course->units == 3) ? 3500 : ($course->units * 1000));
+                
+                $user->wallet_balance -= $cost;
+                $user->save();
+
+                CourseRegistration::create([
+                    'user_id' => $user->id,
+                    'academic_session_id' => $activeSession->id,
+                    'semester' => $semester,
+                    'course_id' => $course->id,
+                    'amount' => $cost,
+                    'type' => 'course_registration',
+                    'description' => 'Summer Course: ' . $course->code,
+                    'is_summer' => true,
+                ]);
+
+                WalletTransaction::create([
+                    'user_id' => $user->id,
+                    'amount' => $cost,
+                    'type' => 'course_registration',
+                    'description' => 'Summer Registration for ' . $course->code,
+                    'reference_id' => 'SUMMER_CRS_' . $user->id . '_' . $course->id . '_' . time(),
+                    'is_credit' => false,
+                ]);
+
+                $registeredCount++;
+            }
+        }
+
+        return back()->with('success', "Successfully registered $registeredCount courses for Summer $semester.");
     }
 }

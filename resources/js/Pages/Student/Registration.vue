@@ -14,6 +14,7 @@ const props = defineProps({
     registeredCourses: { type: Array, default: () => [] },
     availableCourses: { type: Array, default: () => [] },
     studentSemester: { type: Number, default: 1 },
+    completedSemesters: { type: Array, default: () => [] },
 });
 
 // ─── Toast system ──────────────────────────────────────────────
@@ -143,6 +144,58 @@ const canRegisterMore = computed(() => {
     return (totalRegisteredCredits.value + totalSelectedCredits.value) <= MAX_CREDITS;
 });
 
+// ─── Summer Session ──────────────────────────────────────────────
+const summerForm = useForm({ semester: '' });
+const summerCourseForm = useForm({ semester: '', course_ids: [] });
+const summerCourseModal = ref(null); // semester number
+
+const activateSummer = (semester) => {
+    openConfirm(
+        `Activate Summer for Semester ${semester}`,
+        'NGN 15,000 will be deducted from your wallet to activate this summer session.',
+        () => {
+            summerForm.semester = semester;
+            summerForm.post(route('student.summer.activate'), {
+                onSuccess: () => showToast('success', `Summer for Semester ${semester} activated!`),
+                onError: () => showToast('error', 'Failed to activate summer session.'),
+            });
+        }
+    );
+};
+
+const openSummerCourseModal = (semester) => {
+    summerCourseForm.semester = semester;
+    summerCourseForm.course_ids = [];
+    summerCourseModal.value = semester;
+};
+
+const toggleSummerCourse = (courseId) => {
+    const index = summerCourseForm.course_ids.indexOf(courseId);
+    if (index === -1) summerCourseForm.course_ids.push(courseId);
+    else summerCourseForm.course_ids.splice(index, 1);
+};
+
+const registerSummerCourses = () => {
+    if (summerCourseForm.course_ids.length === 0) return;
+    
+    const cost = props.availableCourses
+        .filter(c => summerCourseForm.course_ids.includes(c.id))
+        .reduce((sum, c) => sum + courseCost(c), 0);
+        
+    openConfirm(
+        'Register Summer Courses',
+        `NGN ${cost.toLocaleString()} will be deducted from your wallet.`,
+        () => {
+            summerCourseForm.post(route('student.summer.courses.register'), {
+                onSuccess: () => {
+                    summerCourseModal.value = null;
+                    showToast('success', 'Summer courses registered!');
+                }
+            });
+        }
+    );
+};
+
 </script>
 
 <template>
@@ -198,6 +251,60 @@ const canRegisterMore = computed(() => {
                     <div class="flex gap-3 justify-end">
                         <button @click="confirmModal = null" class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition">Cancel</button>
                         <button @click="doConfirm" class="px-4 py-2 text-sm font-bold text-white bg-noun-green rounded-lg hover:bg-noun-dark transition">Confirm & Pay</button>
+                    </div>
+                </div>
+            </div>
+        </transition>
+
+        <!-- Summer Course Modal -->
+        <transition
+            enter-active-class="transition duration-200 ease-out"
+            enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100"
+            leave-active-class="transition duration-150 ease-in"
+            leave-from-class="opacity-100 scale-100"
+            leave-to-class="opacity-0 scale-95"
+        >
+            <div v-if="summerCourseModal" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="summerCourseModal = null"></div>
+                <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden z-10">
+                    <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+                        <h3 class="text-lg font-bold text-gray-900">Register Summer Courses</h3>
+                        <button @click="summerCourseModal = null" class="text-gray-400 hover:text-gray-600 transition">
+                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                    <div class="p-6 overflow-y-auto flex-1 space-y-3">
+                        <p class="text-sm text-gray-500 mb-4">Select the outstanding or carry-over courses you wish to register for this summer session.</p>
+                        
+                        <label v-for="course in availableCourses" :key="course.id" class="flex items-start gap-4 p-4 border rounded-xl cursor-pointer transition-colors" :class="summerCourseForm.course_ids.includes(course.id) ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-orange-300'">
+                            <div class="flex items-center h-5 mt-1">
+                                <input
+                                    type="checkbox"
+                                    :value="course.id"
+                                    :checked="summerCourseForm.course_ids.includes(course.id)"
+                                    @change="toggleSummerCourse(course.id)"
+                                    class="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+                                >
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm font-bold text-gray-900">{{ course.code }}</span>
+                                    <span class="text-xs font-bold text-gray-500">{{ course.units }} cr</span>
+                                </div>
+                                <p class="text-sm text-gray-500 mt-0.5 truncate">{{ course.title }}</p>
+                            </div>
+                        </label>
+                        
+                        <div v-if="!availableCourses || availableCourses.length === 0" class="text-center py-6 text-gray-500 text-sm">
+                            No available courses for summer registration.
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-end gap-3">
+                        <button @click="summerCourseModal = null" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">Cancel</button>
+                        <button @click="registerSummerCourses" :disabled="summerCourseForm.course_ids.length === 0" class="px-4 py-2 text-sm font-bold text-white bg-orange-500 rounded-lg hover:bg-orange-600 transition disabled:opacity-50">
+                            Register Selected ({{ summerCourseForm.course_ids.length }})
+                        </button>
                     </div>
                 </div>
             </div>
@@ -548,6 +655,41 @@ const canRegisterMore = computed(() => {
                         <p class="text-xs mt-0.5">Complete semester registration above to unlock course selection.</p>
                     </div>
                 </div>
+
+                <!-- Summer Sessions -->
+                <div v-if="completedSemesters && completedSemesters.length > 0" class="mt-8 space-y-6">
+                    <h3 class="text-lg font-bold text-gray-800">Summer Sessions</h3>
+                    <div v-for="sem in completedSemesters" :key="sem.semester" class="bg-white rounded-2xl overflow-hidden shadow-sm border border-orange-200">
+                        <div class="px-6 py-4 bg-orange-50 border-b border-orange-100 flex items-center justify-between">
+                            <h3 class="text-base font-bold text-orange-900">Semester {{ sem.semester }} Summer</h3>
+                            <span v-if="sem.summer_activated" class="px-2 py-1 bg-orange-200 text-orange-800 text-xs font-bold rounded-md uppercase tracking-wide">Activated</span>
+                            <button v-else @click="activateSummer(sem.semester)" class="px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold rounded-lg shadow-sm transition">
+                                Activate (₦15,000)
+                            </button>
+                        </div>
+                        <div v-if="sem.summer_activated" class="px-6 py-5">
+                            <div v-if="sem.registered_courses && sem.registered_courses.length > 0" class="space-y-2 mb-4">
+                                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Registered Summer Courses</p>
+                                <div v-for="c in sem.registered_courses" :key="c.id" class="flex items-center justify-between py-2 px-3 bg-gray-50 border border-gray-100 rounded-lg">
+                                    <div>
+                                        <span class="text-sm font-bold text-gray-800">{{ c.course.code }}</span>
+                                        <span class="text-xs text-gray-500 block">{{ c.course.title }}</span>
+                                    </div>
+                                    <span class="text-xs font-semibold text-gray-500 bg-white border border-gray-200 px-2 py-1 rounded-md">{{ c.course.units }} cr</span>
+                                </div>
+                            </div>
+                            
+                            <button @click="openSummerCourseModal(sem.semester)" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 font-bold text-sm rounded-lg hover:bg-gray-200 transition">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                                Register More Courses
+                            </button>
+                        </div>
+                        <div v-else class="px-6 py-5 text-sm text-gray-500 text-center">
+                            Activate summer to register for carry-over or outstanding courses from this or previous semesters.
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <!-- ── Transactions Sidebar ── -->

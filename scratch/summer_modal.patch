@@ -1,0 +1,53 @@
+--- resources/js/Pages/Student/Registration.vue
++++ resources/js/Pages/Student/Registration.vue
+@@ -253,6 +253,50 @@
+                     </div>
+                 </div>
+             </div>
++
++            <!-- Summer Course Modal -->
++            <div v-if="summerCourseModal" class="fixed inset-0 z-40 flex items-center justify-center p-4">
++                <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="summerCourseModal = null"></div>
++                <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200">
++                    <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
++                        <h3 class="text-lg font-bold text-gray-900">Register Summer Courses</h3>
++                        <button @click="summerCourseModal = null" class="text-gray-400 hover:text-gray-600 transition">
++                            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
++                        </button>
++                    </div>
++                    <div class="p-6 overflow-y-auto flex-1 space-y-3">
++                        <p class="text-sm text-gray-500 mb-4">Select the outstanding or carry-over courses you wish to register for this summer session.</p>
++                        
++                        <label v-for="course in availableCourses" :key="course.id" class="flex items-start gap-4 p-4 border rounded-xl cursor-pointer transition-colors" :class="summerCourseForm.course_ids.includes(course.id) ? 'border-orange-500 bg-orange-50' : 'border-gray-200 hover:border-orange-300'">
++                            <div class="flex items-center h-5 mt-1">
++                                <input
++                                    type="checkbox"
++                                    :value="course.id"
++                                    :checked="summerCourseForm.course_ids.includes(course.id)"
++                                    @change="toggleSummerCourse(course.id)"
++                                    class="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
++                                >
++                            </div>
++                            <div class="flex-1 min-w-0">
++                                <div class="flex items-center justify-between">
++                                    <span class="text-sm font-bold text-gray-900">{{ course.code }}</span>
++                                    <span class="text-xs font-bold text-gray-500">{{ course.units }} cr</span>
++                                </div>
++                                <p class="text-sm text-gray-500 mt-0.5 truncate">{{ course.title }}</p>
++                            </div>
++                        </label>
++                        
++                        <div v-if="!availableCourses || availableCourses.length === 0" class="text-center py-6 text-gray-500 text-sm">
++                            No available courses for summer registration.
++                        </div>
++                    </div>
++                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex items-center justify-end gap-3">
++                        <button @click="summerCourseModal = null" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition">Cancel</button>
++                        <button @click="registerSummerCourses" :disabled="summerCourseForm.course_ids.length === 0" class="px-4 py-2 text-sm font-bold text-white bg-orange-500 rounded-lg hover:bg-orange-600 transition disabled:opacity-50">
++                            Register Selected ({{ summerCourseForm.course_ids.length }})
++                        </button>
++                    </div>
++                </div>
++            </div>
+             
+             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-20">

@@ -7,72 +7,72 @@
             "specialisations": [],
             "foundational_core": [
                 {
-                    "code": "GDBA 501",
+                    "code": "GDBA 701",
                     "title": "Principles of Management",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 502",
+                    "code": "GDBA 702",
                     "title": "Principles of Economics for Managers",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 503",
+                    "code": "GDBA 703",
                     "title": "Financial Accounting I",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 504",
+                    "code": "GDBA 704",
                     "title": "Business Communication & Report Writing",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 505",
+                    "code": "GDBA 705",
                     "title": "Principles of Marketing",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 506",
+                    "code": "GDBA 706",
                     "title": "Business Mathematics & Statistics",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 507",
+                    "code": "GDBA 707",
                     "title": "Business Law",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 521",
+                    "code": "GDBA 721",
                     "title": "Organisational Behaviour",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 522",
+                    "code": "GDBA 722",
                     "title": "Financial Accounting II",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 523",
+                    "code": "GDBA 723",
                     "title": "Human Resource Management",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 524",
+                    "code": "GDBA 724",
                     "title": "Introduction to Strategic Management",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 525",
+                    "code": "GDBA 725",
                     "title": "Information Systems for Business",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 526",
+                    "code": "GDBA 726",
                     "title": "Entrepreneurship Development",
                     "units": 3
                 },
                 {
-                    "code": "GDBA 600",
+                    "code": "GDBA 700",
                     "title": "Bridging Project (Directed Study)",
                     "units": 2
                 }
@@ -326,42 +326,42 @@
             ],
             "foundational_core": [
                 {
-                    "code": "MBA 701",
+                    "code": "MBA 801",
                     "title": "Managerial Economics",
                     "units": 3
                 },
                 {
-                    "code": "MBA 702",
+                    "code": "MBA 802",
                     "title": "Financial Accounting & Reporting",
                     "units": 3
                 },
                 {
-                    "code": "MBA 703",
+                    "code": "MBA 803",
                     "title": "Organisational Behaviour & Leadership",
                     "units": 3
                 },
                 {
-                    "code": "MBA 704",
+                    "code": "MBA 804",
                     "title": "Marketing Management",
                     "units": 3
                 },
                 {
-                    "code": "MBA 705",
+                    "code": "MBA 805",
                     "title": "Quantitative Methods & Business Statistics",
                     "units": 3
                 },
                 {
-                    "code": "MBA 706",
+                    "code": "MBA 806",
                     "title": "Strategic Management",
                     "units": 3
                 },
                 {
-                    "code": "MBA 707",
+                    "code": "MBA 807",
                     "title": "Business Research Methods",
                     "units": 3
                 },
                 {
-                    "code": "MBA 708",
+                    "code": "MBA 808",
                     "title": "Corporate Finance",
                     "units": 3
                 }

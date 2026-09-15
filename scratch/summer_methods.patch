@@ -1,0 +1,58 @@
+--- resources/js/Pages/Student/Registration.vue
++++ resources/js/Pages/Student/Registration.vue
+@@ -95,6 +95,35 @@
+     );
+ };
+ 
++// ─── Summer Session ──────────────────────────────────────────────
++const summerForm = useForm({ semester: '' });
++const summerCourseForm = useForm({ semester: '', course_ids: [] });
++const summerCourseModal = ref(null); // semester number
++
++const activateSummer = (semester) => {
++    openConfirm(
++        `Activate Summer for Semester ${semester}`,
++        'NGN 15,000 will be deducted from your wallet to activate this summer session.',
++        () => {
++            summerForm.semester = semester;
++            summerForm.post(route('student.summer.activate'), {
++                onSuccess: () => showToast('success', `Summer for Semester ${semester} activated!`),
++                onError: () => showToast('error', 'Failed to activate summer session.'),
++            });
++        }
++    );
++};
++
++const openSummerCourseModal = (semester) => {
++    summerCourseForm.semester = semester;
++    summerCourseForm.course_ids = [];
++    summerCourseModal.value = semester;
++};
++
++const toggleSummerCourse = (courseId) => {
++    const index = summerCourseForm.course_ids.indexOf(courseId);
++    if (index === -1) summerCourseForm.course_ids.push(courseId);
++    else summerCourseForm.course_ids.splice(index, 1);
++};
++
++const registerSummerCourses = () => {
++    if (summerCourseForm.course_ids.length === 0) return;
++    
++    const cost = props.availableCourses
++        .filter(c => summerCourseForm.course_ids.includes(c.id))
++        .reduce((sum, c) => sum + courseCost(c), 0);
++        
++    openConfirm(
++        'Register Summer Courses',
++        `NGN ${cost.toLocaleString()} will be deducted from your wallet.`,
++        () => {
++            summerCourseForm.post(route('student.summer.courses.register'), {
++                onSuccess: () => {
++                    summerCourseModal.value = null;
++                    showToast('success', 'Summer courses registered!');
++                }
++            });
++        }
++    );
++};
+ </script>

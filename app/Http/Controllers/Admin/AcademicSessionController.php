@@ -53,12 +53,45 @@ class AcademicSessionController extends Controller
 
     public function advanceSemester(AcademicSession $session)
     {
-        $session->update([
-            'current_semester' => $session->current_semester + 1,
-            'registration_open' => true,
-        ]);
+        // Increment all students' semesters
+        $students = \App\Models\User::role('Student')->get();
+        foreach ($students as $student) {
+            $student->increment('current_semester');
+        }
 
-        return redirect()->route('admin.sessions.index')->with('success', 'Advanced to Semester ' . $session->current_semester . '.');
+        if ($session->current_semester >= 2) {
+            // Find or create next session
+            $nextSessionName = $session->name . ' (Next)';
+            if (preg_match('/^(\d{4})\/(\d{4})$/', $session->name, $matches)) {
+                $year1 = (int)$matches[1] + 1;
+                $year2 = (int)$matches[2] + 1;
+                $nextSessionName = "$year1/$year2";
+            }
+
+            $nextSession = AcademicSession::firstOrCreate(
+                ['name' => $nextSessionName],
+                ['is_active' => false]
+            );
+
+            // Deactivate current
+            $session->update(['is_active' => false]);
+            
+            // Activate next
+            $nextSession->update([
+                'is_active' => true,
+                'current_semester' => 1,
+                'registration_open' => true,
+            ]);
+
+            return redirect()->route('admin.sessions.index')->with('success', 'Advanced to Semester 1 of ' . $nextSessionName . '. All students have been moved to their next semester.');
+        } else {
+            $session->update([
+                'current_semester' => $session->current_semester + 1,
+                'registration_open' => true,
+            ]);
+
+            return redirect()->route('admin.sessions.index')->with('success', 'Advanced to Semester ' . $session->current_semester . '. All students have been moved to their next semester.');
+        }
     }
 
     public function toggleRegistration(AcademicSession $session)

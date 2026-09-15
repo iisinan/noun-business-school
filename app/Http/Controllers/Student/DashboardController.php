@@ -30,11 +30,10 @@ class DashboardController extends Controller
                 ->exists();
                 
             if ($hasRegisteredSemester) {
-                $studentSemester = SemesterRegistration::where('user_id', $user->id)->count();
-                if (!$hasRegisteredSemester) {
-                    $studentSemester += 1;
+                $studentSemester = $user->current_semester;
+                if ($studentSemester == 0) {
+                    $studentSemester = 1;
                 }
-                if ($studentSemester == 0) $studentSemester = 1;
 
                 $currentSemesterCourseIds = CourseRegistration::where('user_id', $user->id)
                     ->where('academic_session_id', $activeSession->id)
@@ -167,11 +166,10 @@ class DashboardController extends Controller
                 ->exists();
                 
             if ($hasRegisteredSemester) {
-                $studentSemester = SemesterRegistration::where('user_id', $user->id)->count();
-                if (!$hasRegisteredSemester) {
-                    $studentSemester += 1;
+                $studentSemester = $user->current_semester;
+                if ($studentSemester == 0) {
+                    $studentSemester = 1;
                 }
-                if ($studentSemester == 0) $studentSemester = 1;
 
                 $currentSemesterCourseIds = CourseRegistration::where('user_id', $user->id)
                     ->where('academic_session_id', $activeSession->id)
@@ -276,7 +274,10 @@ class DashboardController extends Controller
             return back()->with('error', 'Insufficient wallet balance. Please top up your wallet.');
         }
 
-        $nextSemester = SemesterRegistration::where('user_id', $user->id)->count() + 1;
+        $nextSemester = $user->current_semester;
+        if ($nextSemester == 0) {
+            $nextSemester = 1;
+        }
 
         // Prevent registering if they already paid for the school's current semester
         $alreadyRegistered = SemesterRegistration::where('user_id', $user->id)
@@ -332,7 +333,7 @@ class DashboardController extends Controller
             return back()->with('error', 'You must register for the semester first.');
         }
 
-        $studentSemester = SemesterRegistration::where('user_id', $user->id)->count();
+        $studentSemester = $user->current_semester;
         if ($studentSemester == 0) $studentSemester = 1;
 
         $passedCourseIds = CourseRegistration::where('user_id', $user->id)
@@ -617,7 +618,7 @@ class DashboardController extends Controller
 
         $application = $user->applications()->with('programme')->where('status', 'ENROLLED')->latest()->first();
 
-        $studentSemester = SemesterRegistration::where('user_id', $user->id)->max('semester');
+        $studentSemester = $user->current_semester;
 
         $registeredCourses = CourseRegistration::with('course')
             ->where('user_id', $user->id)

@@ -38,10 +38,13 @@ const user = page.props.auth.user;
                                 <p class="text-2xl sm:text-3xl font-black text-white tracking-widest font-mono">NBS/{{ application?.academic_session_id || activeSession?.id || '...' }}/{{ String(application?.id || user.id).padStart(4, '0') }}</p>
                                 <p class="text-green-300 text-xs mt-1">{{ application?.programme?.name || 'Admitted Student' }}</p>
                             </div>
-                            <div class="flex flex-col sm:items-end gap-2">
+                            <div class="flex flex-col sm:items-end gap-2 mt-4 sm:mt-0">
                                 <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-noun-yellow text-noun-dark rounded-full text-xs font-black uppercase tracking-wide">
                                     <span class="w-1.5 h-1.5 rounded-full bg-noun-dark animate-pulse"></span>
                                     Enrolled
+                                </span>
+                                <span class="text-green-300 text-xs font-semibold uppercase tracking-wider">
+                                    Semester: {{ user.current_semester }}
                                 </span>
                             </div>
                         </div>

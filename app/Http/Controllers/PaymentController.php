@@ -18,7 +18,8 @@ class PaymentController extends Controller
     public function initiate(Request $request, RemitaService $remita)
     {
         $request->validate([
-            'type' => 'nullable|string|in:APPLICATION_FEE,ACCEPTANCE_FEE,TUITION,WALLET_TOPUP'
+            'type' => 'nullable|string|in:APPLICATION_FEE,ACCEPTANCE_FEE,TUITION,WALLET_TOPUP',
+            'amount' => 'required_if:type,WALLET_TOPUP|nullable|numeric|min:100',
         ]);
 
         $type = $request->input('type', 'APPLICATION_FEE');

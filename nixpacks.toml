@@ -6,4 +6,4 @@ cmds = [
 ]
 
 [start]
-cmd = "php artisan queue:work redis & php artisan octane:start --server=frankenphp --host=0.0.0.0 --port=$PORT"
+cmd = "php artisan queue:work redis & php artisan inertia:start-ssr & php artisan octane:start --server=frankenphp --host=0.0.0.0 --port=$PORT"

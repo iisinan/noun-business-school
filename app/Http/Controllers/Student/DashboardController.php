@@ -38,6 +38,7 @@ class DashboardController extends Controller
                 $currentSemesterCourseIds = CourseRegistration::where('user_id', $user->id)
                     ->where('academic_session_id', $activeSession->id)
                     ->where('semester', $studentSemester)
+                    ->where('is_summer', false)
                     ->pluck('course_id')
                     ->toArray();
 
@@ -174,6 +175,7 @@ class DashboardController extends Controller
                 $currentSemesterCourseIds = CourseRegistration::where('user_id', $user->id)
                     ->where('academic_session_id', $activeSession->id)
                     ->where('semester', $studentSemester)
+                    ->where('is_summer', false)
                     ->pluck('course_id')
                     ->toArray();
 
@@ -630,28 +632,39 @@ class DashboardController extends Controller
         $user = $request->user();
         $activeSession = AcademicSession::where('is_active', true)->firstOrFail();
 
-        // Ensure semester is registered
-        $hasRegisteredSemester = SemesterRegistration::where('user_id', $user->id)
-            ->where('academic_session_id', $activeSession->id)
-            ->where('school_semester', $activeSession->current_semester)
-            ->exists();
-            
-        if (!$hasRegisteredSemester) {
-            return redirect()->route('dashboard')->with('error', 'You must register for the semester first.');
+        $studentSemester = $request->query('semester', $user->current_semester);
+        $isSummer = $request->boolean('is_summer', false);
+
+        if (!$isSummer) {
+            $hasRegisteredSemester = SemesterRegistration::where('user_id', $user->id)
+                ->where('academic_session_id', $activeSession->id)
+                ->where('school_semester', $activeSession->current_semester)
+                ->where('is_summer', false)
+                ->exists();
+                
+            if (!$hasRegisteredSemester) {
+                return redirect()->route('dashboard')->with('error', 'You must register for the semester first.');
+            }
+        } else {
+            $hasSummer = SemesterRegistration::where('user_id', $user->id)
+                ->where('semester', $studentSemester)
+                ->where('is_summer', true)
+                ->exists();
+            if (!$hasSummer) {
+                return redirect()->route('dashboard')->with('error', 'Summer is not activated for this semester.');
+            }
         }
 
         $application = $user->applications()->with('programme')->where('status', 'ENROLLED')->latest()->first();
 
-        $studentSemester = $user->current_semester;
-
         $registeredCourses = CourseRegistration::with('course')
             ->where('user_id', $user->id)
-            ->where('academic_session_id', $activeSession->id)
             ->where('semester', $studentSemester)
+            ->where('is_summer', $isSummer)
             ->get();
 
         if ($registeredCourses->isEmpty()) {
-            return redirect()->route('dashboard')->with('error', "No registered courses found for Semester $studentSemester in the active session.");
+            return redirect()->route('dashboard')->with('error', "No registered courses found for Semester $studentSemester" . ($isSummer ? ' (Summer)' : ''));
         }
 
         return Inertia::render('Student/Slip', [
@@ -659,6 +672,7 @@ class DashboardController extends Controller
             'application' => $application,
             'session' => $activeSession,
             'studentSemester' => $studentSemester,
+            'isSummer' => $isSummer,
             'registeredCourses' => $registeredCourses,
         ]);
     }

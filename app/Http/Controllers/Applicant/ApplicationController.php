@@ -59,6 +59,7 @@ class ApplicationController extends Controller
             'programme_id' => 'required|exists:programmes,id',
             'specialisation_id' => 'nullable|exists:specialisations,id',
             'personal_info' => 'required|array',
+            'personal_info.middle_name' => 'required|string|max:255',
             'academic_background' => 'required|array',
             'olevel_results' => 'required|array',
             'employment_info' => 'required|array',

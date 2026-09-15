@@ -280,11 +280,20 @@ const addOlevel = () => {
 
 const getAvailableSubjects = (sittingIndex, currentSubjectIdx) => {
     const currentSitting = form.olevel_results[sittingIndex];
+    
+    // For the fixed subjects, just return them so they render correctly
+    if (currentSubjectIdx === 0) return ['English Language'];
+    if (currentSubjectIdx === 1) return ['Mathematics'];
+
     const selectedSubjects = currentSitting.subjects
         .map((sub, idx) => idx !== currentSubjectIdx ? sub.name : null)
         .filter(name => name && name !== 'Other');
 
-    return olevelSubjects.filter(subject => !selectedSubjects.includes(subject));
+    return olevelSubjects.filter(subject => 
+        subject !== 'English Language' && 
+        subject !== 'Mathematics' && 
+        !selectedSubjects.includes(subject)
+    );
 };
 
 const removeOlevel = (index) => {
@@ -540,8 +549,8 @@ const removeAttachedFile = (reqDesc, idx) => {
                                     <input type="text" v-model="form.personal_info.first_name" readonly class="block w-full rounded-lg bg-gray-100 text-gray-600 shadow-sm sm:text-sm cursor-not-allowed border-gray-200">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Middle Name</label>
-                                    <input type="text" v-model="form.personal_info.middle_name" :readonly="!!user.middle_name" :class="[user.middle_name ? 'bg-gray-100 text-gray-600 cursor-not-allowed border-gray-200' : 'focus:border-noun-green focus:ring-noun-green']" class="block w-full rounded-lg shadow-sm sm:text-sm">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Middle Name <span class="text-red-500">*</span></label>
+                                    <input type="text" v-model="form.personal_info.middle_name" :readonly="!!user.middle_name" required :class="[user.middle_name ? 'bg-gray-100 text-gray-600 cursor-not-allowed border-gray-200' : 'focus:border-noun-green focus:ring-noun-green border-gray-300']" class="block w-full rounded-lg shadow-sm sm:text-sm">
                                 </div>
                                 <div>
                                     <label class="block text-sm font-medium text-gray-700 mb-1.5">Last Name <span class="text-red-500">*</span></label>

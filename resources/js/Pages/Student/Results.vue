@@ -129,8 +129,9 @@ const getGradeColor = (grade) => {
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-noun-dark">
                                             {{ reg.course.code }}
                                         </td>
-                                        <td class="px-6 py-4 text-sm text-gray-600 font-medium">
-                                            {{ reg.course.title }}
+                                        <td class="px-6 py-4 text-sm text-gray-600 font-medium flex items-center gap-2">
+                                            <span>{{ reg.course.title }}</span>
+                                            <span v-if="reg.is_summer" class="px-2 py-0.5 bg-orange-100 text-orange-700 text-[10px] rounded uppercase font-bold tracking-widest">Summer</span>
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center font-medium">
                                             {{ reg.course.units }}

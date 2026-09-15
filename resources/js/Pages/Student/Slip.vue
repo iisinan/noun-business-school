@@ -7,6 +7,7 @@ const props = defineProps({
     application: Object,
     session: Object,
     registeredCourses: Array,
+    isSummer: Boolean,
 });
 
 const calculateTotalUnits = () => {
@@ -51,7 +52,7 @@ onMounted(() => {
                     <div>
                         <h1 class="text-2xl font-black text-noun-green tracking-tight uppercase">National Open University of Nigeria</h1>
                         <h2 class="text-lg font-bold text-gray-800 tracking-wide mt-1">Business School (NBS)</h2>
-                        <p class="text-sm text-gray-500 font-medium mt-0.5">Course Registration E-Slip</p>
+                        <p class="text-sm text-gray-500 font-medium mt-0.5">{{ isSummer ? 'Summer Course Registration E-Slip' : 'Course Registration E-Slip' }}</p>
                     </div>
                 </div>
                 <!-- Student Passport -->
@@ -85,7 +86,7 @@ onMounted(() => {
                     </div>
                     <div>
                         <p class="text-xs text-gray-500 uppercase font-semibold">Academic Session & Semester</p>
-                        <p class="font-bold text-gray-900 mt-0.5">{{ session.name }} &mdash; Semester {{ $page.props.studentSemester || 1 }}</p>
+                        <p class="font-bold text-gray-900 mt-0.5">{{ session.name }} &mdash; Semester {{ $page.props.studentSemester || 1 }} {{ isSummer ? '(Summer)' : '' }}</p>
                     </div>
                 </div>
             </div>

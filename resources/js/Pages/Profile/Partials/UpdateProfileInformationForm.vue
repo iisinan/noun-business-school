@@ -62,6 +62,7 @@ const form = useForm({
                         type="text"
                         class="mt-1 block w-full"
                         v-model="form.middle_name"
+                        required
                     />
                     <InputError class="mt-2" :message="form.errors.middle_name" />
                 </div>

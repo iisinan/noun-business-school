@@ -679,10 +679,16 @@ const registerSummerCourses = () => {
                                 </div>
                             </div>
                             
-                            <button @click="openSummerCourseModal(sem.semester)" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 font-bold text-sm rounded-lg hover:bg-gray-200 transition">
-                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
-                                Register More Courses
-                            </button>
+                            <div class="flex items-center gap-3">
+                                <button @click="openSummerCourseModal(sem.semester)" class="inline-flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 font-bold text-sm rounded-lg hover:bg-gray-200 transition">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>
+                                    Register More Courses
+                                </button>
+                                <a v-if="sem.registered_courses && sem.registered_courses.length > 0" :href="route('student.courses.slip', { semester: sem.semester, is_summer: 1 })" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-orange-100 text-orange-700 font-bold text-sm rounded-lg hover:bg-orange-200 transition">
+                                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" /></svg>
+                                    Print Summer Slip
+                                </a>
+                            </div>
                         </div>
                         <div v-else class="px-6 py-5 text-sm text-gray-500 text-center">
                             Activate summer to register for carry-over or outstanding courses from this or previous semesters.

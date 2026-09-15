@@ -86,8 +86,9 @@ const closeModal = () => {
                             type="text"
                             class="mt-1 block w-full"
                             v-model="form.middle_name"
+                            required
                             autocomplete="additional-name"
-                            placeholder="Optional"
+                            placeholder="Middle Name"
                         />
                         <InputError class="mt-1" :message="form.errors.middle_name" />
                     </div>
@@ -244,7 +245,7 @@ const closeModal = () => {
 
                 <div class="space-y-2 bg-gray-50 p-4 rounded-xl text-sm border border-gray-100">
                     <div class="flex justify-between"><span class="text-gray-500 font-semibold">First Name</span><span class="font-bold text-gray-900">{{ form.first_name }}</span></div>
-                    <div v-if="form.middle_name" class="flex justify-between"><span class="text-gray-500 font-semibold">Middle Name</span><span class="font-bold text-gray-900">{{ form.middle_name }}</span></div>
+                    <div class="flex justify-between"><span class="text-gray-500 font-semibold">Middle Name</span><span class="font-bold text-gray-900">{{ form.middle_name }}</span></div>
                     <div class="flex justify-between"><span class="text-gray-500 font-semibold">Last Name</span><span class="font-bold text-gray-900">{{ form.last_name }}</span></div>
                     <div class="flex justify-between pt-2 border-t border-gray-200"><span class="text-gray-500 font-semibold">Email</span><span class="font-bold text-gray-900 text-xs">{{ form.email }}</span></div>
                     <div class="flex justify-between"><span class="text-gray-500 font-semibold">Phone</span><span class="font-bold text-gray-900">{{ form.phone }}</span></div>

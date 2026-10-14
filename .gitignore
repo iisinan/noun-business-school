@@ -30,3 +30,7 @@ Thumbs.db
 frankenphp
 frankenphp-worker.php
 frankenphp
+
+*.sql
+*.pid
+bootstrap/ssr

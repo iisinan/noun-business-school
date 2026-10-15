@@ -6,6 +6,9 @@
         "build": "vite build && vite build --ssr",
         "dev": "vite"
     },
+    "engines": {
+        "node": ">=22"
+    },
     "devDependencies": {
         "@inertiajs/vue3": "^2.0.0",
         "@tailwindcss/forms": "^0.5.3",

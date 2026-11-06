@@ -42,9 +42,11 @@ WORKDIR /app
 # Copy Composer from official image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Receive Railway build arguments
-ARG COMPOSER_AUTH
-ENV COMPOSER_AUTH=$COMPOSER_AUTH
+# Receive Railway build arguments and configure Composer GitHub authentication
+ARG GITHUB_TOKEN
+RUN if [ -n "$GITHUB_TOKEN" ]; then \
+        composer config -g github-oauth.github.com "$GITHUB_TOKEN"; \
+    fi
 
 # Install Composer dependencies (cached layer)
 COPY composer.json composer.lock ./

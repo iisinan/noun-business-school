@@ -42,9 +42,13 @@ WORKDIR /app
 # Copy Composer from official image
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Receive Railway build arguments
+ARG COMPOSER_AUTH
+ENV COMPOSER_AUTH=$COMPOSER_AUTH
+
 # Install Composer dependencies (cached layer)
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --ignore-platform-reqs --no-progress
 
 # Install NPM dependencies (cached layer)
 COPY package.json package-lock.json* ./
